@@ -13,20 +13,6 @@
 
 </head>
 
-<script>
-  const toggle = document.getElementById('theme-toggle');
-  const html = document.documentElement;
-
-  // Applica il tema salvato
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') html.classList.add('dark');
-
-  toggle.addEventListener('click', () => {
-    html.classList.toggle('dark');
-    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-  });
-</script>
-
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
 
   <header class="bg-white dark:bg-gray-800 shadow-md p-4">
@@ -86,6 +72,18 @@
         });
     });
   </script>
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
 
+  // Applica il tema salvato
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') html.classList.add('dark');
+
+  toggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+  });
+</script>
 </body>
 </html>
