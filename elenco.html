@@ -1,32 +1,62 @@
 <!DOCTYPE html>
-<html lang="it" class="dark">
+<html lang="it" class="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elenco Circolari - ZLibrary</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* CSS personalizzato per eventuali override di Tailwind */
+    .dark .dark-mode-specific { @apply block; }
+    .light .dark-mode-specific { @apply hidden; }
+  </style>
 </head>
-<body>
-  <header class="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow">
-    <div class="flex items-center gap-4">
-      <h1 class="text-2xl font-bold text-blue-700 dark:text-blue-300">📚 Elenco Circolari</h1>
-      <a href="index.html" class="text-sm text-blue-600 dark:text-blue-300 hover:underline">← Torna alla home</a>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+
+  <header class="bg-white dark:bg-gray-800 shadow-md py-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <a href="index.html" class="text-blue-500 hover:text-blue-700">← Home</a>
+        <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-300">📚 Elenco Circolari</h1>
+      </div>
+      <nav>
+        <button id="theme-toggle" class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600">
+          <span class="light-icon">🌙</span>  <span class="dark-icon hidden">☀️</span>   <span class="text">Tema</span>
+        </button>
+      </nav>
     </div>
-    <button id="theme-toggle" class="text-sm text-gray-700 dark:text-gray-200 hover:underline">🌙 Tema</button>
   </header>
-  <main class="p-4">
-    <table class="w-full text-left">
-      <thead>
-        <tr>
-          <th class="py-2 px-4">Versione</th>
-          <th class="py-2 px-4">Download</th>
-        </tr>
-      </thead>
-      <tbody id="circolari-table" class="divide-y divide-gray-200 dark:divide-gray-700">
-      </tbody>
-    </table>
+
+  <main class="container mx-auto mt-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+    <section>
+      <div class="overflow-x-auto">
+        <table class="min-w-full leading-normal shadow-md rounded-lg">
+          <thead>
+            <tr class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              <th class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-600 text-left text-xs font-semibold uppercase tracking-wider">
+                Versione
+              </th>
+              <th class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-600 text-left text-xs font-semibold uppercase tracking-wider">
+                URL
+              </th>
+              <th class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-600 text-left text-xs font-semibold uppercase tracking-wider">
+                Download
+              </th>
+            </tr>
+          </thead>
+          <tbody id="circolari-table" class="bg-white dark:bg-gray-800">
+            </tbody>
+        </table>
+      </div>
+      <div id="no-data-message" class="text-center mt-4 text-gray-700 dark:text-gray-300 hidden">Nessuna circolare disponibile.</div>
+    </section>
   </main>
+
+  <footer class="mt-8 py-4 bg-gray-100 dark:bg-gray-800 text-center text-gray-600 dark:text-gray-300">
+    <p>&copy; 2024 ZLibrary. Tutti i diritti riservati.</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
