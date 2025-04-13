@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZLibrary - Ricerca circolari</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
+
+  <header class="bg-white shadow-md p-4">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold text-blue-700">📄 ZLibrary</h1>
+      <a href="elenco.html" class="text-sm text-blue-600 hover:underline">📚 Elenco completo</a>
+    </div>
+  </header>
+
+  <main class="flex-grow flex items-center justify-center p-4">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4 text-center">Scarica una circolare</h2>
+      <form id="form">
+        <label for="versione" class="block text-sm mb-2">Inserisci la versione (es. 23.08.00_000):</label>
+        <input
+          type="text"
+          id="versione"
+          name="versione"
+          required
+          class="w-full p-2 border border-gray-300 rounded mb-4"
+          placeholder="Es. 23.08.00_000"
+        />
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
+          Scarica PDF
+        </button>
+      </form>
+      <p id="errore" class="text-red-600 text-sm mt-4 hidden">Versione non valida o non trovata.</p>
+    </div>
+  </main>
+
+  <footer class="bg-white text-center text-sm p-4 text-gray-500">
+    ZLibrary · Libreria non ufficiale per circolari HR Zucchetti
+  </footer>
+
+  <script>
+    document.getElementById('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const versione = document.getElementById('versione').value.trim();
+      const url = `https://www.hrzucchetti.it/infoupdate/HR1/HR1_${versione}.pdf`;
+      fetch(url, { method: 'HEAD' })
+        .then(response => {
+          if (response.ok) {
+            window.open(url, '_blank');
+          } else {
+            document.getElementById('errore').classList.remove('hidden');
+          }
+        })
+        .catch(() => {
+          document.getElementById('errore').classList.remove('hidden');
+        });
+    });
+  </script>
+
+</body>
+</html>
