@@ -1,62 +1,71 @@
 <!DOCTYPE html>
-<html lang="it" class="light">
+<html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elenco Circolari - ZLibrary</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZLibrary - Elenco Circolari</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* CSS personalizzato per eventuali override di Tailwind */
-    .dark .dark-mode-specific { @apply block; }
-    .light .dark-mode-specific { @apply hidden; }
-  </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+<body class="bg-gray-100 text-gray-800 font-sans">
 
-  <header class="bg-white dark:bg-gray-800 shadow-md py-4">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="flex items-center space-x-4">
-        <a href="index.html" class="text-blue-500 hover:text-blue-700">← Home</a>
-        <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-300">📚 Elenco Circolari</h1>
-      </div>
-      <nav>
-        <button id="theme-toggle" class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600">
-          <span class="light-icon">🌙</span>  <span class="dark-icon hidden">☀️</span>   <span class="text">Tema</span>
-        </button>
-      </nav>
+  <header class="bg-white shadow-md p-4 sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold text-blue-700">📄 ZLibrary</h1>
+      <a href="index.html" class="text-sm text-blue-600 hover:underline">🔙 Torna alla ricerca</a>
     </div>
   </header>
 
-  <main class="container mx-auto mt-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-    <section>
-      <div class="overflow-x-auto">
-        <table class="min-w-full leading-normal shadow-md rounded-lg">
-          <thead>
-            <tr class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-              <th class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-600 text-left text-xs font-semibold uppercase tracking-wider">
-                Versione
-              </th>
-              <th class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-600 text-left text-xs font-semibold uppercase tracking-wider">
-                URL
-              </th>
-              <th class="px-5 py-3 border-b-2 border-gray-200 dark:border-gray-600 text-left text-xs font-semibold uppercase tracking-wider">
-                Download
-              </th>
-            </tr>
-          </thead>
-          <tbody id="circolari-table" class="bg-white dark:bg-gray-800">
-            </tbody>
-        </table>
-      </div>
-      <div id="no-data-message" class="text-center mt-4 text-gray-700 dark:text-gray-300 hidden">Nessuna circolare disponibile.</div>
-    </section>
+  <main class="max-w-6xl mx-auto p-4">
+    <h2 class="text-2xl font-semibold mb-4">Elenco delle circolari disponibili</h2>
+    <div id="table-container" class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-blue-100 text-left">
+          <tr>
+            <th class="py-3 px-4 font-semibold">Versione</th>
+            <th class="py-3 px-4 font-semibold">Download</th>
+          </tr>
+        </thead>
+        <tbody id="circolari-table" class="divide-y divide-gray-200">
+          <!-- Righe generate dinamicamente -->
+        </tbody>
+      </table>
+    </div>
   </main>
 
-  <footer class="mt-8 py-4 bg-gray-100 dark:bg-gray-800 text-center text-gray-600 dark:text-gray-300">
-    <p>&copy; 2024 ZLibrary. Tutti i diritti riservati.</p>
-  </footer>
+ <script>
+  fetch('circolari.json')
+    .then(response => response.json())
+    .then(data => {
+      // Ordina le versioni in ordine decrescente
+      data.sort((a, b) => {
+        const parseVersion = v => v.versione.split(/[\._]/).map(Number);
+        const [a1, a2, a3, a4] = parseVersion(a);
+        const [b1, b2, b3, b4] = parseVersion(b);
+        return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
+      });
 
-  <script src="script.js"></script>
+      const table = document.getElementById('circolari-table');
+      data.forEach(circolare => {
+        const patch = circolare.versione.split('_')[1];
+        const badge = patch === '000'
+          ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
+          : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
+          <td class="py-2 px-4">
+            <a href="${circolare.url}" class="text-blue-600 hover:underline" target="_blank">Scarica PDF</a>
+          </td>
+        `;
+        table.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error('Errore nel caricamento delle circolari:', error);
+    });
+</script>
+
+
 </body>
 </html>
