@@ -4,21 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ZLibrary - Ricerca circolari</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    darkMode: 'class'
+  }
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+
 </head>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+
+  // Applica il tema salvato
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') html.classList.add('dark');
+
+  toggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+  });
+</script>
+
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
 
-  <header class="bg-white shadow-md p-4">
-    <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold text-blue-700">📄 ZLibrary</h1>
-      <a href="elenco.html" class="text-sm text-blue-600 hover:underline">📚 Elenco completo</a>
+  <header class="bg-white dark:bg-gray-800 shadow-md p-4">
+  <div class="max-w-4xl mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold text-blue-700 dark:text-blue-300">📄 ZLibrary</h1>
+    <div class="flex items-center gap-4">
+      <a href="elenco.html" class="text-sm text-blue-600 dark:text-blue-300 hover:underline">📚 Elenco completo</a>
+      <button id="theme-toggle" class="text-sm text-gray-700 dark:text-gray-200 hover:underline">
+        🌙 Tema
+      </button>
     </div>
-  </header>
+  </div>
+</header>
+
 
   <main class="flex-grow flex items-center justify-center p-4">
     <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
       <h2 class="text-xl font-semibold mb-4 text-center">Scarica una circolare</h2>
       <form id="form">
+        
         <label for="versione" class="block text-sm mb-2">Inserisci la versione (es. 23.08.00_000):</label>
         <input
           type="text"
