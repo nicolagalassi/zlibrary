@@ -45,6 +45,7 @@ ZLibrary è una semplice web application che permette di scaricare le circolari 
 * Implementazione della **Dark Mode** per migliorare l'esperienza utente in condizioni di scarsa illuminazione.
 * Miglioramenti all'interfaccia utente e all'usabilità.
 * Eventuali altre funzionalità in base al feedback degli utenti.
+* Aggiornamento automatico del file `circolari.json`
 
 ## Autore
 
