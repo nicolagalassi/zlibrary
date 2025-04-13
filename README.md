@@ -1,5 +1,3 @@
-# zlibrary
-
 # ZLibrary - Libreria non ufficiale per circolari HR Zucchetti
 
 ZLibrary è una semplice web application che permette di scaricare le circolari HR Zucchetti.
