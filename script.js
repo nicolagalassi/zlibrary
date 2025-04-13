@@ -1,6 +1,3 @@
-// script.js
-
-// Tema scuro/chiaro
 const toggle = document.getElementById('theme-toggle');
 const html = document.documentElement;
 const savedTheme = localStorage.getItem('theme');
@@ -13,7 +10,6 @@ if (toggle) {
   });
 }
 
-// Funzione per scaricare circolare
 function scaricaCircolare(e) {
   e.preventDefault();
   const versione = document.getElementById("versione").value.trim();
@@ -23,7 +19,6 @@ function scaricaCircolare(e) {
   }
 }
 
-// Elenco circolari
 if (document.getElementById("circolari-table")) {
   fetch('circolari.json')
     .then(response => response.json())
