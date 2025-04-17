@@ -44,33 +44,38 @@ def update():
     new = []
     found_new = False
 
-    # Prova prima le patch della versione corrente
-    current_master_version = [major, minor, fix]
-    current_patch = patch
+    # Prova diverse patch successive per la versione corrente
     print("Inizio ricerca patch per la versione corrente...")
-    while True:
-        current_patch += 1
-        new_version = f"{major:02}.{minor:02}.{fix:02}_{current_patch:03}"
+    for i in range(1, 6):  # Prova le prossime 5 patch
+        next_patch = patch + i
+        new_version = f"{major:02}.{minor:02}.{fix:02}_{next_patch:03}"
         valid, url = is_valid_url(new_version)
         if valid:
             print(f"Trovata nuova circolare (patch): {new_version}")
             new.append({"versione": new_version, "url": url})
             found_new = True
-        else:
-            print(f"Nessuna nuova patch trovata dopo: {new_version}")
-            break  # Nessuna altra patch per questa versione master
 
     # Se non sono state trovate nuove patch, passa alla prossima versione master
     if not found_new:
-        next_master = next_master_version(current_master_version)
+        next_master = next_master_version([major, minor, fix])
         next_major, next_minor, next_fix = next_master
+        print(f"Nessuna nuova patch, verifico prossima master: {next_major:02}.{next_minor:02}.{next_fix:02}_000")
         new_master_version = f"{next_major:02}.{next_minor:02}.{next_fix:02}_000"
-        print(f"Nessuna nuova patch, verifico prossima master: {new_master_version}")
         valid, url = is_valid_url(new_master_version)
         if valid:
             print(f"Trovata nuova master: {new_master_version}")
             new.append({"versione": new_master_version, "url": url})
             found_new = True
+            # Resetta la patch per cercare eventuali patch successive alla nuova master
+            major, minor, fix = next_major, next_minor, next_fix
+            for i in range(1, 6):
+                next_patch = i
+                new_version = f"{major:02}.{minor:02}.{fix:02}_{next_patch:03}"
+                valid, url = is_valid_url(new_version)
+                if valid:
+                    print(f"Trovata nuova circolare (patch dopo master): {new_version}")
+                    new.append({"versione": new_version, "url": url})
+                    found_new = True
 
     if found_new:
         current += new
