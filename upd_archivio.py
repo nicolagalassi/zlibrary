@@ -6,7 +6,7 @@ JSON_PATH_ARCHIVIO = "archivio_circolari.json"
 START_ARCHIVIO = [23, 0, 0]
 END_ARCHIVIO = [24, 0, 0]
 PATCH_START = 0
-MAX_PATCH_TRIES = 100  # Un numero elevato per cercare tutte le patch possibili
+MAX_PATCH_TRIES_ARCHIVIO = 10  # Limite massimo di patch da controllare per l'archivio
 
 def is_valid_url(version):
     url = URL_BASE.format(version)
@@ -34,23 +34,28 @@ def build_archive():
 
     while current_master < END_ARCHIVIO:
         major, minor, fix = current_master
-        found_patches = False
-        for patch in range(PATCH_START, MAX_PATCH_TRIES):
-            version_str = format_version(current_master, patch)
-            valid, url = is_valid_url(version_str)
-            if valid:
-                print(f"Trovata circolare archivio: {version_str}")
-                archivio.append({"versione": version_str, "url": url})
-                found_patches = True
-            elif patch > 0 and not found_patches:
-                # Se non troviamo la patch 000, non cerchiamo le successive per questa master
-                break
-            elif patch > 0 and not valid:
-                # Se non troviamo una patch successiva dopo averne trovate, passiamo alla prossima master
-                continue # Prova la prossima patch per vedere se ci sono buchi
+        found_base = False
+        # Verifica prima la patch 000
+        version_base = format_version(current_master, PATCH_START)
+        valid_base, url_base = is_valid_url(version_base)
+        if valid_base:
+            print(f"Trovata circolare archivio: {version_base}")
+            archivio.append({"versione": version_base, "url": url_base})
+            found_base = True
+            # Se la base esiste, cerca le patch successive fino al limite
+            for patch in range(PATCH_START + 1, MAX_PATCH_TRIES_ARCHIVIO + 1):
+                version_str = format_version(current_master, patch)
+                valid, url = is_valid_url(version_str)
+                if valid:
+                    print(f"Trovata circolare archivio: {version_str}")
+                    archivio.append({"versione": version_str, "url": url})
+                else:
+                    # Se una patch non esiste, non continuiamo a cercare per questa master
+                    break
+        elif not found_base:
+            print(f"Nessuna circolare base trovata per {version_base}, passando alla prossima master.")
 
         current_master = increment_master_version(current_master)
-        # Interrompi se la prossima master è uguale o successiva alla fine desiderata
         if current_master >= END_ARCHIVIO:
             break
 
