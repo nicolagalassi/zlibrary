@@ -97,59 +97,54 @@
 
     <script>
         fetch('archivio_circolari.json')
-            .then(response => response.json())
-            .then(data => {
-                const archivioContainer = document.getElementById('archivio-container');
-                const circolariPerMajor = {};
+    .then(response => response.json())
+    .then(data => {
+        const archivioContainer = document.getElementById('archivio-container');
+        const circolariPerMajorGroup = {};
 
-                // Raggruppa le circolari per versione major (23.00.00, 24.00.00, ecc.)
-                data.forEach(circolare => {
-                    const major = circolare.versione.substring(0, 8); // Prende i primi 8 caratteri (es. "23.00.00")
-                    if (!circolariPerMajor[major]) {
-                        circolariPerMajor[major] = [];
-                    }
-                    circolariPerMajor[major].push(circolare);
-                });
+        // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
+        data.forEach(circolare => {
+            const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
+            if (!circolariPerMajorGroup[majorGroup]) {
+                circolariPerMajorGroup[majorGroup] = [];
+            }
+            circolariPerMajorGroup[majorGroup].push(circolare);
+        });
 
-                // Ordina le versioni major in ordine decrescente
-                const majorVersions = Object.keys(circolariPerMajor).sort((a, b) => {
-                    const parseVersion = v => v.split('.').map(Number);
-                    const [a1, a2, a3] = parseVersion(a);
-                    const [b1, b2, b3] = parseVersion(b);
-                    return b1 - a1 || b2 - a2 || b3 - a3;
-                });
+        // Ordina le versioni major in ordine decrescente
+        const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
 
-                // Crea la struttura HTML per ogni versione major
-                majorVersions.forEach(major => {
-                    const majorDiv = document.createElement('div');
-                    majorDiv.classList.add('major-version');
-                    majorDiv.textContent = `Versione ${major}`;
-                    archivioContainer.appendChild(majorDiv);
+        // Crea la struttura HTML per ogni gruppo major
+        majorGroups.forEach(majorGroup => {
+            const majorDiv = document.createElement('div');
+            majorDiv.classList.add('major-group');
+            majorDiv.textContent = `Versione ${majorGroup}`;
+            archivioContainer.appendChild(majorDiv);
 
-                    const circolariDiv = document.createElement('div');
-                    circolariDiv.classList.add('circolari-container');
-                    circolariDiv.style.display = 'none'; // Nascondi inizialmente
+            const circolariDiv = document.createElement('div');
+            circolariDiv.classList.add('circolari-container');
+            circolariDiv.style.display = 'none'; // Nascondi inizialmente
 
-                    circolariPerMajor[major].forEach(circolare => {
-                        const circolareLink = document.createElement('a');
-                        circolareLink.href = circolare.url;
-                        circolareLink.textContent = circolare.versione;
-                        circolareLink.classList.add('circolare-link');
-                        circolareLink.target = '_blank';
-                        circolariDiv.appendChild(circolareLink);
-                    });
-
-                    archivioContainer.appendChild(circolariDiv);
-
-                    // Aggiungi l'event listener per mostrare/nascondere le circolari
-                    majorDiv.addEventListener('click', () => {
-                        circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Errore nel caricamento dell\'archivio:', error);
+            circolariPerMajorGroup[majorGroup].forEach(circolare => {
+                const circolareLink = document.createElement('a');
+                circolareLink.href = circolare.url;
+                circolareLink.textContent = circolare.versione;
+                circolareLink.classList.add('circolare-link');
+                circolareLink.target = '_blank';
+                circolariDiv.appendChild(circolareLink);
             });
+
+            archivioContainer.appendChild(circolariDiv);
+
+            // Aggiungi l'event listener per mostrare/nascondere le circolari
+            majorDiv.addEventListener('click', () => {
+                circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    })
+    .catch(error => {
+        console.error('Errore nel caricamento dell\'archivio:', error);
+    });
 
         const toggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
