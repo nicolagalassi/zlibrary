@@ -25,6 +25,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add circolari.json
+          git add archivio_circolari.json
           git diff --cached --quiet || git commit -m "Inserimento archivio circolari"
           git push
