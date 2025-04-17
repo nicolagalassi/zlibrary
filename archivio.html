@@ -87,7 +87,7 @@ fetch('archivio_circolari.json')
    // Crea la struttura HTML per ogni gruppo major
    majorGroups.forEach(majorGroup => {
     const majorDiv = document.createElement('div');
-    majorDiv.classList.add('major-group', 'bg-blue-200', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-lg', 'cursor-pointer', 'mb-4', 'shadow-md');
+    majorDiv.classList.add('major-group', 'bg-white', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-lg', 'cursor-pointer', 'mb-4', 'shadow-md');
     majorDiv.textContent = `20${majorGroup}`;
     archivioContainer.appendChild(majorDiv);
 
