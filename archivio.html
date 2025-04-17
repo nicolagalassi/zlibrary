@@ -6,18 +6,20 @@
     <title>ZLibrary - Archivio Circolari</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .major-version {
-            font-size: 1.5em;
+        .major-group {
+            font-size: 1.2em; /* Dimensione del testo leggermente più piccola */
             font-weight: bold;
             margin-top: 1em;
-            padding: 0.5em;
+            padding: 0.5em 1em; /* Più padding orizzontale */
             background-color: #f0f0f0;
             border-radius: 0.25em;
             cursor: pointer;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border-bottom: 2px solid #2563eb; /* Aggiunto il bordo inferiore */
+            color: #374151; /* Colore del testo più scuro per coerenza */
         }
 
-        .major-version:hover {
+        .major-group:hover {
             background-color: #e2e2e2;
         }
 
@@ -33,11 +35,34 @@
             background-color: white;
             border-radius: 0.25em;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            text-decoration: none; /* Rimuove la sottolineatura predefinita dei link */
+            color: #1e293b; /* Colore del testo più scuro */
+            font-family: 'monospace'; /* Usa un font monospazio */
+            font-size: 0.9em; /* Dimensione del font leggermente più piccola */
         }
 
         .circolare-link:hover {
             background-color: #f3f4f6;
         }
+
+        .badge {
+            display: inline-block;
+            text-xs;
+            padding: 0.25em 0.5em;
+            border-radius: 0.25em;
+            margin-left: 0.5em;
+        }
+
+        .badge.master {
+            background-color: #dbeafe; /* Blue-200 */
+            color: #1e3a8a; /* Blue-800 */
+        }
+
+        .badge.upd {
+            background-color: #fef08a; /* Yellow-200 */
+            color: #713f00; /* Yellow-800 */
+        }
+
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans">
@@ -56,7 +81,7 @@
             <div class="flex items-center gap-4">
                 <a href="elenco.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 0 0 1 0-3.75Z" />
                     </svg>
                     <span>Elenco completo</span>
                 </a>
@@ -97,54 +122,61 @@
 
     <script>
         fetch('archivio_circolari.json')
-    .then(response => response.json())
-    .then(data => {
-        const archivioContainer = document.getElementById('archivio-container');
-        const circolariPerMajorGroup = {};
+            .then(response => response.json())
+            .then(data => {
+                const archivioContainer = document.getElementById('archivio-container');
+                const circolariPerMajorGroup = {};
 
-        // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
-        data.forEach(circolare => {
-            const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
-            if (!circolariPerMajorGroup[majorGroup]) {
-                circolariPerMajorGroup[majorGroup] = [];
-            }
-            circolariPerMajorGroup[majorGroup].push(circolare);
-        });
+                // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
+                data.forEach(circolare => {
+                    const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
+                    if (!circolariPerMajorGroup[majorGroup]) {
+                        circolariPerMajorGroup[majorGroup] = [];
+                    }
+                    circolariPerMajorGroup[majorGroup].push(circolare);
+                });
 
-        // Ordina le versioni major in ordine decrescente
-        const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
+                // Ordina le versioni major in ordine decrescente
+                const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
 
-        // Crea la struttura HTML per ogni gruppo major
-        majorGroups.forEach(majorGroup => {
-            const majorDiv = document.createElement('div');
-            majorDiv.classList.add('major-group');
-            majorDiv.textContent = `Versione ${majorGroup}`;
-            archivioContainer.appendChild(majorDiv);
+                // Crea la struttura HTML per ogni gruppo major
+                majorGroups.forEach(majorGroup => {
+                    const majorDiv = document.createElement('div');
+                    majorDiv.classList.add('major-group');
+                    majorDiv.textContent = `Versione ${majorGroup}`;
+                    archivioContainer.appendChild(majorDiv);
 
-            const circolariDiv = document.createElement('div');
-            circolariDiv.classList.add('circolari-container');
-            circolariDiv.style.display = 'none'; // Nascondi inizialmente
+                    const circolariDiv = document.createElement('div');
+                    circolariDiv.classList.add('circolari-container');
+                    circolariDiv.style.display = 'none'; // Nascondi inizialmente
 
-            circolariPerMajorGroup[majorGroup].forEach(circolare => {
-                const circolareLink = document.createElement('a');
-                circolareLink.href = circolare.url;
-                circolareLink.textContent = circolare.versione;
-                circolareLink.classList.add('circolare-link');
-                circolareLink.target = '_blank';
-                circolariDiv.appendChild(circolareLink);
+                    circolariPerMajorGroup[majorGroup].forEach(circolare => {
+                        const circolareLink = document.createElement('a');
+                        circolareLink.href = circolare.url;
+                        circolareLink.classList.add('circolare-link');
+                        circolareLink.target = '_blank';
+
+                        // Aggiunge badge "Master" o "UPD"
+                        const patch = circolare.versione.split('_')[1];
+                        const badgeText = patch === '000' ? 'Master' : 'UPD';
+                        const badgeClass = patch === '000' ? 'badge master' : 'badge upd';
+                        const badge = `<span class="${badgeClass}">${badgeText}</span>`;
+
+                        circolareLink.innerHTML = `${circolare.versione} ${badge}`; // Inserisce il badge nel link
+                        circolariDiv.appendChild(circolareLink);
+                    });
+
+                    archivioContainer.appendChild(circolariDiv);
+
+                    // Aggiungi l'event listener per mostrare/nascondere le circolari
+                    majorDiv.addEventListener('click', () => {
+                        circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Errore nel caricamento dell\'archivio:', error);
             });
-
-            archivioContainer.appendChild(circolariDiv);
-
-            // Aggiungi l'event listener per mostrare/nascondere le circolari
-            majorDiv.addEventListener('click', () => {
-                circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
-            });
-        });
-    })
-    .catch(error => {
-        console.error('Errore nel caricamento dell\'archivio:', error);
-    });
 
         const toggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
