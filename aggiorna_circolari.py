@@ -6,7 +6,7 @@ URL_BASE = "https://www.hrzucchetti.it/infoupdate/HR1/HR1_{}.pdf"
 JSON_PATH = "circolari.json"
 START_VERSION = [22, 0, 0]
 MAX_PATCH_TRIES = 5  # Numero di patch successive da provare per ogni master
-MAX_MASTER_TRIES = 10 # Numero massimo di versioni master successive da provare
+MAX_MASTER_TRIES = 20 # Aumento il numero di tentativi per le master
 
 def load_existing():
     try:
@@ -77,12 +77,14 @@ def update():
                 found_new = True
                 current_master = next_master
                 current_patch = 0 # Ricomincia la ricerca delle patch da 0 per la nuova master
+                master_tries = 0 # Resetta il contatore dei tentativi di master trovata
             else:
-                print(f"Nessuna nuova master trovata dopo {current_master[0]:02}.{current_master[1]:02}.{current_master[2]:02}")
-                break # Interrompi la ricerca se non trovi la prossima master
-        else:
-            # Se sono state trovate patch per la master corrente, continua a cercare altre patch
-            pass
+                print(f"Nessuna nuova master trovata per {next_master[0]:02}.{next_master[1]:02}.{next_master[2]:02}")
+                current_master = next_master # Passa comunque alla prossima master per il prossimo tentativo
+
+        elif found_patch_for_master:
+            # Se sono state trovate patch, resettiamo il contatore dei tentativi di master
+            master_tries = 0
 
     if found_new:
         current += new
