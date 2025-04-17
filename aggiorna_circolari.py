@@ -5,6 +5,7 @@ from datetime import datetime
 URL_BASE = "https://www.hrzucchetti.it/infoupdate/HR1/HR1_{}.pdf"
 JSON_PATH = "circolari.json"
 START_VERSION = [22, 0, 0]
+MAX_PATCH_TRIES = 5  # Numero di patch successive da provare per ogni master
 
 def load_existing():
     try:
@@ -43,39 +44,49 @@ def update():
 
     new = []
     found_new = False
+    current_master = [major, minor, fix]
+    current_patch = patch
 
-    # Prova diverse patch successive per la versione corrente
-    print("Inizio ricerca patch per la versione corrente...")
-    for i in range(1, 6):  # Prova le prossime 5 patch
-        next_patch = patch + i
-        new_version = f"{major:02}.{minor:02}.{fix:02}_{next_patch:03}"
-        valid, url = is_valid_url(new_version)
-        if valid:
-            print(f"Trovata nuova circolare (patch): {new_version}")
-            new.append({"versione": new_version, "url": url})
-            found_new = True
+    print("Inizio ricerca nuove circolari...")
+    while True:
+        # Prova diverse patch successive per la versione master corrente
+        found_patch_for_master = False
+        for i in range(1, MAX_PATCH_TRIES + 1):
+            next_patch = current_patch + i
+            new_version = f"{current_master[0]:02}.{current_master[1]:02}.{current_master[2]:02}_{next_patch:03}"
+            valid, url = is_valid_url(new_version)
+            if valid:
+                print(f"Trovata nuova circolare (patch {next_patch:03}): {new_version}")
+                new.append({"versione": new_version, "url": url})
+                found_new = True
+                found_patch_for_master = True
+                current_patch = next_patch # Aggiorna l'ultima patch trovata per questa master
 
-    # Se non sono state trovate nuove patch, passa alla prossima versione master
-    if not found_new:
-        next_master = next_master_version([major, minor, fix])
-        next_major, next_minor, next_fix = next_master
-        print(f"Nessuna nuova patch, verifico prossima master: {next_major:02}.{next_minor:02}.{next_fix:02}_000")
-        new_master_version = f"{next_major:02}.{next_minor:02}.{next_fix:02}_000"
-        valid, url = is_valid_url(new_master_version)
-        if valid:
+        # Se non sono state trovate nuove patch per la master corrente, passa alla prossima master
+        if not found_patch_for_master and found_new:
+            # Resetta la patch per la prossima master
+            current_patch = 0
+
+        next_master = next_master_version(current_master)
+        print(f"Passo alla prossima master: {next_master[0]:02}.{next_master[1]:02}.{next_master[2]:02}")
+        new_master_version = f"{next_master[0]:02}.{next_master[1]:02}.{next_master[2]:02}_000"
+        valid_master, url_master = is_valid_url(new_master_version)
+        if valid_master:
             print(f"Trovata nuova master: {new_master_version}")
-            new.append({"versione": new_master_version, "url": url})
+            new.append({"versione": new_master_version, "url": url_master})
             found_new = True
-            # Resetta la patch per cercare eventuali patch successive alla nuova master
-            major, minor, fix = next_major, next_minor, next_fix
-            for i in range(1, 6):
-                next_patch = i
-                new_version = f"{major:02}.{minor:02}.{fix:02}_{next_patch:03}"
-                valid, url = is_valid_url(new_version)
-                if valid:
-                    print(f"Trovata nuova circolare (patch dopo master): {new_version}")
-                    new.append({"versione": new_version, "url": url})
-                    found_new = True
+            current_master = next_master
+            current_patch = 0 # Ricomincia la ricerca delle patch da 0 per la nuova master
+        else:
+            print(f"Nessuna nuova master trovata dopo {current_master[0]:02}.{current_master[1]:02}.{current_master[2]:02}")
+            break # Interrompi la ricerca se non trovi la prossima master
+
+        # Se non abbiamo trovato nulla di nuovo in questo ciclo (né patch né nuova master),
+        # e non avevamo trovato nulla prima, possiamo interrompere per evitare un loop infinito.
+        if not found_patch_for_master and not valid_master and not found_new and current_master == [major, minor, fix]:
+            break
+        elif not found_patch_for_master and not valid_master:
+            break
 
     if found_new:
         current += new
