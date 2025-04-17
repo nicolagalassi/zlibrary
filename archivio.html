@@ -66,82 +66,82 @@
     </main>
 
     <script>
-        fetch('archivio_circolari.json')
-    .then(response => response.json())
-    .then(data => {
-        const archivioContainer = document.getElementById('archivio-container');
-        const circolariPerMajorGroup = {};
+fetch('archivio_circolari.json')
+  .then(response => response.json())
+  .then(data => {
+   const archivioContainer = document.getElementById('archivio-container');
+   const circolariPerMajorGroup = {};
 
-        // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
-        data.forEach(circolare => {
-            const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
-            if (!circolariPerMajorGroup[majorGroup]) {
-                circolariPerMajorGroup[majorGroup] = [];
-            }
-            circolariPerMajorGroup[majorGroup].push(circolare);
-        });
+   // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
+   data.forEach(circolare => {
+    const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
+    if (!circolariPerMajorGroup[majorGroup]) {
+     circolariPerMajorGroup[majorGroup] = [];
+    }
+    circolariPerMajorGroup[majorGroup].push(circolare);
+   });
 
-        // Ordina le versioni major in ordine decrescente
-        const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
+   // Ordina le versioni major in ordine decrescente
+   const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
 
-        // Crea la struttura HTML per ogni gruppo major
-        majorGroups.forEach(majorGroup => {
-            const majorDiv = document.createElement('div');
-            majorDiv.classList.add('major-group');
-            majorDiv.textContent = `Versione ${majorGroup}`;
-            archivioContainer.appendChild(majorDiv);
+   // Crea la struttura HTML per ogni gruppo major
+   majorGroups.forEach(majorGroup => {
+    const majorDiv = document.createElement('div');
+    majorDiv.classList.add('major-group', 'bg-gray-100', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-md', 'cursor-pointer', 'mb-2', 'shadow-sm');
+    majorDiv.textContent = `Versione ${majorGroup}`;
+    archivioContainer.appendChild(majorDiv);
 
-            const circolariDiv = document.createElement('div');
-            circolariDiv.classList.add('circolari-container');
-            circolariDiv.style.display = 'none'; // Nascondi inizialmente
+    const circolariDiv = document.createElement('div');
+    circolariDiv.classList.add('circolari-container', 'bg-white', 'dark:bg-gray-700', 'rounded-md', 'shadow-md', 'overflow-hidden', 'mb-4');
+    circolariDiv.style.display = 'none'; // Nascondi inizialmente
 
-            // Crea la tabella
-            const table = document.createElement('table');
-            table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'shadow-md', 'rounded-lg', 'overflow-hidden');
+    // Crea la tabella
+    const table = document.createElement('table');
+    table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'rounded-lg', 'overflow-hidden');
 
-            // Crea l'intestazione della tabella
-            const thead = document.createElement('thead');
-            thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'text-left');
-            thead.innerHTML = `
-                <tr>
-                    <th class="py-3 px-4 font-semibold">Versione</th>
-                    <th class="py-3 px-4 font-semibold">Download</th>
-                </tr>
-            `;
-            table.appendChild(thead);
+    // Crea l'intestazione della tabella
+    const thead = document.createElement('thead');
+    thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'text-left');
+    thead.innerHTML = `
+     <tr>
+      <th class="py-3 px-4 font-semibold">Versione</th>
+      <th class="py-3 px-4 font-semibold">Download</th>
+     </tr>
+    `;
+    table.appendChild(thead);
 
-            const tbody = document.createElement('tbody');
-            tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
+    const tbody = document.createElement('tbody');
+    tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
 
-            circolariPerMajorGroup[majorGroup].forEach(circolare => {
-                const patch = circolare.versione.split('_')[1];
-                const badge = patch === '000'
-                    ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
-                    : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
+    circolariPerMajorGroup[majorGroup].forEach(circolare => {
+     const patch = circolare.versione.split('_')[1];
+     const badge = patch === '000'
+      ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
+      : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
 
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
-                    <td class="py-2 px-4">
-                        <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">Scarica PDF</a>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            table.appendChild(tbody);
-            circolariDiv.appendChild(table);
-            archivioContainer.appendChild(circolariDiv);
-
-            // Aggiungi l'event listener per mostrare/nascondere le circolari
-            majorDiv.addEventListener('click', () => {
-                circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
-            });
-        });
-    })
-    .catch(error => {
-        console.error('Errore nel caricamento dell\'archivio:', error);
+     const row = document.createElement('tr');
+     row.innerHTML = `
+      <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
+      <td class="py-2 px-4">
+       <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">Scarica PDF</a>
+      </td>
+     `;
+     tbody.appendChild(row);
     });
+
+    table.appendChild(tbody);
+    circolariDiv.appendChild(table);
+    archivioContainer.appendChild(circolariDiv);
+
+    // Aggiungi l'event listener per mostrare/nascondere le circolari
+    majorDiv.addEventListener('click', () => {
+     circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
+    });
+   });
+  })
+  .catch(error => {
+   console.error('Errore nel caricamento dell\'archivio:', error);
+  });
 
         const toggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
