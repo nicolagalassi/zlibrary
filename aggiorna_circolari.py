@@ -16,6 +16,7 @@ def load_existing():
 def is_valid_url(version):
     url = URL_BASE.format(version)
     r = requests.head(url)
+    print(f"Verificando URL: {url} - Status Code: {r.status_code}")
     return r.status_code == 200, url
 
 def next_master_version(version):
@@ -32,11 +33,13 @@ def next_master_version(version):
 def update():
     current = load_existing()
     known_versions = {c['versione'] for c in current}
+    print(f"Circolari esistenti: {known_versions}")
 
     latest_version = max(known_versions, key=lambda x: list(map(int, x.replace('_', '.').split('.')))) if known_versions else "22.00.00_000"
     parts, patch_str = latest_version.split('_')
     major, minor, fix = map(int, parts.split('.'))
     patch = int(patch_str)
+    print(f"Ultima versione conosciuta: {latest_version} (major={major}, minor={minor}, fix={fix}, patch={patch})")
 
     new = []
     found_new = False
@@ -44,15 +47,17 @@ def update():
     # Prova prima le patch della versione corrente
     current_master_version = [major, minor, fix]
     current_patch = patch
+    print("Inizio ricerca patch per la versione corrente...")
     while True:
         current_patch += 1
         new_version = f"{major:02}.{minor:02}.{fix:02}_{current_patch:03}"
         valid, url = is_valid_url(new_version)
         if valid:
-            print(f"Trovata nuova circolare: {new_version}")
+            print(f"Trovata nuova circolare (patch): {new_version}")
             new.append({"versione": new_version, "url": url})
             found_new = True
         else:
+            print(f"Nessuna nuova patch trovata dopo: {new_version}")
             break  # Nessuna altra patch per questa versione master
 
     # Se non sono state trovate nuove patch, passa alla prossima versione master
@@ -60,6 +65,7 @@ def update():
         next_master = next_master_version(current_master_version)
         next_major, next_minor, next_fix = next_master
         new_master_version = f"{next_major:02}.{next_minor:02}.{next_fix:02}_000"
+        print(f"Nessuna nuova patch, verifico prossima master: {new_master_version}")
         valid, url = is_valid_url(new_master_version)
         if valid:
             print(f"Trovata nuova master: {new_master_version}")
