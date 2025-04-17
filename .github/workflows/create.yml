@@ -1,4 +1,4 @@
-name: Aggiorna circolari
+name: Valorizza archivio
 
 on:
   workflow_dispatch:    # permette anche l'avvio manuale
