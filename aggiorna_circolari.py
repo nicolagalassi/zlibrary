@@ -5,8 +5,9 @@ from datetime import datetime
 URL_BASE = "https://www.hrzucchetti.it/infoupdate/HR1/HR1_{}.pdf"
 JSON_PATH = "circolari.json"
 START_VERSION = [22, 0, 0]
-MAX_PATCH_TRIES = 5  # Numero di patch successive da provare per ogni master
-MAX_MASTER_TRIES = 20 # Aumento il numero di tentativi per le master
+MAX_PATCH_TRIES = 10  # Prova fino a 10 patch successive
+MAX_FIX_INCREMENT = 2  # Prova ad incrementare 'fix' di al massimo 2
+MAX_MINOR_INCREMENT = 1 # Prova ad incrementare 'minor' di al massimo 1
 
 def load_existing():
     try:
@@ -21,70 +22,82 @@ def is_valid_url(version):
     print(f"Verificando URL: {url} - Status Code: {r.status_code}")
     return r.status_code == 200, url
 
-def next_master_version(version):
-    major, minor, fix = version
-    fix += 1
-    if fix > 12:
-        fix = 0
-        minor += 1
-        if minor > 12:
-            minor = 0
-            major += 1
-    return [major, minor, fix]
+def increment_version_part(version_list, index):
+    updated_version = list(version_list)
+    updated_version[index] += 1
+    return updated_version
+
+def format_version(version_list, patch):
+    return f"{version_list[0]:02}.{version_list[1]:02}.{version_list[2]:02}_{patch:03}"
 
 def update():
     current = load_existing()
     known_versions = {c['versione'] for c in current}
     print(f"Circolari esistenti: {known_versions}")
 
-    latest_version = max(known_versions, key=lambda x: list(map(int, x.replace('_', '.').split('.')))) if known_versions else "22.00.00_000"
-    parts, patch_str = latest_version.split('_')
-    major, minor, fix = map(int, parts.split('.'))
-    patch = int(patch_str)
-    print(f"Ultima versione conosciuta: {latest_version} (major={major}, minor={minor}, fix={fix}, patch={patch})")
+    latest_version_str = max(known_versions, key=lambda x: list(map(int, x.replace('_', '.').split('.')))) if known_versions else "22.00.00_000"
+    parts_str, patch_str = latest_version_str.split('_')
+    current_master_list = list(map(int, parts_str.split('.')))
+    current_patch = int(patch_str)
+    print(f"Ultima versione conosciuta: {latest_version_str} (master={current_master_list}, patch={current_patch})")
 
     new = []
     found_new = False
-    current_master = [major, minor, fix]
-    current_patch = patch
-    master_tries = 0
 
-    print("Inizio ricerca nuove circolari...")
-    while master_tries < MAX_MASTER_TRIES:
-        master_tries += 1
-        found_patch_for_master = False
-        # Prova diverse patch successive per la versione master corrente
-        for i in range(1, MAX_PATCH_TRIES + 1):
-            next_patch = current_patch + i
-            new_version = f"{current_master[0]:02}.{current_master[1]:02}.{current_master[2]:02}_{next_patch:03}"
-            valid, url = is_valid_url(new_version)
-            if valid:
-                print(f"Trovata nuova circolare (patch {next_patch:03}): {new_version}")
-                new.append({"versione": new_version, "url": url})
-                found_new = True
-                found_patch_for_master = True
-                current_patch = next_patch # Aggiorna l'ultima patch trovata per questa master
+    # Ricerca patch per la versione corrente
+    print("Ricerca patch per la versione corrente...")
+    for i in range(1, MAX_PATCH_TRIES + 1):
+        next_patch = current_patch + i
+        new_version = format_version(current_master_list, next_patch)
+        valid, url = is_valid_url(new_version)
+        if valid:
+            print(f"Trovata nuova circolare (patch {next_patch:03}): {new_version}")
+            new.append({"versione": new_version, "url": url})
+            found_new = True
 
-        # Se non sono state trovate nuove patch per la master corrente, passa alla prossima master
-        if not found_patch_for_master:
-            next_master = next_master_version(current_master)
-            print(f"Passo alla prossima master: {next_master[0]:02}.{next_master[1]:02}.{next_master[2]:02}")
-            new_master_version = f"{next_master[0]:02}.{next_master[1]:02}.{next_master[2]:02}_000"
-            valid_master, url_master = is_valid_url(new_master_version)
-            if valid_master:
-                print(f"Trovata nuova master: {new_master_version}")
-                new.append({"versione": new_master_version, "url": url_master})
-                found_new = True
-                current_master = next_master
-                current_patch = 0 # Ricomincia la ricerca delle patch da 0 per la nuova master
-                master_tries = 0 # Resetta il contatore dei tentativi di master trovata
-            else:
-                print(f"Nessuna nuova master trovata per {next_master[0]:02}.{next_master[1]:02}.{next_master[2]:02}")
-                current_master = next_master # Passa comunque alla prossima master per il prossimo tentativo
+    # Passa alle prossime versioni master con limiti
+    print("Ricerca prossime versioni master...")
+    master_list = list(current_master_list)
+    for fix_increment in range(1, MAX_FIX_INCREMENT + 1):
+        next_master_list = list(master_list)
+        next_master_list[2] += fix_increment # Incrementa la parte 'fix'
+        if next_master_list[2] > 12:
+            continue # Salta se 'fix' supera 12
 
-        elif found_patch_for_master:
-            # Se sono state trovate patch, resettiamo il contatore dei tentativi di master
-            master_tries = 0
+        new_master_version = format_version(next_master_list, 0)
+        valid_master, url_master = is_valid_url(new_master_version)
+        if valid_master:
+            print(f"Trovata nuova master: {new_master_version}")
+            new.append({"versione": new_master_version, "url": url_master})
+            found_new = True
+            # Cerca anche le prime patch per questa nuova master
+            for i in range(1, 3): # Prova le prime 2 patch per la nuova master
+                new_patch_version = format_version(next_master_list, i)
+                valid_patch, url_patch = is_valid_url(new_patch_version)
+                if valid_patch:
+                    print(f"Trovata nuova circolare (patch {i:03} di {new_master_version}): {new_patch_version}")
+                    new.append({"versione": new_patch_version, "url": url_patch})
+                    found_new = True
+
+    # Prova ad incrementare la parte 'minor'
+    next_minor_master_list = list(current_master_list)
+    if next_minor_master_list[1] < 12:
+        next_minor_master_list[1] += 1
+        next_minor_master_list[2] = 0 # Resetta 'fix' a 0 quando incrementa 'minor'
+        new_minor_master_version = format_version(next_minor_master_list, 0)
+        valid_minor_master, url_minor_master = is_valid_url(new_minor_master_version)
+        if valid_minor_master:
+            print(f"Trovata nuova master (minor incrementato): {new_minor_master_version}")
+            new.append({"versione": new_minor_master_version, "url": url_minor_master})
+            found_new = True
+            # Cerca anche le prime patch per questa nuova master (minor incrementato)
+            for i in range(1, 3): # Prova le prime 2 patch
+                new_patch_version = format_version(next_minor_master_list, i)
+                valid_patch, url_patch = is_valid_url(new_patch_version)
+                if valid_patch:
+                    print(f"Trovata nuova circolare (patch {i:03} di {new_minor_master_version}): {new_patch_version}")
+                    new.append({"versione": new_patch_version, "url": url_patch})
+                    found_new = True
 
     if found_new:
         current += new
