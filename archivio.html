@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,16 +7,16 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         .major-group {
-            font-size: 1.2em;
+            font-size: 1.2em; /* Dimensione del testo leggermente più piccola */
             font-weight: bold;
             margin-top: 1em;
-            padding: 0.5em 1em;
+            padding: 0.5em 1em; /* Più padding orizzontale */
             background-color: #f0f0f0;
             border-radius: 0.25em;
             cursor: pointer;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            border-bottom: 2px solid #2563eb;
-            color: #374151;
+            border-bottom: 2px solid #2563eb; /* Aggiunto il bordo inferiore */
+            color: #374151; /* Colore del testo più scuro per coerenza */
         }
 
         .major-group:hover {
@@ -29,266 +28,175 @@
             margin-top: 0.5em;
         }
 
-        /* Stili per la tabella */
-        .min-w-full {
-            min-width: 100%;
+        .circolare-link {
+            display: block;
+            margin-bottom: 0.5em;
+            padding: 0.5em;
+            background-color: white;
+            border-radius: 0.25em;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            text-decoration: none; /* Rimuove la sottolineatura predefinita dei link */
+            color: #1e293b; /* Colore del testo più scuro */
+            font-family: 'monospace'; /* Usa un font monospazio */
+            font-size: 0.9em; /* Dimensione del font leggermente più piccola */
         }
 
-        .bg-white {
-            background-color: #ffffff;
+        .circolare-link:hover {
+            background-color: #f3f4f6;
         }
 
-        .dark\:bg-gray-700 {
-            background-color: #4a5568;
-            /* Tailwind Dark Mode */
-        }
-
-        .text-blue-600 {
-            color: #2b6cb0;
-        }
-
-        .dark\:text-blue-300 {
-            color: #90cdf4;
-            /* Tailwind Dark Mode */
-        }
-
-        .shadow-md {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        .rounded-lg {
-            border-radius: 0.5rem;
-        }
-
-        .overflow-hidden {
-            overflow: hidden;
-        }
-
-        .bg-blue-100 {
-            background-color: #f0f9ff;
-        }
-
-        .dark\:bg-gray-700 {
-            background-color: #4a5568;
-            /* Tailwind Dark Mode */
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-        .py-3 {
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
-        }
-
-        .px-4 {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .font-semibold {
-            font-weight: 600;
-        }
-
-        .bg-white {
-            background-color: #ffffff;
-        }
-
-        .dark\:bg-gray-800 {
-            background-color: #2d3748;
-            /* Tailwind Dark Mode */
-        }
-
-        .divide-y {
-            border-top-width: 0px;
-            border-left-width: 0px;
-            border-right-width: 0px;
-            border-bottom-width: 0px;
-            border-style: solid;
-            --tw-divide-y-reverse: 0;
-            border-bottom-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
-            border-top-width: calc(1px * var(--tw-divide-y-reverse));
-            border-color: rgba(229, 231, 235, var(--tw-divide-opacity));
-        }
-
-        .divide-gray-200 {
-            --tw-divide-opacity: 1;
-            border-color: rgba(229, 231, 235, var(--tw-divide-opacity));
-        }
-
-        .dark\:divide-gray-700 {
-            --tw-divide-opacity: 1;
-            border-color: rgba(74, 85, 104, var(--tw-divide-opacity));
-            /* Tailwind Dark Mode */
-        }
-
-        .py-2 {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
-
-        .font-mono {
-            font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono",
-                "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
-        }
-
-        .text-blue-600 {
-            color: #2b6cb0;
-        }
-
-        .dark\:text-blue-300 {
-            color: #90cdf4;
-            /* Tailwind Dark Mode */
-        }
-
-        .hover\:underline:hover {
-            text-decoration-line: underline;
-        }
-
-        .ml-2 {
-            margin-left: 0.5rem;
-        }
-
-        .inline-block {
+        .badge {
             display: inline-block;
+            text-xs;
+            padding: 0.25em 0.5em;
+            border-radius: 0.25em;
+            margin-left: 0.5em;
         }
 
-        .bg-blue-200 {
-            background-color: #eff6ff;
+        .badge.master {
+            background-color: #dbeafe; /* Blue-200 */
+            color: #1e3a8a; /* Blue-800 */
         }
 
-        .text-blue-800 {
-            color: #1e40af;
+        .badge.upd {
+            background-color: #fef08a; /* Yellow-200 */
+            color: #713f00; /* Yellow-800 */
         }
 
-        .text-xs {
-            font-size: 0.75rem;
-            line-height: 1rem;
-        }
-
-        .px-2 {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-        }
-
-        .py-0\.5 {
-            padding-top: 0.125rem;
-            padding-bottom: 0.125rem;
-        }
-
-        .rounded {
-            border-radius: 0.25rem;
-        }
-
-        .bg-yellow-200 {
-            background-color: #fffbeb;
-        }
-
-        .text-yellow-800 {
-            color: #7a6915;
-        }
     </style>
 </head>
-
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans">
 
     <header class="bg-white dark:bg-gray-800 shadow p-4">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <h1 class="flex items-center gap-2 text-2xl font-bold text-gray-700 dark:text-gray-200">
-                
+                <svg width="28" height="28" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <rect width="120" height="120" rx="20" fill="#2563eb"/>
+                    <path d="M35 35H85V85H35V35Z" stroke="white" stroke-width="8"/>
+                    <path d="M45 45H75V55H55L75 75H45V65H65L45 45Z" fill="white"/>
+                </svg>
+                ZLibrary
+            </h1>
+
+            <div class="flex items-center gap-4">
+                <a href="elenco.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 0 0 1 0-3.75Z" />
+                    </svg>
+                    <span>Elenco completo</span>
+                </a>
+                <a href="archivio.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C13.168 5.477 14.754 5 15.5 5s2.332.477 3.5 1.253m0-13C13.168 5.477 14.754 5 15.5 5s2.332.477 3.5 1.253v13C16.832 18.477 18.418 18 19.25 18s2.332.477 3.5 1.253" />
+                    </svg>
+                    <span>Archivio</span>
+                </a>
+                <a href="index.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 0 0 1 1.683.977v8.122Z" />
+                    </svg>
+                    <span>Torna alla ricerca</span>
+                </a>
+                <button id="theme-toggle" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
                     <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6 block dark:hidden">
+                         stroke-width="1.5" stroke="currentColor" class="size-6 block dark:hidden">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                              d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
                     </svg>
 
-            
+                    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke-width="1.5" stroke="currentColor" class="size-6 hidden dark:block">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/>
+                    </svg>
+                </button>
+            </div>
         </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4">
+        <h2 class="text-2xl font-semibold mb-4">Archivio delle Circolari</h2>
+        <div id="archivio-container">
+            </div>
     </main>
 
     <script>
         fetch('archivio_circolari.json')
-            .then(response => response.json())
-            .then(data => {
-                const archivioContainer = document.getElementById('archivio-container');
-                const circolariPerMajorGroup = {};
+    .then(response => response.json())
+    .then(data => {
+        const archivioContainer = document.getElementById('archivio-container');
+        const circolariPerMajorGroup = {};
 
-                // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
-                data.forEach(circolare => {
-                    const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
-                    if (!circolariPerMajorGroup[majorGroup]) {
-                        circolariPerMajorGroup[majorGroup] = [];
-                    }
-                    circolariPerMajorGroup[majorGroup].push(circolare);
-                });
+        // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
+        data.forEach(circolare => {
+            const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
+            if (!circolariPerMajorGroup[majorGroup]) {
+                circolariPerMajorGroup[majorGroup] = [];
+            }
+            circolariPerMajorGroup[majorGroup].push(circolare);
+        });
 
-                // Ordina le versioni major in ordine decrescente
-                const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
+        // Ordina le versioni major in ordine decrescente
+        const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
 
-                // Crea la struttura HTML per ogni gruppo major
-                majorGroups.forEach(majorGroup => {
-                    const majorDiv = document.createElement('div');
-                    majorDiv.classList.add('major-group');
-                    majorDiv.textContent = `Versione ${majorGroup}`;
-                    archivioContainer.appendChild(majorDiv);
+        // Crea la struttura HTML per ogni gruppo major
+        majorGroups.forEach(majorGroup => {
+            const majorDiv = document.createElement('div');
+            majorDiv.classList.add('major-group');
+            majorDiv.textContent = `Versione ${majorGroup}`;
+            archivioContainer.appendChild(majorDiv);
 
-                    const circolariDiv = document.createElement('div');
-                    circolariDiv.classList.add('circolari-container');
-                    circolariDiv.style.display = 'none'; // Nascondi inizialmente
+            const circolariDiv = document.createElement('div');
+            circolariDiv.classList.add('circolari-container');
+            circolariDiv.style.display = 'none'; // Nascondi inizialmente
 
-                    // Crea la tabella
-                    const table = document.createElement('table');
-                    table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600',
-                        'dark:text-blue-300', 'shadow-md', 'rounded-lg', 'overflow-hidden');
+            // Crea la tabella
+            const table = document.createElement('table');
+            table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'shadow-md', 'rounded-lg', 'overflow-hidden');
 
-                    // Crea l'intestazione della tabella
-                    const thead = document.createElement('thead');
-                    thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300',
-                        'text-left');
-                    thead.innerHTML = `
+            // Crea l'intestazione della tabella
+            const thead = document.createElement('thead');
+            thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'text-left');
+            thead.innerHTML = `
                 <tr>
                     <th class="py-3 px-4 font-semibold">Versione</th>
                     <th class="py-3 px-4 font-semibold">Download</th>
                 </tr>
             `;
-                    table.appendChild(thead);
+            table.appendChild(thead);
 
-                    const tbody = document.createElement('tbody');
-                    tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200',
-                        'dark:divide-gray-700');
+            const tbody = document.createElement('tbody');
+            tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
 
-                    circolariPerMajorGroup[majorGroup].forEach(circolare => {
-                        const patch = circolare.versione.split('_')[1];
-                        const badge = patch === '000'
-                            ?
-                            `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
-                            :
-                            `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
+            circolariPerMajorGroup[majorGroup].forEach(circolare => {
+                const patch = circolare.versione.split('_')[1];
+                const badge = patch === '000'
+                    ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
+                    : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
 
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+                const row = document.createElement('tr');
+                row.innerHTML = `
                     <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
                     <td class="py-2 px-4">
                         <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">Scarica PDF</a>
                     </td>
                 `;
-                        tbody.appendChild(row);
-                    });
-
-                    table.appendChild(tbody);
-                    circolariDiv.appendChild(table);
-                    archivioContainer.appendChild(circolariDiv);
-
-                    // Aggiungi l'event listener per mostrare/nascondere le circolari
-                    majorDiv.addEventListener('click', () => {
-                        circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Errore nel caricamento dell\'archivio:', error);
+                tbody.appendChild(row);
             });
+
+            table.appendChild(tbody);
+            circolariDiv.appendChild(table);
+            archivioContainer.appendChild(circolariDiv);
+
+            // Aggiungi l'event listener per mostrare/nascondere le circolari
+            majorDiv.addEventListener('click', () => {
+                circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    })
+    .catch(error => {
+        console.error('Errore nel caricamento dell\'archivio:', error);
+    });
 
         const toggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
@@ -301,5 +209,4 @@
     </script>
 
 </body>
-
 </html>
