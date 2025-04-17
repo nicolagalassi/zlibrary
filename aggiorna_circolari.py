@@ -4,7 +4,7 @@ from datetime import datetime
 
 URL_BASE = "https://www.hrzucchetti.it/infoupdate/HR1/HR1_{}.pdf"
 JSON_PATH = "circolari.json"
-START_VERSION = [22, 0, 0]
+START_VERSION = [25, 0, 0]
 
 def load_existing():
     try:
