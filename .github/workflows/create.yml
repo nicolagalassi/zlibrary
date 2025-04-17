@@ -1,0 +1,30 @@
+name: Aggiorna circolari
+
+on:
+  workflow_dispatch:    # permette anche l'avvio manuale
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clona repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13.3
+
+      - name: Installa dipendenze
+        run: pip install requests
+
+      - name: Esegui aggiornamento
+        run: python aggiorna_circolari.py
+
+      - name: Commit e push se ci sono modifiche
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add circolari.json
+          git diff --cached --quiet || git commit -m "Inserimento archivio circolari"
+          git push
