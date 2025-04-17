@@ -3,8 +3,8 @@ import json
 
 URL_BASE = "https://www.hrzucchetti.it/infoupdate/HR1/HR1_{}.pdf"
 JSON_PATH_ARCHIVIO = "archivio_circolari.json"
-START_ARCHIVIO = [22, 0, 0]
-END_ARCHIVIO = [23, 0, 0]
+START_ARCHIVIO = [23, 0, 0]
+END_ARCHIVIO = [24, 0, 0]
 PATCH_START = 0
 MAX_PATCH_TRIES_ARCHIVIO = 10  # Limite massimo di patch da controllare per l'archivio
 
