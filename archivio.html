@@ -6,13 +6,26 @@
     <title>ZLibrary - Archivio Circolari</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .master-version {
+        .major-version {
             font-size: 1.5em;
             font-weight: bold;
             margin-top: 1em;
-            padding-bottom: 0.5em;
-            border-bottom: 2px solid #2563eb; /* Stile a piacere */
+            padding: 0.5em;
+            background-color: #f0f0f0;
+            border-radius: 0.25em;
+            cursor: pointer;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
+
+        .major-version:hover {
+            background-color: #e2e2e2;
+        }
+
+        .circolari-container {
+            margin-left: 1em;
+            margin-top: 0.5em;
+        }
+
         .circolare-link {
             display: block;
             margin-bottom: 0.5em;
@@ -21,8 +34,9 @@
             border-radius: 0.25em;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
+
         .circolare-link:hover {
-            background-color: #f3f4f6; /* Leggero cambio colore al passaggio del mouse */
+            background-color: #f3f4f6;
         }
     </style>
 </head>
@@ -48,13 +62,13 @@
                 </a>
                 <a href="archivio.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 6.5 18s2.332.477 3.5 1.253m0-13C13.168 5.477 14.754 5 15.5 5s2.332.477 3.5 1.253v13C16.832 18.477 18.418 18 19.25 18s2.332.477 3.5 1.253" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C13.168 5.477 14.754 5 15.5 5s2.332.477 3.5 1.253m0-13C13.168 5.477 14.754 5 15.5 5s2.332.477 3.5 1.253v13C16.832 18.477 18.418 18 19.25 18s2.332.477 3.5 1.253" />
                     </svg>
                     <span>Archivio</span>
                 </a>
                 <a href="index.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 0 0 1 1.683.977v8.122Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 0 0 1 1.683.977v8.122Z" />
                     </svg>
                     <span>Torna alla ricerca</span>
                 </a>
@@ -86,39 +100,50 @@
             .then(response => response.json())
             .then(data => {
                 const archivioContainer = document.getElementById('archivio-container');
-                const circolariPerMaster = {};
+                const circolariPerMajor = {};
 
-                // Raggruppa le circolari per versione master
+                // Raggruppa le circolari per versione major (23.00.00, 24.00.00, ecc.)
                 data.forEach(circolare => {
-                    const master = circolare.versione.split('_')[0];
-                    if (!circolariPerMaster[master]) {
-                        circolariPerMaster[master] = [];
+                    const major = circolare.versione.substring(0, 8); // Prende i primi 8 caratteri (es. "23.00.00")
+                    if (!circolariPerMajor[major]) {
+                        circolariPerMajor[major] = [];
                     }
-                    circolariPerMaster[master].push(circolare);
+                    circolariPerMajor[major].push(circolare);
                 });
 
-                // Ordina le versioni master in ordine decrescente
-                const masterVersions = Object.keys(circolariPerMaster).sort((a, b) => {
+                // Ordina le versioni major in ordine decrescente
+                const majorVersions = Object.keys(circolariPerMajor).sort((a, b) => {
                     const parseVersion = v => v.split('.').map(Number);
                     const [a1, a2, a3] = parseVersion(a);
                     const [b1, b2, b3] = parseVersion(b);
                     return b1 - a1 || b2 - a2 || b3 - a3;
                 });
 
-                // Crea la struttura HTML per ogni versione master
-                masterVersions.forEach(master => {
-                    const masterDiv = document.createElement('div');
-                    masterDiv.classList.add('master-version');
-                    masterDiv.textContent = `Versione ${master}`;
-                    archivioContainer.appendChild(masterDiv);
+                // Crea la struttura HTML per ogni versione major
+                majorVersions.forEach(major => {
+                    const majorDiv = document.createElement('div');
+                    majorDiv.classList.add('major-version');
+                    majorDiv.textContent = `Versione ${major}`;
+                    archivioContainer.appendChild(majorDiv);
 
-                    circolariPerMaster[master].forEach(circolare => {
+                    const circolariDiv = document.createElement('div');
+                    circolariDiv.classList.add('circolari-container');
+                    circolariDiv.style.display = 'none'; // Nascondi inizialmente
+
+                    circolariPerMajor[major].forEach(circolare => {
                         const circolareLink = document.createElement('a');
                         circolareLink.href = circolare.url;
                         circolareLink.textContent = circolare.versione;
                         circolareLink.classList.add('circolare-link');
-                        circolareLink.target = '_blank'; // Apre in una nuova scheda
-                        archivioContainer.appendChild(circolareLink);
+                        circolareLink.target = '_blank';
+                        circolariDiv.appendChild(circolareLink);
+                    });
+
+                    archivioContainer.appendChild(circolariDiv);
+
+                    // Aggiungi l'event listener per mostrare/nascondere le circolari
+                    majorDiv.addEventListener('click', () => {
+                        circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
                     });
                 });
             })
