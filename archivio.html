@@ -67,92 +67,111 @@
     </main>
 
     
-	<script>
-fetch('js/archivio_circolari.json')
+    <script>
+	fetch('js/archivio_circolari.json')
   .then(response => response.json())
   .then(data => {
-   const archivioContainer = document.getElementById('archivio-container');
-   const circolariPerMajorGroup = {};
+    const archivioContainer = document.getElementById('archivio-container');
+    const circolariPerApplicativoAnno = {};
 
-   // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
-   data.forEach(circolare => {
-    const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
-    if (!circolariPerMajorGroup[majorGroup]) {
-     circolariPerMajorGroup[majorGroup] = [];
-    }
-    circolariPerMajorGroup[majorGroup].push(circolare);
-   });
+    data.forEach(circolare => {
+      // Estrai il nome dell'applicativo dall'URL
+      const urlParts = circolare.url.split('/');
+      const applicativo = urlParts[4]; // Assumendo che sia il 5° segmento dell'URL (infoupdate/HR1/...)
 
-   // Ordina le versioni major in ordine decrescente
-   const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
+      // Estrai l'anno dalla versione
+      const anno = "20" + circolare.versione.substring(0, 2);
 
-   // Crea la struttura HTML per ogni gruppo major
-   majorGroups.forEach(majorGroup => {
-    const majorDiv = document.createElement('div');
-    majorDiv.classList.add('major-group', 'bg-white', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-lg', 'cursor-pointer', 'mb-4', 'shadow-md');
-    majorDiv.textContent = `20${majorGroup}`;
-    archivioContainer.appendChild(majorDiv);
-
-    const circolariDiv = document.createElement('div');
-    circolariDiv.classList.add('circolari-container', 'bg-white', 'dark:bg-gray-700', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'mb-4');
-    circolariDiv.style.display = 'none'; // Nascondi inizialmente
-
-    // Crea la tabella
-    const table = document.createElement('table');
-    table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'rounded-lg', 'overflow-hidden');
-
-    // Crea l'intestazione della tabella
-    const thead = document.createElement('thead');
-    thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'text-left');
-    thead.innerHTML = `
-     <tr>
-      <th class="py-3 px-4 font-semibold">Versione</th>
-      <th class="py-3 px-4 font-semibold">Download</th>
-     </tr>
-    `;
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
-
-    circolariPerMajorGroup[majorGroup].forEach(circolare => {
-     const patch = circolare.versione.split('_')[1];
-     const badge = patch === '000'
-      ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
-      : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
-
-     const row = document.createElement('tr');
-     row.innerHTML = `
-      <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
-      <td class="py-2 px-4">
-       <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">Scarica PDF</a>
-      </td>
-     `;
-     tbody.appendChild(row);
+      if (!circolariPerApplicativoAnno[applicativo]) {
+        circolariPerApplicativoAnno[applicativo] = {};
+      }
+      if (!circolariPerApplicativoAnno[applicativo][anno]) {
+        circolariPerApplicativoAnno[applicativo][anno] = [];
+      }
+      circolariPerApplicativoAnno[applicativo][anno].push(circolare);
     });
 
-    table.appendChild(tbody);
-    circolariDiv.appendChild(table);
-    archivioContainer.appendChild(circolariDiv);
+    // Ordina gli anni in ordine decrescente per ciascun applicativo
+    Object.keys(circolariPerApplicativoAnno).forEach(applicativo => {
+      const applicativoDiv = document.createElement('div');
+      applicativoDiv.classList.add('applicativo-container', 'bg-gray-200', 'dark:bg-gray-700', 'rounded-md', 'p-4', 'mb-8');
 
-    // Aggiungi l'event listener per mostrare/nascondere le circolari
-    majorDiv.addEventListener('click', () => {
-     circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
+      const applicativoHeader = document.createElement('h3');
+      applicativoHeader.classList.add('text-xl', 'font-semibold', 'mb-2', 'text-gray-800', 'dark:text-gray-200');
+      applicativoHeader.textContent = applicativo;
+      applicativoDiv.appendChild(applicativoHeader);
+
+      const anni = Object.keys(circolariPerApplicativoAnno[applicativo]).sort((a, b) => parseInt(b) - parseInt(a));
+
+      anni.forEach(anno => {
+        const annoDiv = document.createElement('div');
+        annoDiv.classList.add('anno-group', 'bg-white', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-lg', 'cursor-pointer', 'mb-4', 'shadow-md');
+        annoDiv.textContent = anno;
+        applicativoDiv.appendChild(annoDiv);
+
+        const circolariDiv = document.createElement('div');
+        circolariDiv.classList.add('circolari-container', 'bg-white', 'dark:bg-gray-700', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'mb-4');
+        circolariDiv.style.display = 'none';
+
+        // Crea la tabella
+        const table = document.createElement('table');
+        table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'rounded-lg', 'overflow-hidden');
+
+        // Crea l'intestazione della tabella
+        const thead = document.createElement('thead');
+        thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'text-left');
+        thead.innerHTML = `
+          <tr>
+            <th class="py-3 px-4 font-semibold">Versione</th>
+            <th class="py-3 px-4 font-semibold">Download</th>
+          </tr>
+        `;
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
+
+        circolariPerApplicativoAnno[applicativo][anno].forEach(circolare => {
+          const patch = circolare.versione.split('_')[1];
+          const badge = patch === '000'
+            ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
+            : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
+            <td class="py-2 px-4">
+              <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">Scarica PDF</a>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        table.appendChild(tbody);
+        circolariDiv.appendChild(table);
+        annoDiv.appendChild(circolariDiv);
+        applicativoDiv.appendChild(annoDiv);
+
+        annoDiv.addEventListener('click', () => {
+          circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
+        });
+      });
+
+      archivioContainer.appendChild(applicativoDiv);
     });
-   });
   })
   .catch(error => {
-   console.error('Errore nel caricamento dell\'archivio:', error);
+    console.error('Errore nel caricamento dell\'archivio:', error);
   });
 
-        const toggle = document.getElementById('theme-toggle');
-        const html = document.documentElement;
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') html.classList.add('dark');
-        toggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        });
+  const toggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') html.classList.add('dark');
+  toggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+  });
     </script>
 
 </body>
