@@ -98,12 +98,14 @@
       const applicativoDiv = document.createElement('div');
       applicativoDiv.classList.add(
         'applicativo-container',
-        'bg-gray-100', // Sfondo chiaro
-        'dark:bg-gray-800', // Sfondo scuro
+        'bg-white',       // Cambiato da bg-gray-100 a bg-white
+        'dark:bg-gray-800',
         'rounded-md',
         'p-4',
         'mb-8',
-        'shadow-md' // Ombra
+        'shadow-md',
+        'border',         // Aggiunto bordo
+        'border-gray-200'  // Aggiunto colore bordo
       );
 
       const applicativoHeader = document.createElement('h3');
@@ -111,10 +113,10 @@
         'text-xl',
         'font-semibold',
         'mb-2',
-        'text-gray-800', // Testo scuro
-        'dark:text-gray-200', // Testo chiaro
-        'cursor-pointer', // Indica che è cliccabile
-        'hover:underline' // Sottolinea al passaggio del mouse
+        'text-gray-800',
+        'dark:text-gray-200',
+        'cursor-pointer',
+        'hover:underline'
       );
       applicativoHeader.textContent = applicativo;
       applicativoDiv.appendChild(applicativoHeader);
@@ -123,7 +125,7 @@
       anniContainer.classList.add(
         'anni-container',
         'mt-2',
-        'overflow-hidden' // Nasconde inizialmente
+        'overflow-hidden'
       );
       anniContainer.style.display = 'none';
       applicativoDiv.appendChild(anniContainer);
@@ -134,18 +136,19 @@
         const annoDiv = document.createElement('div');
         annoDiv.classList.add(
           'anno-group',
-          'bg-white', // Sfondo bianco
-          'dark:bg-gray-700', // Sfondo scuro
-          'text-blue-700', // Testo blu
-          'dark:text-blue-300', // Testo blu chiaro
+          'bg-white',
+          'dark:bg-gray-700',
+          'text-blue-700',
+          'dark:text-blue-300',
           'py-2',
           'px-4',
           'rounded-lg',
-          'cursor-pointer', // Indica che è cliccabile
+          'cursor-pointer',
           'mb-4',
-          'shadow-md', // Ombra
-          'hover:bg-blue-100', // Leggero blu al passaggio del mouse
-          'dark:hover:bg-blue-600' // Blu scuro al passaggio del mouse (tema scuro)
+          'shadow-md',
+          'hover:bg-blue-100',
+          'dark:hover:bg-blue-600',
+          'pb-2'          // Aggiunto padding bottom
         );
         annoDiv.textContent = anno;
         anniContainer.appendChild(annoDiv);
@@ -153,10 +156,10 @@
         const circolariDiv = document.createElement('div');
         circolariDiv.classList.add(
           'circolari-container',
-          'bg-white', // Sfondo bianco
-          'dark:bg-gray-700', // Sfondo scuro
+          'bg-white',
+          'dark:bg-gray-700',
           'rounded-lg',
-          'shadow-md', // Ombra
+          'shadow-md',
           'overflow-hidden',
           'mb-4'
         );
@@ -166,10 +169,10 @@
         const table = document.createElement('table');
         table.classList.add(
           'min-w-full',
-          'bg-white', // Sfondo bianco
-          'dark:bg-gray-700', // Sfondo scuro
-          'text-blue-600', // Testo blu
-          'dark:text-blue-300', // Testo blu chiaro
+          'bg-white',
+          'dark:bg-gray-700',
+          'text-blue-600',
+          'dark:text-blue-300',
           'rounded-lg',
           'overflow-hidden'
         );
@@ -177,10 +180,10 @@
         // Crea l'intestazione della tabella
         const thead = document.createElement('thead');
         thead.classList.add(
-          'bg-blue-100', // Sfondo blu chiaro
-          'dark:bg-gray-600', // Sfondo blu scuro
-          'text-blue-600', // Testo blu scuro
-          'dark:text-blue-300', // Testo blu chiaro
+          'bg-blue-100',
+          'dark:bg-gray-600',
+          'text-blue-600',
+          'dark:text-blue-300',
           'text-left'
         );
         thead.innerHTML = `
@@ -193,11 +196,11 @@
 
         const tbody = document.createElement('tbody');
         tbody.classList.add(
-          'bg-white', // Sfondo bianco
-          'dark:bg-gray-800', // Sfondo molto scuro
+          'bg-white',
+          'dark:bg-gray-800',
           'divide-y',
-          'divide-gray-200', // Linee divisorie chiare
-          'dark:divide-gray-700' // Linee divisorie scure
+          'divide-gray-200',
+          'dark:divide-gray-700'
         );
 
         // Ordina le versioni in ordine decrescente
