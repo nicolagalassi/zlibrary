@@ -125,15 +125,15 @@
       anniContainer.classList.add(
         'anni-container',
         'mt-2',
-        'overflow-hidden' // Nasconde inizialmente
+        'overflow-hidden'
       );
       anniContainer.style.display = 'none';
       applicativoDiv.appendChild(anniContainer);
 
       const innerAnniContainer = document.createElement('div');
       innerAnniContainer.classList.add('inner-anni-container');
-      innerAnniContainer.style.maxHeight = '0'; // Inizia con altezza 0
-      innerAnniContainer.style.transition = 'max-height 0.3s ease-out'; // Transizione fluida
+      innerAnniContainer.style.maxHeight = '0';
+      innerAnniContainer.style.transition = 'max-height 0.3s ease-out';
       anniContainer.appendChild(innerAnniContainer);
 
       const anni = Object.keys(circolariPerApplicativoAnno[applicativo]).sort((a, b) => parseInt(b) - parseInt(a));
@@ -157,7 +157,7 @@
           'pb-2'
         );
         annoDiv.textContent = anno;
-        innerAnniContainer.appendChild(annoDiv); // Aggiunto a innerAnniContainer
+        innerAnniContainer.appendChild(annoDiv);
 
         const circolariDiv = document.createElement('div');
         circolariDiv.classList.add(
@@ -230,7 +230,12 @@
 
         table.appendChild(tbody);
         circolariDiv.appendChild(table);
-        annoDiv.appendChild(circolariDiv);
+        annoDiv.appendChild(circolariDiv); // Aggiungi circolariDiv a annoDiv
+        innerAnniContainer.appendChild(annoDiv); // Aggiungi annoDiv a innerAnniContainer
+
+        annoDiv.addEventListener('click', () => {
+          circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
+        });
       });
 
       archivioContainer.appendChild(applicativoDiv);
@@ -239,7 +244,7 @@
       applicativoHeader.addEventListener('click', () => {
         anniContainer.style.display = anniContainer.style.display === 'none' ? 'block' : 'none';
         innerAnniContainer.style.maxHeight = innerAnniContainer.style.maxHeight === '0px'
-          ? (innerAnniContainer.scrollHeight + 'px') // Altezza effettiva
+          ? (innerAnniContainer.scrollHeight + 'px')
           : '0';
       });
     });
