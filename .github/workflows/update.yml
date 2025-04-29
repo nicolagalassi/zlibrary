@@ -21,7 +21,7 @@ jobs:
         run: pip install requests
 
       - name: Esegui aggiornamento
-        run: python aggiorna_circolari.py
+        run: python python/aggiorna_circolari.py
 
       - name: Commit e push se ci sono modifiche
         run: |
