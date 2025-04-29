@@ -66,83 +66,114 @@
             </div>
     </main>
 
-    <script>
+<script>
 fetch('js/archivio_circolari.json')
   .then(response => response.json())
   .then(data => {
-   const archivioContainer = document.getElementById('archivio-container');
-   const circolariPerMajorGroup = {};
+    const container = document.getElementById('archivio-container');
+    const applicativi = {};
 
-   // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
-   data.forEach(circolare => {
-    const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
-    if (!circolariPerMajorGroup[majorGroup]) {
-     circolariPerMajorGroup[majorGroup] = [];
-    }
-    circolariPerMajorGroup[majorGroup].push(circolare);
-   });
+    // Raggruppa le circolari per applicativo, ricavato dall'URL
+    data.forEach(item => {
+      // Ricava applicativo dall'URL
+      const match = item.url.match(/\/(HR1|ERM)[\/_]/);
+      const appName = match ? match[1] : 'Altro';
 
-   // Ordina le versioni major in ordine decrescente
-   const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
-
-   // Crea la struttura HTML per ogni gruppo major
-   majorGroups.forEach(majorGroup => {
-    const majorDiv = document.createElement('div');
-    majorDiv.classList.add('major-group', 'bg-white', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-lg', 'cursor-pointer', 'mb-4', 'shadow-md');
-    majorDiv.textContent = `20${majorGroup}`;
-    archivioContainer.appendChild(majorDiv);
-
-    const circolariDiv = document.createElement('div');
-    circolariDiv.classList.add('circolari-container', 'bg-white', 'dark:bg-gray-700', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'mb-4');
-    circolariDiv.style.display = 'none'; // Nascondi inizialmente
-
-    // Crea la tabella
-    const table = document.createElement('table');
-    table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'rounded-lg', 'overflow-hidden');
-
-    // Crea l'intestazione della tabella
-    const thead = document.createElement('thead');
-    thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'text-left');
-    thead.innerHTML = `
-     <tr>
-      <th class="py-3 px-4 font-semibold">Versione</th>
-      <th class="py-3 px-4 font-semibold">Download</th>
-     </tr>
-    `;
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
-
-    circolariPerMajorGroup[majorGroup].forEach(circolare => {
-     const patch = circolare.versione.split('_')[1];
-     const badge = patch === '000'
-      ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
-      : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
-
-     const row = document.createElement('tr');
-     row.innerHTML = `
-      <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
-      <td class="py-2 px-4">
-       <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">Scarica PDF</a>
-      </td>
-     `;
-     tbody.appendChild(row);
+      if (!applicativi[appName]) applicativi[appName] = [];
+      applicativi[appName].push(item);
     });
 
-    table.appendChild(tbody);
-    circolariDiv.appendChild(table);
-    archivioContainer.appendChild(circolariDiv);
+    // Per ogni applicativo
+    Object.entries(applicativi).forEach(([appName, circolari]) => {
+      // Container applicativo
+      const appSection = document.createElement('section');
+      appSection.className = 'mb-8 border border-blue-300 rounded-lg shadow bg-white';
 
-    // Aggiungi l'event listener per mostrare/nascondere le circolari
-    majorDiv.addEventListener('click', () => {
-     circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
+      // Header applicativo
+      const appHeader = document.createElement('button');
+      appHeader.className = 'w-full px-6 py-3 bg-blue-100 text-blue-900 text-xl font-bold flex justify-between items-center rounded-t-lg cursor-pointer focus-ring';
+      appHeader.innerHTML = `<span>Applicativo: ${appName}</span>
+        <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-chevron><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>`;
+      appHeader.setAttribute('aria-expanded', 'true');
+
+      // Container anni
+      const yearsContainer = document.createElement('div');
+      yearsContainer.className = 'bg-white';
+
+      // Raggruppa per anno
+      const perAnno = {};
+      circolari.forEach(circ => {
+        const anno = "20" + circ.versione.substring(0,2); // esempio: '2024'
+        if (!perAnno[anno]) perAnno[anno] = [];
+        perAnno[anno].push(circ);
+      });
+
+      // Ordina gli anni desc
+      Object.entries(perAnno).sort((a,b) => parseInt(b[0]) - parseInt(a[0]))
+        .forEach(([anno, versioni]) => {
+          // Sezione anno
+          const annoDiv = document.createElement('div');
+          annoDiv.className = 'mb-2';
+
+          const annoHeader = document.createElement('button');
+          annoHeader.className = 'w-full flex justify-between items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md focus-ring cursor-pointer';
+          annoHeader.setAttribute('aria-expanded', 'false');
+          annoHeader.innerHTML = `<span>${anno}</span>
+            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-chevron><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></path></svg>`;
+
+          // Container versioni
+          const versionDiv = document.createElement('div');
+          versionDiv.className = 'mt-2 mb-4 hidden';
+
+          // Tabella versioni
+          const table = document.createElement('table');
+          table.className = 'min-w-full table-auto bg-white border border-gray-200 rounded';
+          table.innerHTML = `<thead class="bg-gray-200"><tr>
+            <th class="py-2 px-4 text-left">Versione</th>
+            <th class="py-2 px-4 text-left">Download</th>
+          </tr></thead>`;
+
+          const tbody = document.createElement('tbody');
+
+          versioni.forEach(circ => {
+            const patch = circ.versione.split('_')[1];
+            const badge = patch==='000' ? `<span class="ml-2 bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>` : `<span class="ml-2 bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td class="py-2 px-4 font-mono">${circ.versione}${badge}</td>
+            <td class="py-2 px-4"><a href="${circ.url}" target="_blank" rel="noopener" class="text-blue-600 hover:underline">Scarica PDF</a></td>`;
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+          versionDiv.appendChild(table);
+
+          // Toggle anno
+          annoHeader.addEventListener('click', () => {
+            const expanded = annoHeader.getAttribute('aria-expanded') === 'true';
+            annoHeader.setAttribute('aria-expanded', String(!expanded));
+            const chevron = annoHeader.querySelector('[data-chevron]');
+            chevron.style.transform = expanded ? 'rotate(0deg)' : 'rotate(180deg)';
+            versionDiv.className = 'mt-2 mb-4 ' + (expanded ? 'hidden' : 'block');
+          });
+
+          annoDiv.appendChild(annoHeader);
+          annoDiv.appendChild(versionDiv);
+          yearsContainer.appendChild(annoDiv);
+        });
+
+      // Aggiungi tutto al container
+      appSection.appendChild(appHeader);
+      appSection.appendChild(yearsContainer);
+      container.appendChild(appSection);
+
+      // Toggle applicativo
+      appHeader.addEventListener('click', () => {
+        const expanded = appHeader.getAttribute('aria-expanded') === 'true';
+        appHeader.setAttribute('aria-expanded', String(!expanded));
+        yearsContainer.style.display = expanded ? 'none' : 'block';
+        const chevron = appHeader.querySelector('[data-chevron]');
+        chevron.style.transform = expanded ? 'rotate(0deg)' : 'rotate(180deg)';
+      });
     });
-   });
-  })
-  .catch(error => {
-   console.error('Errore nel caricamento dell\'archivio:', error);
-  });
 
         const toggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
@@ -152,7 +183,7 @@ fetch('js/archivio_circolari.json')
             html.classList.toggle('dark');
             localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
         });
-    </script>
+      </script>
 
 </body>
 </html>
