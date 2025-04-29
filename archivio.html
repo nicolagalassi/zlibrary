@@ -77,7 +77,7 @@
     data.forEach(circolare => {
       // Estrai il nome dell'applicativo dall'URL
       const urlParts = circolare.url.split('/');
-      const applicativo = urlParts[4]; // Assumendo che sia il 5° segmento dell'URL (infoupdate/HR1/...)
+      const applicativo = urlParts[4];
 
       // Estrai l'anno dalla versione
       const anno = "20" + circolare.versione.substring(0, 2);
@@ -91,15 +91,22 @@
       circolariPerApplicativoAnno[applicativo][anno].push(circolare);
     });
 
-    // Ordina gli anni in ordine decrescente per ciascun applicativo
-    Object.keys(circolariPerApplicativoAnno).forEach(applicativo => {
+    // Ordina gli applicativi alfabeticamente (opzionale, se lo desideri)
+    const applicativi = Object.keys(circolariPerApplicativoAnno).sort();
+
+    applicativi.forEach(applicativo => {
       const applicativoDiv = document.createElement('div');
       applicativoDiv.classList.add('applicativo-container', 'bg-gray-200', 'dark:bg-gray-700', 'rounded-md', 'p-4', 'mb-8');
 
       const applicativoHeader = document.createElement('h3');
-      applicativoHeader.classList.add('text-xl', 'font-semibold', 'mb-2', 'text-gray-800', 'dark:text-gray-200');
+      applicativoHeader.classList.add('text-xl', 'font-semibold', 'mb-2', 'text-gray-800', 'dark:text-gray-200', 'cursor-pointer');
       applicativoHeader.textContent = applicativo;
       applicativoDiv.appendChild(applicativoHeader);
+
+      const anniContainer = document.createElement('div');
+      anniContainer.classList.add('anni-container', 'mt-2', 'overflow-hidden'); // Nascondiamo inizialmente
+      anniContainer.style.display = 'none';
+      applicativoDiv.appendChild(anniContainer);
 
       const anni = Object.keys(circolariPerApplicativoAnno[applicativo]).sort((a, b) => parseInt(b) - parseInt(a));
 
@@ -107,7 +114,7 @@
         const annoDiv = document.createElement('div');
         annoDiv.classList.add('anno-group', 'bg-white', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-lg', 'cursor-pointer', 'mb-4', 'shadow-md');
         annoDiv.textContent = anno;
-        applicativoDiv.appendChild(annoDiv);
+        anniContainer.appendChild(annoDiv);
 
         const circolariDiv = document.createElement('div');
         circolariDiv.classList.add('circolari-container', 'bg-white', 'dark:bg-gray-700', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'mb-4');
@@ -131,6 +138,9 @@
         const tbody = document.createElement('tbody');
         tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
 
+        // Ordina le versioni in ordine decrescente
+        circolariPerApplicativoAnno[applicativo][anno].sort((a, b) => b.versione.localeCompare(a.versione));
+
         circolariPerApplicativoAnno[applicativo][anno].forEach(circolare => {
           const patch = circolare.versione.split('_')[1];
           const badge = patch === '000'
@@ -150,7 +160,7 @@
         table.appendChild(tbody);
         circolariDiv.appendChild(table);
         annoDiv.appendChild(circolariDiv);
-        applicativoDiv.appendChild(annoDiv);
+        anniContainer.appendChild(annoDiv);
 
         annoDiv.addEventListener('click', () => {
           circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
@@ -158,6 +168,11 @@
       });
 
       archivioContainer.appendChild(applicativoDiv);
+
+      // Aggiungi l'event listener per mostrare/nascondere gli anni dell'applicativo
+      applicativoHeader.addEventListener('click', () => {
+        anniContainer.style.display = anniContainer.style.display === 'none' ? 'block' : 'none';
+      });
     });
   })
   .catch(error => {
