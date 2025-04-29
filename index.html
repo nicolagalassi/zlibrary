@@ -102,7 +102,7 @@
   </footer>
 
   <script>
-   document.getElementById('form').addEventListener('submit', function (e) {
+  document.getElementById('form').addEventListener('submit', function (e) {
   e.preventDefault();
   const app = document.getElementById('applicativo').value.trim();
   const versione = document.getElementById('versione').value.trim();
@@ -111,19 +111,13 @@
   const nomeFile = `${app}_${versione}_${upd}.pdf`;
   const url = `https://www.hrzucchetti.it/infoupdate/${app}/${nomeFile}`;
 
-  fetch(url, { method: 'HEAD' })
-    .then(response => {
-      if (response.ok) {
-        window.open(url, '_blank');
-        document.getElementById('errore').classList.add('hidden');
-      } else {
-        document.getElementById('errore').classList.remove('hidden');
-      }
-    })
-    .catch(() => {
-      document.getElementById('errore').classList.remove('hidden');
-    });
+  // Niente fetch: apri direttamente
+  window.open(url, '_blank');
+
+  // Nascondi eventuale messaggio d'errore (non serve più, ma se lo tieni a UI meglio rimuoverlo)
+  document.getElementById('errore').classList.add('hidden');
 });
+
 
 
 
