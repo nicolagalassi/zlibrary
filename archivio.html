@@ -125,15 +125,13 @@
       anniContainer.classList.add(
         'anni-container',
         'mt-2',
-        'overflow-hidden'
+        'overflow-hidden' // Importante: Nasconde l'overflow
       );
       anniContainer.style.display = 'none';
       applicativoDiv.appendChild(anniContainer);
 
       const innerAnniContainer = document.createElement('div');
       innerAnniContainer.classList.add('inner-anni-container');
-      innerAnniContainer.style.maxHeight = '0';
-      innerAnniContainer.style.transition = 'max-height 0.3s ease-out';
       anniContainer.appendChild(innerAnniContainer);
 
       const anni = Object.keys(circolariPerApplicativoAnno[applicativo]).sort((a, b) => parseInt(b) - parseInt(a));
@@ -157,7 +155,6 @@
           'pb-2'
         );
         annoDiv.textContent = anno;
-        innerAnniContainer.appendChild(annoDiv);
 
         const circolariDiv = document.createElement('div');
         circolariDiv.classList.add(
@@ -230,8 +227,9 @@
 
         table.appendChild(tbody);
         circolariDiv.appendChild(table);
-        annoDiv.appendChild(circolariDiv); // Aggiungi circolariDiv a annoDiv
-        innerAnniContainer.appendChild(annoDiv); // Aggiungi annoDiv a innerAnniContainer
+        annoDiv.appendChild(circolariDiv);
+        innerAnniContainer.appendChild(annoDiv);
+        innerAnniContainer.style.transition = 'max-height 0.3s ease-out'; // Transizione
 
         annoDiv.addEventListener('click', () => {
           circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
@@ -243,9 +241,13 @@
       // Aggiungi l'event listener per mostrare/nascondere gli anni dell'applicativo
       applicativoHeader.addEventListener('click', () => {
         anniContainer.style.display = anniContainer.style.display === 'none' ? 'block' : 'none';
-        innerAnniContainer.style.maxHeight = innerAnniContainer.style.maxHeight === '0px'
-          ? (innerAnniContainer.scrollHeight + 'px')
-          : '0';
+        if (innerAnniContainer.classList.contains('open')) {
+          innerAnniContainer.classList.remove('open');
+          innerAnniContainer.style.maxHeight = '0';
+        } else {
+          innerAnniContainer.style.maxHeight = innerAnniContainer.scrollHeight + 'px';
+          innerAnniContainer.classList.add('open');
+        }
       });
     });
   })
