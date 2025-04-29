@@ -61,30 +61,39 @@
       <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-4">
         I sommari si riferiscono all'applicativo <strong>Paghe Infinity</strong> di Zucchetti.
       </p>
-      <form id="downloadForm">
-  <label>
-    Applicativo:
-    <select id="applicativo">
-      <option value="HR1">HR1 (Paghe Infinity)</option>
-      <option value="ERM">ERM (Portale HR)</option>
-      <!-- Altri applicativi se previsti -->
-    </select>
-  </label>
+ <form id="form">
+  <label for="applicativo" class="block text-sm mb-2">Applicativo:</label>
+  <select id="applicativo" name="applicativo" class="w-full p-2 border border-gray-300 rounded mb-4">
+    <option value="HR1" selected>Paghe Infinity (HR1)</option>
+    <option value="ERM">Portale HR (ERM)</option>
+    <!-- Aggiungi altri applicativi se necessario -->
+  </select>
 
-  <label>
-    Versione:
-    <input type="text" id="versione" placeholder="es. 23.08.00" required>
-  </label>
+  <label for="versione" class="block text-sm mb-2">Versione Master:</label>
+  <input
+    type="text"
+    id="versione"
+    name="versione"
+    required
+    class="w-full p-2 border border-gray-300 rounded mb-4"
+    placeholder="Es. 25.04.00"
+  />
 
-  <label>
-    UPD (opzionale):
-    <input type="text" id="upd" placeholder="es. 001">
-  </label>
+  <label for="upd" class="block text-sm mb-2">Numero Patch (UPD):</label>
+  <input
+    type="text"
+    id="upd"
+    name="upd"
+    class="w-full p-2 border border-gray-300 rounded mb-4"
+    placeholder="Lascia vuoto per 000"
+  />
 
-  <button type="submit">Scarica</button>
+  <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
+    Scarica PDF
+  </button>
 </form>
+<p id="errore" class="text-red-600 text-sm mt-4 hidden">Versione non valida o non trovata.</p>
 
-      <p id="errore" class="text-red-600 text-sm mt-4 hidden">Versione non valida o non trovata.</p>
     </div>
   </main>
 
@@ -93,19 +102,29 @@
   </footer>
 
   <script>
-    document.getElementById('downloadForm').addEventListener('submit', function(e) {
+   document.getElementById('form').addEventListener('submit', function (e) {
   e.preventDefault();
+  const app = document.getElementById('applicativo').value.trim();
+  const versione = document.getElementById('versione').value.trim();
+  const upd = document.getElementById('upd').value.trim() || '000';
 
-  const app = document.getElementById('applicativo').value;
-  const version = document.getElementById('versione').value.trim();
-  let upd = document.getElementById('upd').value.trim();
+  const nomeFile = `${app}_${versione}_${upd}.pdf`;
+  const url = `https://www.hrzucchetti.it/infoupdate/${app}/${nomeFile}`;
 
-  if (upd === '') upd = '000';
-
-  const url = `https://www.hrzucchetti.it/infoupdate/${app}/${app}_${version}_${upd}.pdf`;
-
-  window.open(url, '_blank');
+  fetch(url, { method: 'HEAD' })
+    .then(response => {
+      if (response.ok) {
+        window.open(url, '_blank');
+        document.getElementById('errore').classList.add('hidden');
+      } else {
+        document.getElementById('errore').classList.remove('hidden');
+      }
+    })
+    .catch(() => {
+      document.getElementById('errore').classList.remove('hidden');
+    });
 });
+
 
 
     const toggle = document.getElementById('theme-toggle');
