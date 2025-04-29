@@ -62,121 +62,88 @@
 
     <main class="max-w-6xl mx-auto p-4">
         <h2 class="text-2xl font-semibold mb-4">Archivio dei Sommari</h2>
-        <div id="archivio-applicativi" class="mb-8"></div>
         <div id="archivio-container">
             </div>
     </main>
 
-    <script>
+    
+	<script>
 fetch('js/archivio_circolari.json')
   .then(response => response.json())
   .then(data => {
-    const archivioContainer = document.getElementById('archivio-applicativi');
+   const archivioContainer = document.getElementById('archivio-container');
+   const circolariPerMajorGroup = {};
 
-    // Raggruppa le circolari per applicativo (es. HR1, ERM) dall'URL
-    const perApplicativo = {};
-    data.forEach(circolare => {
-      const match = circolare.url.match(/\/(HR1|ERM)[\/_]/);
-      const appName = match ? match[1] : 'Altro';
+   // Raggruppa le circolari per le prime due cifre della versione (es. "23", "24", "25")
+   data.forEach(circolare => {
+    const majorGroup = circolare.versione.substring(0, 2); // Prende i primi 2 caratteri (es. "23")
+    if (!circolariPerMajorGroup[majorGroup]) {
+     circolariPerMajorGroup[majorGroup] = [];
+    }
+    circolariPerMajorGroup[majorGroup].push(circolare);
+   });
 
-      if (!perApplicativo[appName]) perApplicativo[appName] = [];
-      perApplicativo[appName].push(circolare);
+   // Ordina le versioni major in ordine decrescente
+   const majorGroups = Object.keys(circolariPerMajorGroup).sort((a, b) => parseInt(b) - parseInt(a));
+
+   // Crea la struttura HTML per ogni gruppo major
+   majorGroups.forEach(majorGroup => {
+    const majorDiv = document.createElement('div');
+    majorDiv.classList.add('major-group', 'bg-white', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-lg', 'cursor-pointer', 'mb-4', 'shadow-md');
+    majorDiv.textContent = `20${majorGroup}`;
+    archivioContainer.appendChild(majorDiv);
+
+    const circolariDiv = document.createElement('div');
+    circolariDiv.classList.add('circolari-container', 'bg-white', 'dark:bg-gray-700', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'mb-4');
+    circolariDiv.style.display = 'none'; // Nascondi inizialmente
+
+    // Crea la tabella
+    const table = document.createElement('table');
+    table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'rounded-lg', 'overflow-hidden');
+
+    // Crea l'intestazione della tabella
+    const thead = document.createElement('thead');
+    thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'text-left');
+    thead.innerHTML = `
+     <tr>
+      <th class="py-3 px-4 font-semibold">Versione</th>
+      <th class="py-3 px-4 font-semibold">Download</th>
+     </tr>
+    `;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
+
+    circolariPerMajorGroup[majorGroup].forEach(circolare => {
+     const patch = circolare.versione.split('_')[1];
+     const badge = patch === '000'
+      ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
+      : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
+
+     const row = document.createElement('tr');
+     row.innerHTML = `
+      <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
+      <td class="py-2 px-4">
+       <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">Scarica PDF</a>
+      </td>
+     `;
+     tbody.appendChild(row);
     });
 
-    // Per ogni applicativo
-    Object.entries(perApplicativo).forEach(([appName, circolari]) => {
-      // Crea il container principale dell'applicativo se non esiste
-      let appDiv = document.querySelector(`[data-app="${appName}"]`);
-      if (!appDiv) {
-        appDiv = document.createElement('section');
-        appDiv.setAttribute('data-app', appName);
-        appDiv.className = 'mb-8 border-2 border-blue-300 rounded-lg shadow bg-white';
+    table.appendChild(tbody);
+    circolariDiv.appendChild(table);
+    archivioContainer.appendChild(circolariDiv);
 
-        // Header applicativo
-        const header = document.createElement('button');
-        header.className = 'w-full px-6 py-3 bg-blue-100 dark:bg-gray-700 text-blue-900 dark:text-blue-300 text-xl font-bold flex justify-between items-center cursor-pointer focus-ring';
-        header.innerHTML = `<span>Applicativo: ${appName}</span>`;
-        header.setAttribute('aria-expanded', 'true');
-        appDiv.appendChild(header);
-
-        // Container per anni
-        const anniContainer = document.createElement('div');
-        anniContainer.className = 'bg-white dark:bg-gray-700';
-
-        // Ricava gli anni
-        const perAnno = {};
-        circolari.forEach(circ => {
-          const year = "20" + circ.versione.substring(0,2);
-          if (!perAnno[year]) perAnno[year] = [];
-          perAnno[year].push(circ);
-        });
-
-        // Ordina anni decrescente
-        Object.entries(perAnno).sort((a,b) => parseInt(b[0]) - parseInt(a[0])).forEach(([anno, versioni]) => {
-          const annoDiv = document.createElement('div');
-          // Header anno
-          const annoHeader = document.createElement('button');
-          annoHeader.className = 'w-full flex justify-between items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md focus-ring cursor-pointer';
-          annoHeader.setAttribute('aria-expanded', 'false');
-          annoHeader.innerHTML = `<span>${anno}</span>`;
-          
-          // Container versioni
-          const versionDiv = document.createElement('div');
-          versionDiv.className = 'mt-2 hidden';
-
-          // Tabella versioni
-          const table = document.createElement('table');
-          table.className = 'min-w-full border border-gray-300 rounded';
-          table.innerHTML = `<thead class="bg-gray-200 dark:bg-gray-700"><tr>
-            <th class="py-2 px-4 text-left">Versione</th>
-            <th class="py-2 px-4 text-left">Download</th>
-          </tr></thead>`;
-
-          const tbody = document.createElement('tbody');
-          versioni.forEach(circ => {
-            const badge = circ.versione.split('_')[1] === '000'
-              ? `<span class="ml-2 bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
-              : `<span class="ml-2 bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td class="py-2 px-4 font-mono">${circ.versione}${badge}</td>
-                            <td class="py-2 px-4"><a href="${circ.url}" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-300 hover:underline">Scarica PDF</a></td>`;
-            tbody.appendChild(tr);
-          });
-          table.appendChild(tbody);
-          versionDiv.appendChild(table);
-
-          // Toggle anno
-          annoHeader.addEventListener('click', () => {
-            const exp = annoHeader.getAttribute('aria-expanded') === 'true';
-            annoHeader.setAttribute('aria-expanded', String(!exp));
-            versionDiv.className = 'mt-2 ' + (exp ? 'hidden' : '');
-            annoHeader.querySelector('[data-chevron]').style.transform = exp ? 'rotate(0deg)' : 'rotate(180deg)';
-          });
-          
-          annoDiv.appendChild(annoHeader);
-          annoDiv.appendChild(versionDiv);
-          anniContainer.appendChild(annoDiv);
-        });
-
-        appDiv.appendChild(anniContainer);
-        // Inserisce nel container generale
-        archivioContainer.appendChild(appDiv);
-      }
-
-      // Toggle applicativo
-      const headerBtn = appDiv.querySelector('button');
-      headerBtn.addEventListener('click', () => {
-        const exp = headerBtn.getAttribute('aria-expanded') === 'true';
-        headerBtn.setAttribute('aria-expanded', String(!exp));
-        const chevron = headerBtn.querySelector('[data-chevron]');
-        chevron.style.transform = exp ? 'rotate(0deg)' : 'rotate(180deg)';
-        // Mostra/nasconde i figli
-        const box = appDiv.querySelector('div.bg-white');
-        box.style.display = exp ? 'none' : 'block';
-      });
+    // Aggiungi l'event listener per mostrare/nascondere le circolari
+    majorDiv.addEventListener('click', () => {
+     circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
     });
+   });
   })
-  .catch(error => console.error('Errore:', error));
+  .catch(error => {
+   console.error('Errore nel caricamento dell\'archivio:', error);
+  });
 
         const toggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
