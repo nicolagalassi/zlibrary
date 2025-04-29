@@ -98,14 +98,14 @@
       const applicativoDiv = document.createElement('div');
       applicativoDiv.classList.add(
         'applicativo-container',
-        'bg-white',       // Cambiato da bg-gray-100 a bg-white
+        'bg-white',
         'dark:bg-gray-800',
         'rounded-md',
         'p-4',
         'mb-8',
         'shadow-md',
-        'border',         // Aggiunto bordo
-        'border-gray-200'  // Aggiunto colore bordo
+        'border',
+        'border-gray-200'
       );
 
       const applicativoHeader = document.createElement('h3');
@@ -125,10 +125,16 @@
       anniContainer.classList.add(
         'anni-container',
         'mt-2',
-        'overflow-hidden'
+        'overflow-hidden' // Nasconde inizialmente
       );
       anniContainer.style.display = 'none';
       applicativoDiv.appendChild(anniContainer);
+
+      const innerAnniContainer = document.createElement('div');
+      innerAnniContainer.classList.add('inner-anni-container');
+      innerAnniContainer.style.maxHeight = '0'; // Inizia con altezza 0
+      innerAnniContainer.style.transition = 'max-height 0.3s ease-out'; // Transizione fluida
+      anniContainer.appendChild(innerAnniContainer);
 
       const anni = Object.keys(circolariPerApplicativoAnno[applicativo]).sort((a, b) => parseInt(b) - parseInt(a));
 
@@ -148,10 +154,10 @@
           'shadow-md',
           'hover:bg-blue-100',
           'dark:hover:bg-blue-600',
-          'pb-2'          // Aggiunto padding bottom
+          'pb-2'
         );
         annoDiv.textContent = anno;
-        anniContainer.appendChild(annoDiv);
+        innerAnniContainer.appendChild(annoDiv); // Aggiunto a innerAnniContainer
 
         const circolariDiv = document.createElement('div');
         circolariDiv.classList.add(
@@ -225,11 +231,6 @@
         table.appendChild(tbody);
         circolariDiv.appendChild(table);
         annoDiv.appendChild(circolariDiv);
-        anniContainer.appendChild(annoDiv);
-
-        annoDiv.addEventListener('click', () => {
-          circolariDiv.style.display = circolariDiv.style.display === 'none' ? 'block' : 'none';
-        });
       });
 
       archivioContainer.appendChild(applicativoDiv);
@@ -237,6 +238,9 @@
       // Aggiungi l'event listener per mostrare/nascondere gli anni dell'applicativo
       applicativoHeader.addEventListener('click', () => {
         anniContainer.style.display = anniContainer.style.display === 'none' ? 'block' : 'none';
+        innerAnniContainer.style.maxHeight = innerAnniContainer.style.maxHeight === '0px'
+          ? (innerAnniContainer.scrollHeight + 'px') // Altezza effettiva
+          : '0';
       });
     });
   })
