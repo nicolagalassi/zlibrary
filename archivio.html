@@ -91,20 +91,40 @@
       circolariPerApplicativoAnno[applicativo][anno].push(circolare);
     });
 
-    // Ordina gli applicativi alfabeticamente (opzionale, se lo desideri)
+    // Ordina gli applicativi alfabeticamente (opzionale)
     const applicativi = Object.keys(circolariPerApplicativoAnno).sort();
 
     applicativi.forEach(applicativo => {
       const applicativoDiv = document.createElement('div');
-      applicativoDiv.classList.add('applicativo-container', 'bg-gray-200', 'dark:bg-gray-700', 'rounded-md', 'p-4', 'mb-8');
+      applicativoDiv.classList.add(
+        'applicativo-container',
+        'bg-gray-100', // Sfondo chiaro
+        'dark:bg-gray-800', // Sfondo scuro
+        'rounded-md',
+        'p-4',
+        'mb-8',
+        'shadow-md' // Ombra
+      );
 
       const applicativoHeader = document.createElement('h3');
-      applicativoHeader.classList.add('text-xl', 'font-semibold', 'mb-2', 'text-gray-800', 'dark:text-gray-200', 'cursor-pointer');
+      applicativoHeader.classList.add(
+        'text-xl',
+        'font-semibold',
+        'mb-2',
+        'text-gray-800', // Testo scuro
+        'dark:text-gray-200', // Testo chiaro
+        'cursor-pointer', // Indica che è cliccabile
+        'hover:underline' // Sottolinea al passaggio del mouse
+      );
       applicativoHeader.textContent = applicativo;
       applicativoDiv.appendChild(applicativoHeader);
 
       const anniContainer = document.createElement('div');
-      anniContainer.classList.add('anni-container', 'mt-2', 'overflow-hidden'); // Nascondiamo inizialmente
+      anniContainer.classList.add(
+        'anni-container',
+        'mt-2',
+        'overflow-hidden' // Nasconde inizialmente
+      );
       anniContainer.style.display = 'none';
       applicativoDiv.appendChild(anniContainer);
 
@@ -112,21 +132,57 @@
 
       anni.forEach(anno => {
         const annoDiv = document.createElement('div');
-        annoDiv.classList.add('anno-group', 'bg-white', 'dark:bg-gray-800', 'text-blue-700', 'dark:text-blue-300', 'py-2', 'px-4', 'rounded-lg', 'cursor-pointer', 'mb-4', 'shadow-md');
+        annoDiv.classList.add(
+          'anno-group',
+          'bg-white', // Sfondo bianco
+          'dark:bg-gray-700', // Sfondo scuro
+          'text-blue-700', // Testo blu
+          'dark:text-blue-300', // Testo blu chiaro
+          'py-2',
+          'px-4',
+          'rounded-lg',
+          'cursor-pointer', // Indica che è cliccabile
+          'mb-4',
+          'shadow-md', // Ombra
+          'hover:bg-blue-100', // Leggero blu al passaggio del mouse
+          'dark:hover:bg-blue-600' // Blu scuro al passaggio del mouse (tema scuro)
+        );
         annoDiv.textContent = anno;
         anniContainer.appendChild(annoDiv);
 
         const circolariDiv = document.createElement('div');
-        circolariDiv.classList.add('circolari-container', 'bg-white', 'dark:bg-gray-700', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'mb-4');
+        circolariDiv.classList.add(
+          'circolari-container',
+          'bg-white', // Sfondo bianco
+          'dark:bg-gray-700', // Sfondo scuro
+          'rounded-lg',
+          'shadow-md', // Ombra
+          'overflow-hidden',
+          'mb-4'
+        );
         circolariDiv.style.display = 'none';
 
         // Crea la tabella
         const table = document.createElement('table');
-        table.classList.add('min-w-full', 'bg-white', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'rounded-lg', 'overflow-hidden');
+        table.classList.add(
+          'min-w-full',
+          'bg-white', // Sfondo bianco
+          'dark:bg-gray-700', // Sfondo scuro
+          'text-blue-600', // Testo blu
+          'dark:text-blue-300', // Testo blu chiaro
+          'rounded-lg',
+          'overflow-hidden'
+        );
 
         // Crea l'intestazione della tabella
         const thead = document.createElement('thead');
-        thead.classList.add('bg-blue-100', 'dark:bg-gray-700', 'text-blue-600', 'dark:text-blue-300', 'text-left');
+        thead.classList.add(
+          'bg-blue-100', // Sfondo blu chiaro
+          'dark:bg-gray-600', // Sfondo blu scuro
+          'text-blue-600', // Testo blu scuro
+          'dark:text-blue-300', // Testo blu chiaro
+          'text-left'
+        );
         thead.innerHTML = `
           <tr>
             <th class="py-3 px-4 font-semibold">Versione</th>
@@ -136,7 +192,13 @@
         table.appendChild(thead);
 
         const tbody = document.createElement('tbody');
-        tbody.classList.add('bg-white', 'dark:bg-gray-800', 'divide-y', 'divide-gray-200', 'dark:divide-gray-700');
+        tbody.classList.add(
+          'bg-white', // Sfondo bianco
+          'dark:bg-gray-800', // Sfondo molto scuro
+          'divide-y',
+          'divide-gray-200', // Linee divisorie chiare
+          'dark:divide-gray-700' // Linee divisorie scure
+        );
 
         // Ordina le versioni in ordine decrescente
         circolariPerApplicativoAnno[applicativo][anno].sort((a, b) => b.versione.localeCompare(a.versione));
