@@ -61,20 +61,29 @@
       <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-4">
         I sommari si riferiscono all'applicativo <strong>Paghe Infinity</strong> di Zucchetti.
       </p>
-      <form id="form">
-        <label for="versione" class="block text-sm mb-2">Inserisci la versione:</label>
-        <input
-          type="text"
-          id="versione"
-          name="versione"
-          required
-          class="w-full p-2 border border-gray-300 rounded mb-4"
-          placeholder="Es. 25.04.00_000"
-        />
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
-          Scarica PDF
-        </button>
-      </form>
+      <form id="downloadForm">
+  <label>
+    Applicativo:
+    <select id="applicativo">
+      <option value="HR1">HR1 (Paghe Infinity)</option>
+      <option value="ERM">ERM (Portale HR)</option>
+      <!-- Altri applicativi se previsti -->
+    </select>
+  </label>
+
+  <label>
+    Versione:
+    <input type="text" id="versione" placeholder="es. 23.08.00" required>
+  </label>
+
+  <label>
+    UPD (opzionale):
+    <input type="text" id="upd" placeholder="es. 001">
+  </label>
+
+  <button type="submit">Scarica</button>
+</form>
+
       <p id="errore" class="text-red-600 text-sm mt-4 hidden">Versione non valida o non trovata.</p>
     </div>
   </main>
@@ -84,22 +93,20 @@
   </footer>
 
   <script>
-    document.getElementById('form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const versione = document.getElementById('versione').value.trim();
-      const url = `https://www.hrzucchetti.it/infoupdate/HR1/HR1_${versione}.pdf`;
-      fetch(url, { method: 'HEAD' })
-        .then(response => {
-          if (response.ok) {
-            window.open(url, '_blank');
-          } else {
-            document.getElementById('errore').classList.remove('hidden');
-          }
-        })
-        .catch(() => {
-          document.getElementById('errore').classList.remove('hidden');
-        });
-    });
+    document.getElementById('downloadForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const app = document.getElementById('applicativo').value;
+  const version = document.getElementById('versione').value.trim();
+  let upd = document.getElementById('upd').value.trim();
+
+  if (upd === '') upd = '000';
+
+  const url = `https://www.hrzucchetti.it/infoupdate/${app}/${app}_${version}_${upd}.pdf`;
+
+  window.open(url, '_blank');
+});
+
 
     const toggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
