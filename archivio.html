@@ -71,83 +71,114 @@
                     circolariPerApp[app][majorGroup].push(circolare);
                 });
 
-                Object.keys(circolariPerApp).forEach(app => {
-                    const appDiv = document.createElement('div');
-                    appDiv.className = 'app-group mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden';
+    Object.keys(circolariPerApp).forEach(app => {
+        const appDiv = document.createElement('div');
+        appDiv.className = 'app-group mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden';
 
-                    // Header applicativo
-                    const appHeader = createHeader(
-                        "Paghe Infinity - " + app,
-                        'fa-solid fa-folder text-blue-600 dark:text-blue-400 text-xl',
-                        'p-6'  // Aumentato padding
-                    );
-                    appDiv.appendChild(appHeader);
+        // Header applicativo
+        const appHeader = createHeader(
+            "Paghe Infinity - " + app,
+            'fa-solid fa-folder text-blue-600 dark:text-blue-400 text-xl',
+            'p-6',
+            true  // isMainHeader
+        );
+        appDiv.appendChild(appHeader);
 
-                    // Container anni
-                    const yearsContainer = document.createElement('div');
-                    yearsContainer.className = 'years-container hidden';
+        // Container anni
+        const yearsContainer = document.createElement('div');
+        yearsContainer.className = 'years-container hidden bg-gray-50 dark:bg-gray-700'; // Aggiunto bg diverso
 
-                    // Ordinamento e creazione anni
-                    const years = Object.keys(circolariPerApp[app]).sort((a, b) => b - a);
-                    years.forEach(year => {
-                        const yearDiv = document.createElement('div');
-                        yearDiv.className = 'year-group border-t border-gray-100 dark:border-gray-700';
+        // Ordinamento e creazione anni
+        const years = Object.keys(circolariPerApp[app]).sort((a, b) => b - a);
+        years.forEach(year => {
+            const yearDiv = document.createElement('div');
+            yearDiv.className = 'year-group border-t border-gray-100 dark:border-gray-600';
 
-                        // Header anno
-                        const yearHeader = createHeader(
-                            `20${year}`,
-                            'fa-solid fa-folder text-gray-500 dark:text-gray-400 text-lg',
-                            'p-4 pl-8'  // Aumentato padding
-                        );
-                        yearDiv.appendChild(yearHeader);
+            // Header anno
+            const yearHeader = createHeader(
+                `20${year}`,
+                'fa-solid fa-folder text-gray-500 dark:text-gray-400 text-lg',
+                'p-4 pl-10',  // Aumentato padding sinistro
+                false  // non è mainHeader
+            );
+            yearDiv.appendChild(yearHeader);
 
-                        // Container versioni
-                        const versionsContainer = document.createElement('div');
-                        versionsContainer.className = 'px-8 pb-4 hidden';  // Aumentato padding
+            // Container versioni
+            const versionsContainer = document.createElement('div');
+            versionsContainer.className = 'px-12 py-4 hidden bg-white dark:bg-gray-800';  // Aggiunto bg e padding
 
-                        // Lista versioni
-                        const versionsList = createVersionsList(circolariPerApp[app][year]);
-                        versionsContainer.appendChild(versionsList);
-                        yearDiv.appendChild(versionsContainer);
+            // Lista versioni
+            const versionsList = createVersionsList(circolariPerApp[app][year]);
+            versionsContainer.appendChild(versionsList);
+            yearDiv.appendChild(versionsContainer);
 
-                        // Event listener anno
-                        yearHeader.addEventListener('click', () => toggleContainer(versionsContainer, yearHeader));
-                        yearsContainer.appendChild(yearDiv);
-                    });
+            yearHeader.addEventListener('click', () => toggleContainer(versionsContainer, yearHeader));
+            yearsContainer.appendChild(yearDiv);
+        });
 
-                    appDiv.appendChild(yearsContainer);
-                    // Event listener applicativo
-                    appHeader.addEventListener('click', () => toggleContainer(yearsContainer, appHeader));
-                    archivioContainer.appendChild(appDiv);
-                });
-            })
-            .catch(error => console.error('Errore nel caricamento dell\'archivio:', error));
+        appDiv.appendChild(yearsContainer);
+        appHeader.addEventListener('click', () => toggleContainer(yearsContainer, appHeader));
+        archivioContainer.appendChild(appDiv);
+    });
 
-        // Funzioni helper
-        function createHeader(title, iconClasses, padding) {
-            const header = document.createElement('div');
-            header.className = `flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${padding}`;
+    function createHeader(title, iconClasses, padding, isMainHeader) {
+        const header = document.createElement('div');
+        header.className = `flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${padding}`;
 
-            const container = document.createElement('div');
-            container.className = 'flex items-center gap-4 flex-1';  // Aggiunto flex-1 per occupare lo spazio disponibile
+        const leftContainer = document.createElement('div');
+        leftContainer.className = 'flex items-center gap-4';
 
-            const folderIcon = document.createElement('i');
-            folderIcon.className = iconClasses;
+        const folderIcon = document.createElement('i');
+        folderIcon.className = iconClasses;
 
-            const titleSpan = document.createElement('span');
-            titleSpan.className = 'text-gray-800 dark:text-gray-200 font-medium';
-            titleSpan.textContent = title;
+        const titleSpan = document.createElement('span');
+        titleSpan.className = `${isMainHeader ? 'text-lg' : 'text-base'} text-gray-800 dark:text-gray-200 font-medium`;
+        titleSpan.textContent = title;
 
-            const arrowIcon = document.createElement('i');
-            arrowIcon.className = 'fa-solid fa-chevron-right text-gray-400 dark:text-gray-500 transform transition-transform duration-200 ml-auto';
+        const arrowIcon = document.createElement('i');
+        arrowIcon.className = 'fa-solid fa-chevron-right text-gray-400 dark:text-gray-500 transform transition-transform duration-200';
 
-            container.appendChild(folderIcon);
-            container.appendChild(titleSpan);
-            header.appendChild(container);
-            header.appendChild(arrowIcon);
+        leftContainer.appendChild(folderIcon);
+        leftContainer.appendChild(titleSpan);
+        header.appendChild(leftContainer);
+        header.appendChild(arrowIcon);
 
-            return header;
-        }
+        return header;
+    }
+
+    function createVersionsList(versions) {
+        const table = document.createElement('table');
+        table.className = 'min-w-full border-separate border-spacing-y-2';  // Aggiunto spacing tra le righe
+        
+        const tbody = document.createElement('tbody');
+        versions.forEach(version => {
+            const patch = version.versione.split('_')[1];
+            const badge = patch === '000' 
+                ? '<span class="ml-3 inline-block bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-0.5 rounded-full">Master</span>'
+                : '<span class="ml-3 inline-block bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 text-xs px-2 py-0.5 rounded-full">UPD</span>';
+
+            const row = document.createElement('tr');
+            row.className = 'group hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors';
+            row.innerHTML = `
+                <td class="py-3 px-2">
+                    <div class="flex items-center">
+                        <div class="flex items-center gap-3 min-w-[200px]">
+                            <i class="fa-regular fa-file-pdf text-gray-400 text-base"></i>
+                            <span class="font-mono text-base text-gray-700 dark:text-gray-300">${version.versione}</span>
+                            ${badge}
+                        </div>
+                        <a href="${version.url}" class="ml-auto text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-2 group-hover:text-blue-700" target="_blank">
+                            Scarica PDF
+                            <i class="fa-solid fa-download text-xs opacity-75"></i>
+                        </a>
+                    </div>
+                </td>`;
+            tbody.appendChild(row);
+        });
+        
+        table.appendChild(tbody);
+        return table;
+    }
 
         function createVersionsList(versions) {
             const table = document.createElement('table');
