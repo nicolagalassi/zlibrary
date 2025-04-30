@@ -6,6 +6,7 @@
   <title>ZuLibrary - Ricerca</title>
   <link rel="stylesheet" href="css/style.css">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="ecfe38f9-d4f7-4dc3-9138-6901aa3e4ed9"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans min-h-screen flex flex-col">
@@ -98,9 +99,23 @@
     </div>
   </main>
 
-  <footer class="bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-100 text-center text-sm p-4">
-    ZuLibrary · Libreria non ufficiale per sommari HR Zucchetti
-  </footer>
+ <footer class="bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-100 text-center text-sm p-4">
+  <div class="flex flex-col items-center gap-2">
+    <p>ZuLibrary · Libreria non ufficiale per sommari HR Zucchetti</p>
+    <div class="flex gap-4 text-2xl">
+      <a href="https://github.com/nicolagalassi?tab=repositories" target="_blank" aria-label="GitHub" class="transition transform hover:scale-110 text-gray-700 dark:text-white hover:text-black dark:hover:text-gray-300">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://t.me/galax95" target="_blank" aria-label="Telegram" class="transition transform hover:scale-110 text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+        <i class="fab fa-telegram"></i>
+      </a>
+      <a href="https://www.paypal.com/donate/?hosted_button_id=85GF5T6TWTZMG" target="_blank" aria-label="PayPal" class="transition transform hover:scale-110 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300">
+        <i class="fas fa-dollar-sign"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
 
   <script>
   document.getElementById('form').addEventListener('submit', function (e) {
