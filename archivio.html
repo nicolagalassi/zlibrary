@@ -188,9 +188,7 @@ fetch('js/archivio_circolari.json')
       row.classList.add('hover:bg-gray-50', 'dark:hover:bg-gray-700');
       row.innerHTML = `
        <td class="py-1.5 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-        </svg>
+        <i class="fa-solid fa-file-pdf"></i>
         <span class="font-mono text-sm">${circolare.versione}${badge}</span>
         <a href="${circolare.url}" class="ml-auto text-blue-600 dark:text-blue-400 hover:underline text-sm" target="_blank">Scarica PDF</a>
        </td>
@@ -228,7 +226,14 @@ fetch('js/archivio_circolari.json')
    console.error('Errore nel caricamento dell\'archivio:', error);
   });
 
-        // ... il resto del codice rimane uguale ...
+        const toggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') html.classList.add('dark');
+        toggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
     </script>
 
 </body>
