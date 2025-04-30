@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ZuLibrary - Archivio</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/174a567165.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans">
     <header class="bg-white dark:bg-gray-800 shadow p-4">
@@ -16,21 +16,21 @@
             </h1>
             
             <div class="flex items-center gap-4">
-                <a href="elenco.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
-                    <i class="fa-solid fa-list w-5 h-5"></i>
+                <a href="elenco.html" class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
+                    <i class="fa-solid fa-list"></i>
                     <span>Sommari 2025</span>
                 </a>
-                <a href="archivio.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
-                    <i class="fa-solid fa-box-archive w-5 h-5"></i>
+                <a href="archivio.html" class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
+                    <i class="fa-solid fa-box-archive"></i>
                     <span>Archivio</span>
                 </a>
-                <a href="index.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
-                    <i class="fa-solid fa-magnifying-glass w-5 h-5"></i>
+                <a href="index.html" class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
+                    <i class="fa-solid fa-magnifying-glass"></i>
                     <span>Torna alla ricerca</span>
                 </a>
-                <button id="theme-toggle" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
-                    <i id="icon-sun" class="fa-solid fa-sun w-5 h-5 block dark:hidden"></i>
-                    <i id="icon-moon" class="fa-solid fa-moon w-5 h-5 hidden dark:block"></i>
+                <button id="theme-toggle" class="flex items-center text-sm text-gray-700 dark:text-gray-200">
+                    <i class="fa-solid fa-sun block dark:hidden"></i>
+                    <i class="fa-solid fa-moon hidden dark:block"></i>
                 </button>
             </div>
         </div>
@@ -38,7 +38,9 @@
 
     <main class="max-w-6xl mx-auto p-4">
         <h2 class="text-2xl font-semibold mb-4">Archivio dei Sommari</h2>
-        <div id="archivio-container" class="max-w-2xl mx-auto"></div>
+        <div id="archivio-container" class="max-w-2xl mx-auto">
+            <!-- Il contenuto viene generato dinamicamente -->
+        </div>
     </main>
 
     <script>
@@ -67,7 +69,7 @@
                     const appHeader = createHeader(
                         "Paghe Infinity - " + app,
                         'fa-solid fa-folder text-blue-600 dark:text-blue-400 text-xl',
-                        'p-4'
+                        'p-6'  // Aumentato padding
                     );
                     appDiv.appendChild(appHeader);
 
@@ -85,13 +87,13 @@
                         const yearHeader = createHeader(
                             `20${year}`,
                             'fa-solid fa-folder text-gray-500 dark:text-gray-400 text-lg',
-                            'p-3 pl-8'
+                            'p-4 pl-8'  // Aumentato padding
                         );
                         yearDiv.appendChild(yearHeader);
 
                         // Container versioni
                         const versionsContainer = document.createElement('div');
-                        versionsContainer.className = 'pl-12 pr-4 hidden';
+                        versionsContainer.className = 'px-8 pb-4 hidden';  // Aumentato padding
 
                         // Lista versioni
                         const versionsList = createVersionsList(circolariPerApp[app][year]);
@@ -114,19 +116,32 @@
         // Funzioni helper
         function createHeader(title, iconClasses, padding) {
             const header = document.createElement('div');
-            header.className = `flex items-center gap-4 ${padding} cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors`;
+            header.className = `flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${padding}`;
 
-            const folderIcon = `<i class="${iconClasses}"></i>`;
-            const titleSpan = `<span class="text-gray-800 dark:text-gray-200 font-medium">${title}</span>`;
-            const arrowIcon = `<i class="fa-solid fa-chevron-right text-gray-400 dark:text-gray-500 transform transition-transform duration-200 ml-auto"></i>`;
+            const container = document.createElement('div');
+            container.className = 'flex items-center gap-4 flex-1';  // Aggiunto flex-1 per occupare lo spazio disponibile
 
-            header.innerHTML = folderIcon + titleSpan + arrowIcon;
+            const folderIcon = document.createElement('i');
+            folderIcon.className = iconClasses;
+
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'text-gray-800 dark:text-gray-200 font-medium';
+            titleSpan.textContent = title;
+
+            const arrowIcon = document.createElement('i');
+            arrowIcon.className = 'fa-solid fa-chevron-right text-gray-400 dark:text-gray-500 transform transition-transform duration-200 ml-auto';
+
+            container.appendChild(folderIcon);
+            container.appendChild(titleSpan);
+            header.appendChild(container);
+            header.appendChild(arrowIcon);
+
             return header;
         }
 
         function createVersionsList(versions) {
             const table = document.createElement('table');
-            table.className = 'min-w-full my-2';
+            table.className = 'min-w-full';
             
             const tbody = document.createElement('tbody');
             versions.forEach(version => {
@@ -138,7 +153,7 @@
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700';
                 row.innerHTML = `
-                    <td class="py-1.5 flex items-center gap-2">
+                    <td class="py-2 flex items-center gap-3">
                         <i class="fa-regular fa-file-pdf text-gray-400 text-sm"></i>
                         <span class="font-mono text-sm">${version.versione}${badge}</span>
                         <a href="${version.url}" class="ml-auto text-blue-600 dark:text-blue-400 hover:underline text-sm" target="_blank">
