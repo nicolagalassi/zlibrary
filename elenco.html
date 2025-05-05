@@ -87,10 +87,10 @@
         return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
       });
       
-      const applicativo = circolare.url.split('/')[4]; // <- Estrai "HR1" dinamicamente
 
       const table = document.getElementById('circolari-table');
       data.forEach(circolare => {
+        const applicativo = circolare.url.split('/')[4]; // Ora è dentro il ciclo e funziona
         const patch = circolare.versione.split('_')[1];
         const badge = patch === '000'
           ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
@@ -127,7 +127,7 @@
   const righe = document.querySelectorAll('#circolari-table tr');
 
   righe.forEach(riga => {
-    const applicativo = riga.children[1].textContent.toLowerCase();
+    const applicativo = riga.children[0].textContent.toLowerCase();
     if (applicativo.includes(filtro)) {
       riga.style.display = '';
     } else {
