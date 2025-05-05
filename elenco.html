@@ -55,6 +55,7 @@
         <thead class="bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-300 text-left">
           <tr>
             <th class="py-3 px-4 font-semibold">Versione</th>
+            <th class="py-3 px-4 font-semibold">Applicativo</th>
             <th class="py-3 px-4 font-semibold">Download</th>
           </tr>
         </thead>
@@ -87,6 +88,7 @@
         const row = document.createElement('tr');
         row.innerHTML = `
           <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
+          <td class="py-2 px-4 font-mono">HR1</td>
           <td class="py-2 px-4">
             <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">
              <i class="fa-solid fa-xl fa-file-pdf"></i>
