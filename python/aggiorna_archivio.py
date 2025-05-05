@@ -2,10 +2,10 @@ import requests
 import json
 import os  # Importa la libreria 'os' per controllare l'esistenza del file
 
-URL_BASE = "https://www.hrzucchetti.it/infoupdate/HR1/HR1_{}.pdf"
+URL_BASE = "https://www.hrzucchetti.it/infoupdate/ERM/ERM_{}.pdf"
 JSON_PATH_ARCHIVIO = "js/archivio_circolari.json"
-START_ARCHIVIO = [21, 0, 0]
-END_ARCHIVIO = [22, 0, 0]
+START_ARCHIVIO = [25, 0, 0]
+END_ARCHIVIO = [25, 10, 0]
 PATCH_START = 0
 MAX_PATCH_TRIES_ARCHIVIO = 10  # Limite massimo di patch da controllare per l'archivio
 
