@@ -95,16 +95,7 @@
         const row = document.createElement('tr');
         row.innerHTML = `
           <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
-          <td class="py-2 px-4">
-            <span class="inline-block text-xs font-semibold px-2 py-1 rounded-full 
-  ${applicativo === 'HR1' ? 'bg-blue-100 text-blue-800' : 
-  applicativo === 'ERM' ? 'bg-green-100 text-green-800' : 
-  'bg-gray-100 text-gray-800'}">
-  ${applicativo}
-</span>
-
-          </td>
-
+          <td class="py-2 px-4 ml-2 inline-block bg-green-200 text-green-800 text-s px-3 py-1 rounded">${applicativo}</td>
           <td class="py-2 px-4">
             <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">
              <i class="fa-solid fa-xl fa-file-pdf"></i>
