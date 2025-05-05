@@ -526,5 +526,49 @@
   {
     "versione": "22.00.00_000",
     "url": "https://www.hrzucchetti.it/infoupdate/HR1/HR1_22.00.00_000.pdf"
+  },
+  {
+    "versione": "22.00.00_000",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_22.00.00_000.pdf"
+  },
+  {
+    "versione": "22.00.00_001",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_22.00.00_001.pdf"
+  },
+  {
+    "versione": "22.00.00_002",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_22.00.00_002.pdf"
+  },
+  {
+    "versione": "22.01.00_000",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_22.01.00_000.pdf"
+  },
+  {
+    "versione": "23.01.00_000",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_23.01.00_000.pdf"
+  },
+  {
+    "versione": "23.01.00_001",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_23.01.00_001.pdf"
+  },
+  {
+    "versione": "23.01.00_002",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_23.01.00_002.pdf"
+  },
+  {
+    "versione": "24.00.00_000",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_24.00.00_000.pdf"
+  },
+  {
+    "versione": "24.00.00_001",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_24.00.00_001.pdf"
+  },
+  {
+    "versione": "24.01.00_000",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_24.01.00_000.pdf"
+  },
+  {
+    "versione": "24.02.00_000",
+    "url": "https://www.hrzucchetti.it/infoupdate/ERM/ERM_24.02.00_000.pdf"
   }
 ]
