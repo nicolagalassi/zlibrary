@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About - ZuLibrary</title>
+  <link rel="stylesheet" href="src/output.css">
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  </head>
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans min-h-screen flex flex-col">
+
+  <header class="bg-white dark:bg-gray-800 shadow p-4 sticky top-0 z-10">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+       <a href="index.html" class="flex items-center gap-2 text-2xl font-bold text-gray-700 dark:text-gray-200">
+            <i class="fa-solid fa-book text-blue-500"></i>
+            ZuLibrary
+        </a>
+
+      <div class="flex items-center gap-4">
+        <a title="Home" href="index.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+        </a>
+         <a title="Elenco" href="elenco.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+         </a>
+         <button title="Toggle Dark/Light" id="theme-toggle" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
+          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 block dark:hidden"> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/> </svg>
+          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hidden dark:block"> <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/> </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow p-6 max-w-4xl mx-auto w-full">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">Informazioni su ZuLibrary</h1>
+
+    <section class="mb-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Cos'è ZuLibrary?</h2>
+      <div class="space-y-4 text-gray-600 dark:text-gray-300">
+        <p>
+          ZuLibrary è una semplice utility web creata per facilitare il recupero dei documenti PDF contenenti i sommari delle modifiche (changelog) rilasciati da Zucchetti per alcuni dei suoi applicativi HR (come Paghe Infinity, Portale HR, ecc.).
+        </p>
+        <p>
+          Questo strumento non ospita direttamente i file PDF, ma costruisce dinamicamente l'URL corretto sul sito ufficiale `hrzucchetti.it` basandosi sull'applicativo, la versione "master" e il numero di patch (UPD) inseriti dall'utente. Cliccando su "Scarica PDF", si tenta di aprire quell'URL in una nuova scheda del browser.
+        </p>
+        <p>
+          <i class="fa-solid fa-triangle-exclamation text-yellow-600 dark:text-yellow-400 mr-1"></i>
+          <strong>Nota:</strong> ZuLibrary è un progetto non ufficiale e non è affiliato in alcun modo con Zucchetti S.p.a. La disponibilità dei file PDF dipende esclusivamente da Zucchetti. Se un file non viene trovato, potrebbe non esistere per quella specifica combinazione di versione/UPD o l'URL potrebbe essere cambiato.
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Storico Versioni (Changelog)</h2>
+      <div class="space-y-6">
+
+        <article>
+          <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-200">
+            Versione 0.6
+            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">- 5 Maggio 2025</span>
+            </h3>
+          <ul class="list-disc list-inside pl-4 space-y-1 text-gray-600 dark:text-gray-300">
+            <li>Aggiunta pagina "About" con descrizione del sito e storico delle versioni.</li>
+            <li>Aggiunta pagina "Privacy" con informativa e contatti.</li>
+            <li>Inserito link alla pagina "About" nel banner delle novità sulla homepage.</li>
+            <li>Il banner novità ora utilizza un sistema di versioning per mostrare correttamente i nuovi messaggi agli utenti che avevano chiuso versioni precedenti.</li>
+            <li>Migliorata la gestione del tema chiaro/scuro: ora controlla la preferenza di sistema come default iniziale, dando priorità alla scelta manuale salvata.</li>
+            <li>Aggiunto listener per adattare il tema (se non scelto manualmente) al cambio delle preferenze di sistema mentre la pagina è aperta.</li>
+            <li>Aggiornato il footer con i nuovi link.</li>
+          </ul>
+        </article>
+
+        <article>
+          <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-200">
+            Versione 0.5
+            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">- 4 Maggio 2025</span> </h3>
+          <ul class="list-disc list-inside pl-4 space-y-1 text-gray-600 dark:text-gray-300">
+            <li>Validazione del formato input per i campi "Versione Master" (`##.##.##`) e "Numero Patch (UPD)" (`###` o vuoto).</li>
+            <li>Implementazione di input masking (formattazione automatica) per il campo "Versione Master".</li>
+            <li>Aggiunta banner novità chiudibile sulla homepage (basato su versione).</li>
+            <li>Rimossa pagina archivio con lista dei sommari presenti per Paghe Infinity dal 2022 al 2024.</li>
+            <li>Inseriti nella pagina elenco tutti i sommari.</li>
+            <li>Inseriti i sommari del Portale HR.</li>
+            <li>Aggiunta possibilità di filtrare per applicativo nella pagina elenco.</li>
+            <li>Aggiunti in home gli applicativi presenti precedentemente sul sito Sommariamente.</li>
+          </ul>
+        </article>
+
+
+        <article>
+            <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-200">
+              Versione 0.4
+              <span class="text-sm font-normal text-gray-500 dark:text-gray-400">- 15 aprile 2025</span> </h3>
+            <ul class="list-disc list-inside pl-4 space-y-1 text-gray-600 dark:text-gray-300">
+              <li>Versione iniziale di ZuLibrary.</li>
+              <li>Funzionalità base per selezionare applicativo, versione master e UPD.</li>
+              <li>Costruzione dell'URL e apertura in nuova scheda per scaricare il PDF del sommario da hrzucchetti.it.</li>
+              <li>Implementazione tema chiaro/scuro con memorizzazione della scelta manuale.</li>
+              <li>Nuova pagina elenco con lista dei sommari presenti per Paghe Infinity per il 2025</li>
+              <li>Nuova pagina archivio con lista dei sommari presenti per Paghe Infinity dal 2022 al 2024</li>
+            </ul>
+          </article>
+
+         </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm border-t border-gray-300 dark:border-gray-700">
+    <div class="max-w-4xl mx-auto py-6 px-4 text-center space-y-4"> <nav class="flex justify-center gap-x-6 gap-y-2 flex-wrap" aria-label="Navigazione piè di pagina">
+        <a href="index.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">Home</a>
+        <a href="about.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">About & Changelog</a>
+        <a href="privacy.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">Privacy Policy</a>
+        </nav>
+  
+      <p class="text-xs text-gray-500 dark:text-gray-500 px-4"> ZuLibrary è uno strumento non ufficiale e non è affiliato in alcun modo con Zucchetti S.p.a.
+      </p>
+  
+      <p class="text-xs">
+        &copy; <span id="current-year">2025</span> ZuLibrary <span class="text-gray-400 dark:text-gray-600 mx-1">|</span> <span>Versione alpha_0.3.0</span> </p>
+  
+    </div>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const yearSpan = document.getElementById('current-year');
+      if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+      }
+      // Assicurati che altro codice JS che deve aspettare il DOM sia qui dentro o dopo
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+      // --- Logica Toggle Tema (Aggiornata con Preferenza Sistema) ---
+      const themeToggleButton = document.getElementById('theme-toggle');
+      const htmlElement = document.documentElement;
+
+      if (themeToggleButton && htmlElement) {
+
+          // Funzione helper per applicare il tema (aggiunge/rimuove la classe 'dark')
+          const applyTheme = (theme) => {
+              if (theme === 'dark') {
+                  htmlElement.classList.add('dark');
+                  // console.log("Applicato tema: dark"); // Rimuovi console.log se non servono più
+              } else {
+                  htmlElement.classList.remove('dark');
+                  // console.log("Applicato tema: light");
+              }
+          };
+
+          // Funzione per determinare e applicare il tema iniziale
+          const initializeTheme = () => {
+              const savedTheme = localStorage.getItem('theme'); // Tema salvato manualmente?
+              let initialTheme = 'light'; // Default a light
+
+              if (savedTheme) {
+                  // 1. Priorità: Tema salvato manualmente dall'utente
+                  initialTheme = savedTheme;
+                  // console.log(`Trovato tema salvato: ${initialTheme}`);
+              } else {
+                  // 2. Nessun tema salvato: Controlla preferenza di sistema
+                  try {
+                       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                      if (prefersDark) {
+                          initialTheme = 'dark';
+                      }
+                  } catch (e) {
+                      console.error("Errore nel leggere preferenze di sistema:", e);
+                  }
+                  // console.log(`Nessun tema salvato, uso tema di sistema: ${initialTheme}`);
+              }
+              applyTheme(initialTheme);
+          };
+
+          // Aggiungi l'event listener al pulsante di toggle
+          themeToggleButton.addEventListener('click', () => {
+              // Determina quale sarà il NUOVO tema DOPO il click
+              const isCurrentlyDark = htmlElement.classList.contains('dark');
+              const newTheme = isCurrentlyDark ? 'light' : 'dark';
+
+              // Applica il nuovo tema visivamente
+              applyTheme(newTheme);
+
+              // Salva la scelta MANUALE nel localStorage, sovrascrivendo quella di sistema
+              localStorage.setItem('theme', newTheme);
+              // console.log(`Tema cambiato manually e salvato: ${newTheme}`);
+          });
+
+          // Imposta il tema iniziale al caricamento dello script
+          initializeTheme();
+
+          // Bonus: Ascolta i cambiamenti del tema di sistema MENTRE la pagina è aperta
+          try {
+              window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                  const savedTheme = localStorage.getItem('theme');
+                  if (!savedTheme) { // Cambia solo se non c'è una scelta manuale salvata
+                      const newSystemTheme = event.matches ? 'dark' : 'light';
+                      // console.log(`Tema di sistema cambiato in ${newSystemTheme} (applicato perché non c'è scelta manuale)`);
+                      applyTheme(newSystemTheme);
+                  } else {
+                      // console.log("Tema di sistema cambiato, ma ignorato perché esiste una scelta manuale salvata.");
+                  }
+              });
+          } catch (e) {
+              console.error("Errore nell'aggiungere listener per cambio tema di sistema:", e);
+          }
+
+      } else {
+          console.error("Elemento #theme-toggle o <html> non trovato per la logica del tema.");
+      }
+      // --- Fine Logica Toggle Tema ---
+
+    }); // Fine DOMContentLoaded
+  </script>
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+  kofiWidgetOverlay.draw('galax95', {
+    'type': 'floating-chat',
+    'floating-chat.donateButton.text': 'Supportami',
+    'floating-chat.donateButton.background-color': '#374151',
+    'floating-chat.donateButton.text-color': '#fff'
+  });
+</script>
+  </body>
+</html>

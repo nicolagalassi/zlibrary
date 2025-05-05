@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="src/output.css">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="ecfe38f9-d4f7-4dc3-9138-6901aa3e4ed9"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="https://unpkg.com/imask"></script>
+  <script src="https://unpkg.com/imask"></script>  
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans min-h-screen flex flex-col">
@@ -49,18 +49,18 @@
   </header>
 
   <div id="news-banner"
-     data-banner-version="0.5" class="bg-gradient-to-r from-cyan-100 to-blue-100 dark:from-cyan-900 dark:to-blue-900 border-b border-cyan-200 dark:border-blue-800 p-3 relative text-sm text-gray-800 dark:text-gray-200 shadow">
-  <div class="max-w-4xl mx-auto flex justify-between items-center gap-4">
-    <p class="flex-grow text-center">
-       <i class="fa-solid fa-circle-info mr-2 text-blue-600 dark:text-blue-400"></i>
-       <span class="font-semibold">Novità V0.5:</span> Ora i campi vengono validati in tempo reale (e i punti aggiunti in automatico)!
-       </p>
-    <button id="close-banner-button" title="Chiudi banner" class="text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-      </svg>
-    </button>
-  </div>
+  data-banner-version="0.6" class="bg-gradient-to-r from-cyan-100 to-blue-100 dark:from-cyan-900 dark:to-blue-900 border-b border-cyan-200 dark:border-blue-800 p-3 relative text-sm text-gray-800 dark:text-gray-200 shadow">
+<div class="max-w-4xl mx-auto flex justify-between items-center gap-4">
+ <p class="flex-grow text-center">
+    <i class="fa-solid fa-circle-info mr-2 text-blue-600 dark:text-blue-400"></i>
+    <span class="font-semibold">Novità V0.6:</span> Aggiunta pagina "About" con storico versioni!
+    <a href="about.html" class="underline font-semibold hover:text-blue-600 dark:hover:text-blue-400">Scopri di più</a> </p>
+ <button id="close-banner-button" title="Chiudi banner" class="text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+   </svg>
+ </button>
+</div>
 </div>
 
   <main class="flex-grow flex items-center justify-center p-4">
@@ -103,11 +103,31 @@
     </div>
   </main>
 
-<footer class="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-400 text-center text-sm p-4">
-  <div class="flex flex-col items-center gap-2">
-    <p>ZuLibrary_alpha_0.5.0 <br> - Libreria non ufficiale per sommari HR Zucchetti -</p>
-  </div>
-</footer>
+  <footer class="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm border-t border-gray-300 dark:border-gray-700">
+    <div class="max-w-4xl mx-auto py-6 px-4 text-center space-y-4"> <nav class="flex justify-center gap-x-6 gap-y-2 flex-wrap" aria-label="Navigazione piè di pagina">
+        <a href="index.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">Home</a>
+        <a href="about.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">About & Changelog</a>
+        <a href="privacy.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">Privacy Policy</a>
+        </nav>
+  
+      <p class="text-xs text-gray-500 dark:text-gray-500 px-4"> ZuLibrary è uno strumento non ufficiale e non è affiliato in alcun modo con Zucchetti S.p.a.
+      </p>
+  
+      <p class="text-xs">
+        &copy; <span id="current-year">2025</span> ZuLibrary <span class="text-gray-400 dark:text-gray-600 mx-1">|</span> <span>Versione alpha_0.3.0</span> </p>
+  
+    </div>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const yearSpan = document.getElementById('current-year');
+      if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+      }
+      // Assicurati che altro codice JS che deve aspettare il DOM sia qui dentro o dopo
+    });
+  </script>
 
 <script>
   document.addEventListener('DOMContentLoaded', (event) => {
@@ -369,17 +389,6 @@ if (newsBanner && closeBannerButton) {
 
   }); // Fine DOMContentLoaded
 </script>
-
-<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-<script>
-  kofiWidgetOverlay.draw('galax95', {
-    'type': 'floating-chat',
-    'floating-chat.donateButton.text': 'Support me',
-    'floating-chat.donateButton.background-color': '#00b9fe',
-    'floating-chat.donateButton.text-color': '#fff'
-  });
-</script>
-
 
 </body>
 </html>
