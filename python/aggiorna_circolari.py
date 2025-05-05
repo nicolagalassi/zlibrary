@@ -4,7 +4,7 @@ from datetime import datetime
 
 URL_BASE = "https://www.hrzucchetti.it/infoupdate/HR1/HR1_{}.pdf"
 JSON_PATH = "js/circolari.json"
-START_VERSION = [22, 0, 0]
+START_VERSION = [25, 0, 0]
 MAX_PATCH_TRIES = 10  # Prova fino a 10 patch successive
 MAX_FIX_INCREMENT = 2  # Prova ad incrementare 'fix' di al massimo 2
 MAX_MINOR_INCREMENT = 1 # Prova ad incrementare 'minor' di al massimo 1
