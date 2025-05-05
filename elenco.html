@@ -72,69 +72,65 @@
   </main>
 
  <script>
-  fetch('js/circolari.json')
-    .then(response => response.json())
-    .then(data => {
-      // Ordina le versioni in ordine decrescente
-      data.sort((a, b) => {
-        const appCompare = a.applicativo.localeCompare(b.applicativo);
-        if (appCompare !== 0) return appCompare;
+fetch('js/circolari.json')
+  .then(response => response.json())
+  .then(data => {
+    // Ordina le versioni in ordine decrescente
+    data.sort((a, b) => {
+      const appCompare = a.applicativo.localeCompare(b.applicativo);
+      if (appCompare !== 0) return appCompare;
 
-        const parseVersion = v => v.versione.split(/[\._]/).map(Number);
-        const [a1, a2, a3, a4 = 0] = parseVersion(a);
-        const [b1, b2, b3, b4 = 0] = parseVersion(b);
+      const parseVersion = v => v.split(/[\._]/).map(Number);
+      const [a1, a2, a3, a4 = 0] = parseVersion(a.versione);
+      const [b1, b2, b3, b4 = 0] = parseVersion(b.versione);
 
-        return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
-      });
-      
-
-      const table = document.getElementById('circolari-table');
-      data.forEach(circolare => {
-        const applicativo = circolare.url.split('/')[4]; // Ora è dentro il ciclo e funziona
-        const patch = circolare.versione.split('_')[1];
-        const badge = patch === '000'
-          ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
-          : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;        
-        
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td class="py-2 px-4">
-            <span class="inline-block text-xs font-semibold px-2 py-1 rounded-full 
-              ${applicativo === 'HR1' ? 'bg-blue-100 text-blue-800' : 
-              applicativo === 'ERM' ? 'bg-green-100 text-green-800' : 
-              'bg-gray-100 text-gray-800'}">
-              ${applicativo}
-            </span>
-          </td>
-          <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
-          <td class="py-2 px-4">
-            <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">
-             <i class="fa-solid fa-xl fa-file-pdf"></i>
-            </a>
-          </td>
-        `;
-        table.appendChild(row);
-      });
-    })
-    .catch(error => {
-      console.error('Errore nel caricamento delle circolari:', error);
+      return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
     });
 
-   // Filtro dinamico
-  const filtroInput = document.getElementById('filtro');
-  filtroInput.addEventListener('input', () => {
+    const table = document.getElementById('circolari-table');
+    data.forEach(circolare => {
+      const applicativo = circolare.applicativo;
+      const patch = circolare.versione.split('_')[1];
+      const badge = patch === '000'
+        ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
+        : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;        
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="py-2 px-4">
+          <span class="inline-block text-xs font-semibold px-2 py-1 rounded-full 
+            ${applicativo === 'HR1' ? 'bg-blue-100 text-blue-800' : 
+            applicativo === 'ERM' ? 'bg-green-100 text-green-800' : 
+            'bg-gray-100 text-gray-800'}">
+            ${applicativo}
+          </span>
+        </td>
+        <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
+        <td class="py-2 px-4">
+          <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">
+            <i class="fa-solid fa-xl fa-file-pdf"></i>
+          </a>
+        </td>
+      `;
+      table.appendChild(row);
+    });
+  })
+  .catch(error => {
+    console.error('Errore nel caricamento delle circolari:', error);
+  });
+
+// Filtro dinamico
+const filtroInput = document.getElementById('filtro');
+filtroInput.addEventListener('input', () => {
   const filtro = filtroInput.value.trim().toLowerCase();
   const righe = document.querySelectorAll('#circolari-table tr');
 
   righe.forEach(riga => {
     const applicativo = riga.children[0].textContent.toLowerCase();
-    if (applicativo.includes(filtro)) {
-      riga.style.display = '';
-    } else {
-      riga.style.display = 'none';
-    }
+    riga.style.display = applicativo.includes(filtro) ? '' : 'none';
   });
 });
+
 
 
     const toggle = document.getElementById('theme-toggle');
