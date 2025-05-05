@@ -54,11 +54,14 @@
     <div class="mb-4 flex gap-x-4 items-center">
         <label class="flex items-center font-medium">Filtra per applicativo:</label>
         <button id="filter-btn-hr1" data-filter="HR1" class="filter-btn px-4 py-1.5 rounded-lg text-sm">
-            HR1
+            Paghe Infinity
         </button>
         <button id="filter-btn-erm" data-filter="ERM" class="filter-btn px-4 py-1.5 rounded-lg text-sm">
-            ERM
+            Portale HR
         </button>
+        <button id="filter-btn-md7" data-filter="MD7" class="filter-btn px-4 py-1.5 rounded-lg text-sm" disabled>
+          CU/770
+      </button>
     </div>
 
     <div id="table-container" class="overflow-x-auto">
@@ -84,7 +87,8 @@
    // Riferimenti ai bottoni
    const filterBtnHr1 = document.getElementById('filter-btn-hr1');
    const filterBtnErm = document.getElementById('filter-btn-erm');
-   const filterButtons = [filterBtnHr1, filterBtnErm]; // Array per gestirli facilmente
+   const filterBtnMd7 = document.getElementById('filter-btn-md7');
+   const filterButtons = [filterBtnHr1, filterBtnErm, filterBtnMd7]; // Array per gestirli facilmente
 
    const tableBody = document.getElementById('circolari-table');
 
