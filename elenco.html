@@ -135,36 +135,51 @@
         return response.json();
      })
      .then(data => {
-       // Ordina le versioni
+       // Ordina le versioni (invariato)
        data.sort((a, b) => {
          const parseVersion = v => v.versione.split(/[\._]/).map(Number);
-         const [a1, a2, a3 = 0, a4 = 0] = parseVersion(a); // Aggiungi valori default per patch/build mancanti
+         const [a1, a2, a3 = 0, a4 = 0] = parseVersion(a);
          const [b1, b2, b3 = 0, b4 = 0] = parseVersion(b);
          return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
        });
 
-       tableBody.innerHTML = ''; // Pulisci la tabella prima di ripopolarla
+       tableBody.innerHTML = ''; // Pulisci la tabella
 
        data.forEach(circolare => {
-         // Determina badge Master/UPD
-         const patchParts = circolare.versione.split(/[._]/); // Splitta per . o _
-         const patch = patchParts.length > 2 ? patchParts[2] : '000'; // Considera il terzo numero come patch
-         const badge = (patch === '0' || patch === '00' || patch === '000')
-           ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
-           : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
 
-         // Estrai l'applicativo in modo più robusto
+         // ---- CORREZIONE LOGICA BADGE Master/UPD ----
+         let badgeHtml = '';
+         const versionString = circolare.versione;
+
+         if (versionString.includes('_')) {
+             const parts = versionString.split('_');
+             // Controlla la parte DOPO l'underscore
+             if (parts.length > 1 && parts[1] === '000') {
+                 // È Master se finisce con _000
+                 badgeHtml = `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`;
+             } else {
+                 // È UPD se c'è _ ma non finisce con 000
+                 badgeHtml = `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
+             }
+         } else {
+             // Se NON c'è l'underscore, consideriamolo Master (o gestisci diversamente se necessario)
+             // Se queste versioni dovrebbero essere UPD, cambia questo blocco.
+             badgeHtml = `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`;
+             // Alternativa: se versioni senza _ non devono avere badge: badgeHtml = '';
+         }
+         // ---- FINE CORREZIONE LOGICA BADGE ----
+
+
+         // Estrai l'applicativo (invariato)
          const urlParts = circolare.url.split('/');
-         const applicativo = urlParts[urlParts.length - 2]?.toUpperCase() || 'N/D'; // Prende la penultima parte (cartella) e mette in maiuscolo
+         const applicativo = urlParts[urlParts.length - 2]?.toUpperCase() || 'N/D';
 
          const row = document.createElement('tr');
-         row.className = "bg-white dark:bg-gray-800"; // Stile riga
-
-         // ---- NUOVO: Aggiungi l'applicativo come data attribute ----
-         row.dataset.applicativo = applicativo;
+         row.className = "bg-white dark:bg-gray-800";
+         row.dataset.applicativo = applicativo; // Aggiungi data attribute
 
          row.innerHTML = `
-           <td class="py-2 px-4 font-mono text-gray-800 dark:text-gray-100">${circolare.versione}${badge}</td>
+           <td class="py-2 px-4 font-mono text-gray-800 dark:text-gray-100">${versionString}${badgeHtml}</td> // Usa la variabile badgeHtml
            <td class="py-2 px-4">
              <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">
               <i class="fa-solid fa-xl fa-file-pdf"></i>
@@ -174,16 +189,15 @@
          tableBody.appendChild(row);
        });
 
-       // --- Imposta lo stato iniziale del filtro ---
-       applyFilter('HR1'); // Filtra per HR1 di default
-       updateButtonStyles(filterBtnHr1); // Imposta il bottone HR1 come attivo
+       // --- Imposta lo stato iniziale del filtro (invariato) ---
+       applyFilter('HR1');
+       updateButtonStyles(filterBtnHr1);
 
      })
      .catch(error => {
        console.error('Errore nel caricamento o elaborazione delle circolari:', error);
        const tableContainer = document.getElementById('table-container');
        tableContainer.innerHTML = `<p class="text-red-500 dark:text-red-400 p-4">Errore nel caricamento dei dati (${error.message}). Riprova più tardi.</p>`;
-       // Nascondi i bottoni se il caricamento fallisce
         document.querySelector('.mb-4.flex.space-x-2').style.display = 'none';
      });
 
