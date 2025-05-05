@@ -50,20 +50,19 @@
 
   <main class="max-w-6xl mx-auto p-4">
     <h2 class="text-l font-semibold mb-4">Cerca il sommario tra quelli disponibili:</h2>
-    <div class="mb-4">
-      <label for="filtro" class="block text-sm font-medium mb-1">Filtra per applicativo:</label>
-      <input type="text" id="filtro" placeholder="Es. HR1" class="w-full max-w-sm px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-    </div>
-
     <div id="table-container" class="overflow-x-auto">
       <table class="min-w-full bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 shadow-md rounded-lg overflow-hidden">
         <thead class="bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-300 text-left">
-          <tr>
-            <th class="py-3 px-4 font-semibold">Versione</th>
-            <th class="py-3 px-4 font-semibold">Applicativo</th>
-            <th class="py-3 px-4 font-semibold">Download</th>
-          </tr>
-        </thead>
+        <tr>
+          <th class="py-3 px-4 font-semibold">Versione</th>
+          <th class="py-3 px-4 font-semibold relative"> <div class="flex items-center justify-between"> <span>Applicativo</span>
+        <button id="applicativo-filter-toggle" title="Filtra Applicativo" class="ml-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-300">
+          <i class="fa-solid fa-filter fa-xs"></i> </button>
+      </div>
+      <input type="text" id="applicativo-filter-input" placeholder="Filtra..." class="absolute top-full left-0 w-full mt-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 z-10 hidden"> </th>
+    <th class="py-3 px-4 font-semibold">Download</th>
+  </tr>
+</thead>
         <tbody id="circolari-table" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
           <!-- Righe generate dinamicamente -->
         </tbody>
@@ -72,30 +71,89 @@
   </main>
 
  <script>
-  fetch('js/circolari.json')
-    .then(response => response.json())
-    .then(data => {
-      // Ordina le versioni in ordine decrescente
-      data.sort((a, b) => {
+// --- Nuovo codice per il filtro in-table ---
+const filterToggleButton = document.getElementById('applicativo-filter-toggle');
+const filterInput = document.getElementById('applicativo-filter-input');
+const tableBody = document.getElementById('circolari-table'); // Usiamo tableBody invece di rifare querySelectorAll ogni volta
+
+// Gestore per mostrare/nascondere l'input del filtro
+filterToggleButton.addEventListener('click', (event) => {
+  event.stopPropagation(); // Impedisce che il click si propaghi ad altri elementi (es. per ordinamento futuro)
+  filterInput.classList.toggle('hidden'); // Alterna la classe 'hidden'
+  if (!filterInput.classList.contains('hidden')) {
+    filterInput.focus(); // Mette il focus sull'input quando viene mostrato
+  }
+});
+
+// Gestore per applicare il filtro mentre si digita
+filterInput.addEventListener('input', () => {
+  const filtro = filterInput.value.trim().toLowerCase();
+  const righe = tableBody.getElementsByTagName('tr'); // Ottieni le righe dal tbody
+
+  for (let i = 0; i < righe.length; i++) {
+    const riga = righe[i];
+    // Assicurati che la colonna dell'applicativo sia effettivamente la seconda (indice 1)
+    const cellaApplicativo = riga.children[1];
+    if (cellaApplicativo) {
+      // Estrai il testo dell'applicativo. Potrebbe essere dentro uno span o direttamente nel td.
+      // Cerchiamo il testo principale ignorando eventuali badge.
+      // Un modo potrebbe essere cercare lo span con la classe specifica o prendere il textContent generale.
+      // Qui usiamo textContent, che dovrebbe funzionare dato che il badge è dopo.
+      const applicativoText = cellaApplicativo.textContent.trim().toLowerCase();
+
+      // Logica di filtraggio (controlla se il testo dell'applicativo include il filtro)
+      if (applicativoText.includes(filtro)) {
+        riga.style.display = ''; // Mostra la riga
+      } else {
+        riga.style.display = 'none'; // Nascondi la riga
+      }
+    }
+  }
+});
+
+// Opzionale: Nascondi l'input se si clicca fuori da esso
+document.addEventListener('click', (event) => {
+  if (!filterInput.classList.contains('hidden') && !filterInput.contains(event.target) && event.target !== filterToggleButton && !filterToggleButton.contains(event.target) ) {
+     filterInput.classList.add('hidden');
+  }
+});
+
+// --- Fine nuovo codice filtro ---
+
+
+// Il resto del tuo script (fetch, theme toggle) rimane invariato...
+fetch('js/circolari.json')
+  .then(response => response.json())
+  .then(data => {
+    // ... (codice per ordinare e popolare la tabella - invariato) ...
+    data.sort((a, b) => {
         const parseVersion = v => v.versione.split(/[\._]/).map(Number);
         const [a1, a2, a3, a4] = parseVersion(a);
         const [b1, b2, b3, b4] = parseVersion(b);
         return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
       });
 
-      const table = document.getElementById('circolari-table');
+      const table = document.getElementById('circolari-table'); // Riferimento già esistente
+      table.innerHTML = ''; // Pulisci la tabella prima di ripopolarla (utile se il fetch viene richiamato)
       data.forEach(circolare => {
         const patch = circolare.versione.split('_')[1];
         const badge = patch === '000'
           ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
           : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
 
-        const applicativo = circolare.url.split('/')[4].trim(); // <- Estrai "HR1" dinamicamente
-        
+        // Estrae l'applicativo in modo più robusto (es. ultimo elemento dopo '/')
+        const urlParts = circolare.url.split('/');
+        const applicativo = urlParts[urlParts.length - 2] || 'N/D'; // Prende la penultima parte (cartella)
+
+
         const row = document.createElement('tr');
+        // Applica classi per stile testo qui se necessario
+        row.className = "bg-white dark:bg-gray-800";
         row.innerHTML = `
-          <td class="py-2 px-4 font-mono">${circolare.versione}${badge}</td>
-          <td class="py-2 px-4 ml-2 inline-block bg-green-200 text-green-800 text-s px-3 py-1 rounded">${applicativo}</td>
+          <td class="py-2 px-4 font-mono text-gray-800 dark:text-gray-100">${circolare.versione}${badge}</td>
+          <td class="py-2 px-4">
+             <span class="inline-block bg-green-200 text-green-800 text-s px-3 py-1 rounded">${applicativo}</span>
+          </td>
           <td class="py-2 px-4">
             <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">
              <i class="fa-solid fa-xl fa-file-pdf"></i>
@@ -104,36 +162,34 @@
         `;
         table.appendChild(row);
       });
-    })
-    .catch(error => {
-      console.error('Errore nel caricamento delle circolari:', error);
-    });
 
-   // Filtro dinamico
-  const filtroInput = document.getElementById('filtro');
-    filtroInput.addEventListener('input', () => {
-    const filtro = filtroInput.value.trim().toLowerCase();
-    const righe = document.querySelectorAll('#circolari-table tr');
+      // Applica il filtro corrente (se c'è testo nell'input) dopo aver caricato i dati
+      // Questo è utile se l'utente aveva già un filtro attivo e i dati vengono ricaricati
+      filterInput.dispatchEvent(new Event('input'));
 
-    righe.forEach(riga => {
-    const applicativo = riga.children[1].textContent.toLowerCase();
-    if (applicativo.includes(filtro)) {
-      riga.style.display = '';
-    } else {
-      riga.style.display = 'none';
-    }
+  })
+  .catch(error => {
+    console.error('Errore nel caricamento delle circolari:', error);
+    // Potresti voler mostrare un messaggio all'utente qui
+    const tableContainer = document.getElementById('table-container');
+    tableContainer.innerHTML = '<p class="text-red-500">Errore nel caricamento dei dati. Riprova più tardi.</p>';
   });
-});
 
 
-    const toggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') html.classList.add('dark');
-    toggle.addEventListener('click', () => {
-      html.classList.toggle('dark');
-      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-    });
+  // Gestione tema scuro (invariato)
+  const toggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    html.classList.add('dark');
+  } else {
+     html.classList.remove('dark'); // Assicurati che non ci sia dark se non salvato
+  }
+
+  toggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+  });
 </script>
 
 
