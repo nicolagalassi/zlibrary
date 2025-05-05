@@ -59,8 +59,8 @@
       <table class="min-w-full bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 shadow-md rounded-lg overflow-hidden">
         <thead class="bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-300 text-left">
           <tr>
-            <th class="py-3 px-4 font-semibold">Versione</th>
             <th class="py-3 px-4 font-semibold">Applicativo</th>
+            <th class="py-3 px-4 font-semibold">Versione</th>
             <th class="py-3 px-4 font-semibold">Download</th>
           </tr>
         </thead>
@@ -83,14 +83,14 @@
         return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
       });
 
+      const applicativo = circolare.url.split('/')[4]; // <- Estrai "HR1" dinamicamente
+
       const table = document.getElementById('circolari-table');
       data.forEach(circolare => {
         const patch = circolare.versione.split('_')[1];
         const badge = patch === '000'
           ? `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`
-          : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
-
-        const applicativo = circolare.url.split('/')[4]; // <- Estrai "HR1" dinamicamente
+          : `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;        
         
         const row = document.createElement('tr');
         row.innerHTML = `
