@@ -78,6 +78,7 @@
     </div>
   </main>
 
+
  <script>
    // --- Stili per i bottoni di filtro (attivo/inattivo) ---
    const activeFilterClasses = 'bg-blue-600 text-white border border-blue-600'; // Aggiunto bordo per coerenza
@@ -207,27 +208,84 @@
      });
 
 
-     // --- Gestione tema scuro (invariato) ---
-     const toggle = document.getElementById('theme-toggle');
-     const html = document.documentElement;
-     const savedTheme = localStorage.getItem('theme');
+     // --- Logica Toggle Tema (Aggiornata con Preferenza Sistema) ---
+    const themeToggleButton = document.getElementById('theme-toggle'); // Già definito sopra, ma per chiarezza
+    const htmlElement = document.documentElement; // Già definito sopra
 
-     function applyTheme(theme) {
-         if (theme === 'dark') {
-             html.classList.add('dark');
-         } else {
-             html.classList.remove('dark');
-         }
-     }
+    if (themeToggleButton && htmlElement) {
 
-     applyTheme(savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')); // Applica tema salvato o preferenza sistema
+        // Funzione helper per applicare il tema (aggiunge/rimuove la classe 'dark')
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                console.log("Applicato tema: dark"); // Debug
+            } else {
+                htmlElement.classList.remove('dark');
+                console.log("Applicato tema: light"); // Debug
+            }
+            // Qui potresti aggiungere logica per cambiare l'icona del sole/luna se necessario
+        };
 
-     toggle.addEventListener('click', () => {
-         const isDark = html.classList.toggle('dark');
-         const newTheme = isDark ? 'dark' : 'light';
-         localStorage.setItem('theme', newTheme);
-         applyTheme(newTheme); // Assicura applicazione immediata (anche se toggle lo fa già)
-     });
+        // Funzione per determinare e applicare il tema iniziale
+        const initializeTheme = () => {
+            const savedTheme = localStorage.getItem('theme'); // Tema salvato manualmente?
+            let initialTheme = 'light'; // Default a light
+
+            if (savedTheme) {
+                // 1. Priorità: Tema salvato manualmente dall'utente
+                initialTheme = savedTheme;
+                console.log(`Trovato tema salvato: ${initialTheme}`); // Debug
+            } else {
+                // 2. Nessun tema salvato: Controlla preferenza di sistema
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    initialTheme = 'dark';
+                }
+                // else initialTheme rimane 'light'
+                console.log(`Nessun tema salvato, uso tema di sistema: ${initialTheme}`); // Debug
+            }
+            applyTheme(initialTheme);
+        };
+
+        // Aggiungi l'event listener al pulsante di toggle
+        themeToggleButton.addEventListener('click', () => {
+            // Determina quale sarà il NUOVO tema DOPO il click
+            const isCurrentlyDark = htmlElement.classList.contains('dark');
+            const newTheme = isCurrentlyDark ? 'light' : 'dark';
+
+            // Applica il nuovo tema visivamente
+            applyTheme(newTheme);
+
+            // Salva la scelta MANUALE nel localStorage, sovrascrivendo quella di sistema
+            localStorage.setItem('theme', newTheme);
+            console.log(`Tema cambiato manualmente e salvato: ${newTheme}`); // Debug
+        });
+
+        // Imposta il tema iniziale al caricamento dello script
+        initializeTheme();
+
+        // Bonus: Ascolta i cambiamenti del tema di sistema MENTRE la pagina è aperta
+        // Aggiorna il tema SOLO SE l'utente NON ha fatto una scelta manuale
+        try {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                const savedTheme = localStorage.getItem('theme');
+                if (!savedTheme) { // Cambia solo se non c'è una scelta manuale salvata
+                    const newSystemTheme = event.matches ? 'dark' : 'light';
+                    console.log(`Tema di sistema cambiato in ${newSystemTheme} (applicato perché non c'è scelta manuale)`); // Debug
+                    applyTheme(newSystemTheme);
+                } else {
+                    console.log("Tema di sistema cambiato, ma ignorato perché esiste una scelta manuale salvata."); // Debug
+                }
+            });
+        } catch (e) {
+            console.error("Errore nell'aggiungere listener per cambio tema di sistema:", e);
+        }
+
+
+    } else {
+        console.error("Elemento #theme-toggle o <html> non trovato per la logica del tema.");
+    }
+    // --- Fine Logica Toggle Tema ---
 
  </script>
 
