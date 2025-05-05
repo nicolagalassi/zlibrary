@@ -77,8 +77,9 @@
 
  <script>
    // --- Stili per i bottoni di filtro (attivo/inattivo) ---
-   const activeFilterClasses = 'bg-red-700 text-white';
-   const inactiveFilterClasses = 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500';
+   const activeFilterClasses = 'bg-blue-600 text-white border border-blue-600'; // Aggiunto bordo per coerenza
+   // -- CLASSI INATTIVE MODIFICATE --
+   const inactiveFilterClasses = 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600';
 
    // Riferimenti ai bottoni
    const filterBtnHr1 = document.getElementById('filter-btn-hr1');
