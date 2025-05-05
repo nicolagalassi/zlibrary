@@ -117,6 +117,23 @@
       console.error('Errore nel caricamento delle circolari:', error);
     });
 
+   // Filtro dinamico
+  const filtroInput = document.getElementById('filtro');
+    filtroInput.addEventListener('input', () => {
+    const filtro = filtroInput.value.trim().toLowerCase();
+    const righe = document.querySelectorAll('#circolari-table tr');
+
+    righe.forEach(riga => {
+    const applicativo = riga.children[1].textContent.toLowerCase();
+    if (applicativo.includes(filtro)) {
+      riga.style.display = '';
+    } else {
+      riga.style.display = 'none';
+    }
+  });
+});
+
+
     const toggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
     const savedTheme = localStorage.getItem('theme');
