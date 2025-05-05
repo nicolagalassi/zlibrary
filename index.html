@@ -96,9 +96,6 @@
 <footer class="bg-gray-300 dark:bg-gray-800 text-gray-700 dark:text-gray-400 text-center text-sm p-4">
   <div class="flex flex-col items-center gap-2">
     <p>ZuLibrary_alpha_0.3.0 · Libreria non ufficiale per sommari HR Zucchetti</p>
-    <div class="flex justify-center gap-4 mt-2">
-      <a href='https://ko-fi.com/Z8Z2O3CWM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-    </div>
   </div>
 </footer>
 
@@ -128,5 +125,15 @@ const toggle = document.getElementById('theme-toggle');
       localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
     });
   </script>
+
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+  kofiWidgetOverlay.draw('galax95', {
+    'type': 'floating-chat',
+    'floating-chat.donateButton.text': 'Support Me',
+    'floating-chat.donateButton.background-color': '#323842',
+    'floating-chat.donateButton.text-color': '#fff'
+  });
+</script>
 </body>
 </html>
