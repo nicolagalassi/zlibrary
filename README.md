@@ -1,7 +1,7 @@
 # ZuLibrary
 
 [![Licenza](https://img.shields.io/badge/licenza-MIT-blue.svg)](LICENSE) <p align="center">
-  <em>[![Screenshot](img/zulibrary.jpg)]</em>
+  <em>![Screenshot](img/zulibrary.jpg)</em>
 </p>
 
 ZuLibrary è una semplice utility web creata per facilitare il recupero dei documenti PDF contenenti i sommari delle modifiche (changelog) rilasciati da Zucchetti per alcuni dei suoi applicativi HR.
