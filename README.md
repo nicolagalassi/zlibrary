@@ -1,7 +1,7 @@
 # ZuLibrary
 
 [![Licenza](https://img.shields.io/badge/licenza-MIT-blue.svg)](LICENSE) <p align="center">
-  <em>(Aggiungi qui uno screenshot dell'applicazione)</em>
+  <em>img/zulibrary.jpg</em>
 </p>
 
 ZuLibrary è una semplice utility web creata per facilitare il recupero dei documenti PDF contenenti i sommari delle modifiche (changelog) rilasciati da Zucchetti per alcuni dei suoi applicativi HR.
@@ -11,7 +11,6 @@ ZuLibrary è una semplice utility web creata per facilitare il recupero dei docu
 ## Indice
 
 - [Caratteristiche Principali](#caratteristiche-principali)
-- [Demo Online](#demo-online)
 - [Tecnologie Utilizzate](#tecnologie-utilizzate)
 - [Come Utilizzare](#come-utilizzare)
 - [Installazione Locale (per sviluppatori)](#installazione-locale-per-sviluppatori)
@@ -35,12 +34,7 @@ ZuLibrary è una semplice utility web creata per facilitare il recupero dei docu
 * Pagina "About" con descrizione del progetto e storico delle versioni (changelog).
 * Pagina "Privacy Policy" informativa.
 * Interfaccia utente responsive realizzata con Tailwind CSS.
-* Widget Ko-fi per supporto (nascosto su dispositivi mobili).
-
-## Demo Online
-
-Puoi provare ZuLibrary online qui:
-[zulibrary.netlify.app] 
+* Widget Ko-fi per supporto.
 
 ## Tecnologie Utilizzate
 
@@ -54,7 +48,7 @@ Puoi provare ZuLibrary online qui:
 
 ## Come Utilizzare
 
-1.  Visita il sito [LINK ALLA TUA DEMO ONLINE].
+1.  Visita il sito [ZuLibrary](https://zulibrary.netlify.app/).
 2.  Seleziona l'**Applicativo** desiderato dal menu a tendina.
 3.  Inserisci la **Versione Master** nel formato `XX.XX.XX` (es. `25.04.00`).
 4.  (Opzionale) Inserisci il **Numero Patch (UPD)** nel formato `XXX` (es. `001`). Se lasciato vuoto, verrà considerato `000`.
@@ -67,8 +61,8 @@ Se desideri eseguire ZuLibrary localmente o contribuire allo sviluppo:
 
 1.  **Clona il repository:**
     ```bash
-    git clone [https://github.com/TUO_USERNAME/NOME_REPO.git](https://github.com/TUO_USERNAME/NOME_REPO.git)
-    cd NOME_REPO
+    git clone [https://github.com/nicolagalassi/zlibrary.git](https://github.com/nicolagalassi/zlibrary.git)
+    cd zlibrary
     ```
 2.  **Apri i file:**
     * I file principali sono statici (`index.html`, `about.html`, `privacy.html`). Puoi aprirli direttamente nel tuo browser.
@@ -107,4 +101,3 @@ Se trovi ZuLibrary utile, puoi offrirmi un caffè su Ko-fi!
 [![Supportami su Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/galax95) ## Licenza
 
 Questo progetto è rilasciato sotto la Licenza MIT. Vedi il file [LICENSE.md](LICENSE.md) per maggiori dettagli.
-(Se scegli di usare la licenza MIT, crea un file `LICENSE.md` nella root del progetto e incollaci il testo della licenza MIT).
