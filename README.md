@@ -61,7 +61,7 @@ Se desideri eseguire ZuLibrary localmente o contribuire allo sviluppo:
 
 1.  **Clona il repository:**
     ```bash
-    git clone [https://github.com/nicolagalassi/zlibrary.git](https://github.com/nicolagalassi/zlibrary.git)
+    git clone https://github.com/nicolagalassi/zlibrary.git
     cd zlibrary
     ```
 2.  **Apri i file:**
