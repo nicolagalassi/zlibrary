@@ -3,291 +3,277 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZuLibrary</title>
+  <title>Elenco Sommari - ZuLibrary</title>
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="src/output.css">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="ecfe38f9-d4f7-4dc3-9138-6901aa3e4ed9"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans scrollbar-w-2 scrollbar dark:scrollbar-thumb-slate-700 scrollbar-thumb-slate-300 overflow-y-scroll">
 
-<header class="bg-white dark:bg-gray-800 shadow p-4">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 class="flex items-center gap-2 text-2xl font-bold text-gray-700 dark:text-gray-200">
-              <i class="fa-solid fa-book text-blue-500"></i>
-                ZuLibrary
-            </h1>
-            <div class="flex items-center gap-4">
-              <a title="Home" href="index.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                </svg>          
-              </a>
-             <a title="Elenco" href="elenco.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-                
-               </a>
-                <button id="theme-toggle" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200">
-                  <!-- Sole (visibile in modalità chiara) -->
-                  <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                       stroke-width="1.5" stroke="currentColor" class="size-6 block dark:hidden">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
-                  </svg>
-        
-                  <!-- Luna (visibile in modalità scura) -->
-                  <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                       stroke-width="1.5" stroke="currentColor" class="size-6 hidden dark:block">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/>
-                  </svg>
-                </button>
-            </div>
+  <style>
+    /* IMPORTANTE: Controlla e sostituisci #kofi-widget-overlay-container 
+       con il selettore ID o classe corretto del widget Ko-fi se questo non funziona. 
+       Puoi trovarlo ispezionando l'elemento del widget nel browser. */
+    @media (max-width: 767px) { /* Nasconde sotto il breakpoint 'md' (tablet e telefoni) */
+      #kofi-widget-overlay-container { /* Esempio di selettore, potrebbe essere diverso */
+        display: none !important;
+      }
+    }
+  </style>
+
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans scrollbar-w-2 scrollbar dark:scrollbar-thumb-slate-700 scrollbar-thumb-slate-300 overflow-y-scroll min-h-screen flex flex-col">
+
+<header class="bg-white dark:bg-gray-800 shadow p-4 sticky top-0 z-10">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-2 text-2xl font-bold text-gray-700 dark:text-gray-200">
+            <i class="fa-solid fa-book text-blue-500"></i>
+            ZuLibrary
+        </a>
+        <div class="flex items-center gap-4">
+            <a title="Home" href="index.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+            </a>
+            <a title="Elenco" href="elenco.html" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200 p-2 rounded-md bg-gray-100 dark:bg-gray-700"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            </a>
+            <button id="theme-toggle" title="Cambia Tema" class="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-200 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 block dark:hidden">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
+            </svg>
+            <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hidden dark:block">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/>
+            </svg>
+            </button>
         </div>
+    </div>
 </header>
 
-  <main class="max-w-6xl mx-auto p-4">
-    <h2 class="text-l font-semibold mb-4">Cerca il sommario tra quelli disponibili:</h2>
+  <main class="max-w-6xl mx-auto p-4 w-full flex-grow">
+    <h2 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-100">Cerca il sommario tra quelli disponibili:</h2>
 
-    <div class="mb-4 flex gap-x-4 items-center">
-        <label class="flex items-center font-medium">Filtra per applicativo:</label>
-        <button id="filter-btn-hr1" data-filter="HR1" class="filter-btn px-4 py-1.5 rounded-lg text-sm">
+    <div class="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <label class="font-medium text-gray-700 dark:text-gray-200 mr-2">Filtra per app:</label>
+        <button id="filter-btn-hr1" data-filter="HR1" class="filter-btn px-4 py-1.5 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-900">
             HR1
         </button>
-        <button id="filter-btn-erm" data-filter="ERM" class="filter-btn px-4 py-1.5 rounded-lg text-sm">
+        <button id="filter-btn-erm" data-filter="ERM" class="filter-btn px-4 py-1.5 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-900">
             ERM
         </button>
-        <button id="filter-btn-md7" data-filter="MD7" class="filter-btn px-4 py-1.5 rounded-lg text-sm" disabled>
+        <button id="filter-btn-md7" data-filter="MD7" class="filter-btn px-4 py-1.5 rounded-lg text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-900">
           MD7
-      </button>
-    </div>
+        </button>
+        </div>
 
-    <div id="table-container" class="overflow-x-auto">
-      <table class="min-w-full bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 shadow-md rounded-lg overflow-hidden">
-        <thead class="bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-300 text-left">
+    <div id="loading-message" class="text-center p-4 text-gray-600 dark:text-gray-400">Caricamento dati...</div>
+    <div id="table-container" class="overflow-x-auto hidden">
+      <table class="min-w-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-left">
           <tr>
-            <th class="py-3 px-4 font-semibold">Versione</th>
-            <th class="py-3 px-4 font-semibold">Download</th>
+            <th class="py-3 px-4 font-semibold" scope="col">App</th> <th class="py-3 px-4 font-semibold" scope="col">Versione</th>
+            <th class="py-3 px-4 font-semibold text-center" scope="col">Download</th>
           </tr>
         </thead>
-        <tbody id="circolari-table" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+        <tbody id="circolari-table" class="divide-y divide-gray-200 dark:divide-gray-700">
           </tbody>
       </table>
     </div>
   </main>
 
+  <footer class="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm border-t border-gray-300 dark:border-gray-700 mt-auto">
+    <div class="max-w-4xl mx-auto py-6 px-4 text-center space-y-4">
+      <nav class="flex justify-center gap-x-6 gap-y-2 flex-wrap" aria-label="Navigazione piè di pagina">
+        <a href="index.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">Home</a>
+        <a href="about.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">About & Changelog</a>
+        <a href="privacy.html" class="hover:text-gray-900 dark:hover:text-gray-100 hover:underline">Privacy Policy</a>
+      </nav>
+      <p class="text-xs text-gray-500 dark:text-gray-500 px-4">ZuLibrary è uno strumento non ufficiale e non è affiliato in alcun modo con Zucchetti S.p.a.</p>
+      <p class="text-xs"> &copy; <span id="current-year">2025</span> ZuLibrary <span class="text-gray-400 dark:text-gray-600 mx-1">|</span> <span>Versione alpha_0.3.0</span> </p>
+    </div>
+  </footer>
+
 
  <script>
-   // --- Stili per i bottoni di filtro (attivo/inattivo) ---
-   const activeFilterClasses = 'bg-blue-600 text-white border border-blue-600'; // Aggiunto bordo per coerenza
-   // -- CLASSI INATTIVE MODIFICATE --
-   const inactiveFilterClasses = 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600';
+   document.addEventListener('DOMContentLoaded', () => {
+    // --- Stili per i bottoni di filtro ---
+    const activeFilterClasses = 'bg-blue-600 text-white border border-blue-700 dark:border-blue-500 shadow-md';
+    const inactiveFilterClasses = 'bg-white dark:bg-gray-700 text-blue-700 dark:text-blue-400 border border-blue-300 dark:border-blue-700 hover:bg-blue-50 dark:hover:bg-gray-600 shadow-sm';
 
-   // Riferimenti ai bottoni
-   const filterBtnHr1 = document.getElementById('filter-btn-hr1');
-   const filterBtnErm = document.getElementById('filter-btn-erm');
-   const filterBtnMd7 = document.getElementById('filter-btn-md7');
-   const filterButtons = [filterBtnHr1, filterBtnErm, filterBtnMd7]; // Array per gestirli facilmente
+    // Riferimenti agli elementi
+    const filterBtnHr1 = document.getElementById('filter-btn-hr1');
+    const filterBtnErm = document.getElementById('filter-btn-erm');
+    const filterBtnMd7 = document.getElementById('filter-btn-md7');
+    // Rimosso filterBtnAll
+    const filterButtons = [filterBtnHr1, filterBtnErm, filterBtnMd7]; // Array aggiornato
+    const tableBody = document.getElementById('circolari-table');
+    const tableContainer = document.getElementById('table-container');
+    const loadingMessage = document.getElementById('loading-message');
 
-   const tableBody = document.getElementById('circolari-table');
-
-   // --- Funzione per aggiornare lo stile dei bottoni ---
-   function updateButtonStyles(activeButton) {
-     filterButtons.forEach(button => {
-       if (button === activeButton) {
-         button.classList.remove(...inactiveFilterClasses.split(' '));
-         button.classList.add(...activeFilterClasses.split(' '));
-       } else {
-         button.classList.remove(...activeFilterClasses.split(' '));
-         button.classList.add(...inactiveFilterClasses.split(' '));
-       }
-     });
-   }
-
-   // --- Funzione per applicare il filtro alla tabella ---
-   function applyFilter(applicativoToFilter) {
-     const lowerCaseFilter = applicativoToFilter.toLowerCase();
-     const righe = tableBody.getElementsByTagName('tr');
-
-     for (let i = 0; i < righe.length; i++) {
-       const riga = righe[i];
-       const rowApplicativo = riga.dataset.applicativo?.toLowerCase() || ''; // Leggi dal data attribute
-
-       if (rowApplicativo === lowerCaseFilter) {
-         riga.style.display = ''; // Mostra la riga
-       } else {
-         riga.style.display = 'none'; // Nascondi la riga
-       }
-     }
-   }
-
-   // --- Event Listener per i bottoni ---
-   filterButtons.forEach(button => {
-     button.addEventListener('click', () => {
-       const filterValue = button.dataset.filter; // Leggi il valore da filtrare dal data attribute del bottone
-       applyFilter(filterValue);
-       updateButtonStyles(button);
-     });
-   });
-
-   // --- Caricamento dati e popolamento tabella ---
-   fetch('js/circolari.json')
-     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    function updateButtonStyles(activeButton) {
+      filterButtons.forEach(button => {
+        if (button) {
+          button.classList.remove(...activeFilterClasses.split(' '), ...inactiveFilterClasses.split(' '));
+          if (button === activeButton) {
+            button.classList.add(...activeFilterClasses.split(' '));
+          } else {
+            button.classList.add(...inactiveFilterClasses.split(' '));
+          }
         }
-        return response.json();
-     })
-     .then(data => {
-       // Ordina le versioni (invariato)
-       data.sort((a, b) => {
-         const parseVersion = v => v.versione.split(/[\._]/).map(Number);
-         const [a1, a2, a3 = 0, a4 = 0] = parseVersion(a);
-         const [b1, b2, b3 = 0, b4 = 0] = parseVersion(b);
-         return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
-       });
+      });
+    }
 
-       tableBody.innerHTML = ''; // Pulisci la tabella
+    function applyFilter(applicativoToFilter) {
+      const lowerCaseFilter = applicativoToFilter.toLowerCase();
+      const righe = tableBody.getElementsByTagName('tr');
+      let visibleDataRowsCount = 0;
 
-       data.forEach(circolare => {
+      const existingNoResultsRow = tableBody.querySelector('#no-results-row');
+      if (existingNoResultsRow) {
+        existingNoResultsRow.remove();
+      }
 
-         // ---- CORREZIONE LOGICA BADGE Master/UPD ----
-         let badgeHtml = '';
-         const versionString = circolare.versione;
+      for (let i = 0; i < righe.length; i++) {
+        const riga = righe[i];
+        if (riga.dataset.applicativo) {
+          const rowApplicativo = riga.dataset.applicativo.toLowerCase();
+          // Logica 'all' rimossa
+          if (rowApplicativo === lowerCaseFilter) {
+            riga.style.display = '';
+            visibleDataRowsCount++;
+          } else {
+            riga.style.display = 'none';
+          }
+        }
+      }
 
-         if (versionString.includes('_')) {
-             const parts = versionString.split('_');
-             // Controlla la parte DOPO l'underscore
-             if (parts.length > 1 && parts[1] === '000') {
-                 // È Master se finisce con _000
-                 badgeHtml = `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`;
-             } else {
-                 // È UPD se c'è _ ma non finisce con 000
-                 badgeHtml = `<span class="ml-2 inline-block bg-yellow-200 text-yellow-800 text-xs px-2 py-0.5 rounded">UPD</span>`;
-             }
-         } else {
-             // Se NON c'è l'underscore, consideriamolo Master (o gestisci diversamente se necessario)
-             // Se queste versioni dovrebbero essere UPD, cambia questo blocco.
-             badgeHtml = `<span class="ml-2 inline-block bg-blue-200 text-blue-800 text-xs px-2 py-0.5 rounded">Master</span>`;
-             // Alternativa: se versioni senza _ non devono avere badge: badgeHtml = '';
-         }
-         // ---- FINE CORREZIONE LOGICA BADGE ----
+      const totalDataRowsInTable = tableBody.querySelectorAll('tr[data-applicativo]').length;
+      // Condizione per 'all' rimossa dal messaggio "nessun risultato"
+      if (visibleDataRowsCount === 0 && totalDataRowsInTable > 0) {
+        const noResultsRow = tableBody.insertRow();
+        noResultsRow.id = 'no-results-row';
+        const cell = noResultsRow.insertCell();
+        cell.colSpan = 3; // Aggiornato a 3 per la nuova colonna "Applicativo"
+        cell.className = 'py-3 px-4 text-center text-gray-500 dark:text-gray-400';
+        cell.textContent = `Nessun sommario trovato per l'applicativo ${applicativoToFilter.toUpperCase()}.`;
+      }
+    }
 
+    filterButtons.forEach(button => {
+      if (button) {
+        button.addEventListener('click', () => {
+          if (!button.disabled) {
+            const filterValue = button.dataset.filter;
+            applyFilter(filterValue);
+            updateButtonStyles(button);
+          }
+        });
+      }
+    });
 
-         // Estrai l'applicativo (invariato)
-         const urlParts = circolare.url.split('/');
-         const applicativo = urlParts[urlParts.length - 2]?.toUpperCase() || 'N/D';
+    fetch('js/circolari.json')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+        loadingMessage.classList.add('hidden');
+        tableContainer.classList.remove('hidden');
 
-         const row = document.createElement('tr');
-         row.className = "bg-white dark:bg-gray-800";
-         row.dataset.applicativo = applicativo; // Aggiungi data attribute
-
-         row.innerHTML = `
-           <td class="py-2 px-4 font-mono text-gray-800 dark:text-gray-100">${versionString}${badgeHtml}</td>
-           <td class="py-2 px-4">
-             <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:underline" target="_blank">
-              <i class="fa-solid fa-xl fa-file-pdf"></i>
-             </a>
-           </td>
-         `;
-         tableBody.appendChild(row);
-       });
-
-       // --- Imposta lo stato iniziale del filtro (invariato) ---
-       applyFilter('HR1');
-       updateButtonStyles(filterBtnHr1);
-
-     })
-     .catch(error => {
-       console.error('Errore nel caricamento o elaborazione delle circolari:', error);
-       const tableContainer = document.getElementById('table-container');
-       tableContainer.innerHTML = `<p class="text-red-500 dark:text-red-400 p-4">Errore nel caricamento dei dati (${error.message}). Riprova più tardi.</p>`;
-        document.querySelector('.mb-4.flex.space-x-2').style.display = 'none';
-     });
-
-
-     // --- Logica Toggle Tema (Aggiornata con Preferenza Sistema) ---
-    const themeToggleButton = document.getElementById('theme-toggle'); // Già definito sopra, ma per chiarezza
-    const htmlElement = document.documentElement; // Già definito sopra
-
-    if (themeToggleButton && htmlElement) {
-
-        // Funzione helper per applicare il tema (aggiunge/rimuove la classe 'dark')
-        const applyTheme = (theme) => {
-            if (theme === 'dark') {
-                htmlElement.classList.add('dark');
-                console.log("Applicato tema: dark"); // Debug
-            } else {
-                htmlElement.classList.remove('dark');
-                console.log("Applicato tema: light"); // Debug
-            }
-            // Qui potresti aggiungere logica per cambiare l'icona del sole/luna se necessario
-        };
-
-        // Funzione per determinare e applicare il tema iniziale
-        const initializeTheme = () => {
-            const savedTheme = localStorage.getItem('theme'); // Tema salvato manualmente?
-            let initialTheme = 'light'; // Default a light
-
-            if (savedTheme) {
-                // 1. Priorità: Tema salvato manualmente dall'utente
-                initialTheme = savedTheme;
-                console.log(`Trovato tema salvato: ${initialTheme}`); // Debug
-            } else {
-                // 2. Nessun tema salvato: Controlla preferenza di sistema
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (prefersDark) {
-                    initialTheme = 'dark';
-                }
-                // else initialTheme rimane 'light'
-                console.log(`Nessun tema salvato, uso tema di sistema: ${initialTheme}`); // Debug
-            }
-            applyTheme(initialTheme);
-        };
-
-        // Aggiungi l'event listener al pulsante di toggle
-        themeToggleButton.addEventListener('click', () => {
-            // Determina quale sarà il NUOVO tema DOPO il click
-            const isCurrentlyDark = htmlElement.classList.contains('dark');
-            const newTheme = isCurrentlyDark ? 'light' : 'dark';
-
-            // Applica il nuovo tema visivamente
-            applyTheme(newTheme);
-
-            // Salva la scelta MANUALE nel localStorage, sovrascrivendo quella di sistema
-            localStorage.setItem('theme', newTheme);
-            console.log(`Tema cambiato manualmente e salvato: ${newTheme}`); // Debug
+        data.sort((a, b) => {
+          const parseVersion = v => v.versione.split(/[\._]/).map(Number);
+          const [a1, a2, a3 = 0, a4 = 0] = parseVersion(a);
+          const [b1, b2, b3 = 0, b4 = 0] = parseVersion(b);
+          return b1 - a1 || b2 - a2 || b3 - a3 || b4 - a4;
         });
 
-        // Imposta il tema iniziale al caricamento dello script
-        initializeTheme();
+        tableBody.innerHTML = '';
 
-        // Bonus: Ascolta i cambiamenti del tema di sistema MENTRE la pagina è aperta
-        // Aggiorna il tema SOLO SE l'utente NON ha fatto una scelta manuale
-        try {
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-                const savedTheme = localStorage.getItem('theme');
-                if (!savedTheme) { // Cambia solo se non c'è una scelta manuale salvata
-                    const newSystemTheme = event.matches ? 'dark' : 'light';
-                    console.log(`Tema di sistema cambiato in ${newSystemTheme} (applicato perché non c'è scelta manuale)`); // Debug
-                    applyTheme(newSystemTheme);
-                } else {
-                    console.log("Tema di sistema cambiato, ma ignorato perché esiste una scelta manuale salvata."); // Debug
-                }
-            });
-        } catch (e) {
-            console.error("Errore nell'aggiungere listener per cambio tema di sistema:", e);
+        if (data.length === 0) {
+            tableContainer.classList.add('hidden');
+            loadingMessage.textContent = 'Nessun sommario disponibile al momento.';
+            loadingMessage.classList.remove('hidden');
+            const filterControls = document.querySelector('.mb-6.flex.flex-wrap');
+            if(filterControls) filterControls.style.display = 'none';
+            return;
         }
 
+        data.forEach(circolare => {
+          let badgeHtml = '';
+          const versionString = circolare.versione;
+          if (versionString.includes('_')) {
+              const parts = versionString.split('_');
+              if (parts.length > 1 && parts[1] === '000') {
+                  badgeHtml = `<span class="ml-2 inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-0.5 rounded-md">Master</span>`;
+              } else {
+                  badgeHtml = `<span class="ml-2 inline-block bg-yellow-100 dark:bg-yellow-700 text-yellow-800 dark:text-yellow-200 text-xs px-2 py-0.5 rounded-md">UPD</span>`;
+              }
+          } else {
+              badgeHtml = `<span class="ml-2 inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-0.5 rounded-md">Master</span>`;
+          }
 
-    } else {
-        console.error("Elemento #theme-toggle o <html> non trovato per la logica del tema.");
+          const urlParts = circolare.url.split('/');
+          const applicativo = urlParts[urlParts.length - 2]?.toUpperCase() || 'N/D';
+
+          const row = document.createElement('tr');
+          row.className = "hover:bg-gray-50 dark:hover:bg-gray-700/50";
+          row.dataset.applicativo = applicativo;
+
+          row.innerHTML = `
+            <td class="py-3 px-4 text-sm text-gray-600 dark:text-gray-300">${applicativo}</td> <td class="py-3 px-4 font-mono">${versionString}${badgeHtml}</td>
+            <td class="py-3 px-4 text-center">
+              <a href="${circolare.url}" class="text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100" target="_blank" aria-label="Scarica PDF versione ${versionString}">
+                <i class="fa-solid fa-xl fa-file-pdf"></i>
+                <span class="sr-only">Scarica PDF versione ${versionString}</span>
+              </a>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+        
+        // Imposta lo stato iniziale del filtro (HR1)
+        if (filterBtnHr1) {
+             applyFilter('HR1');
+             updateButtonStyles(filterBtnHr1);
+        } else {
+            console.warn("Bottone filtro HR1 non trovato per l'impostazione iniziale.");
+             // Se non c'è un filtro HR1, potresti voler mostrare la tabella senza filtri
+             // o scegliere un altro filtro di default se disponibile.
+             // Per ora, se HR1 non c'è, la tabella rimarrà popolata ma senza un filtro attivo specifico.
+             // Questo significa che il messaggio "Nessun risultato" non apparirà correttamente se HR1 manca.
+        }
+
+      })
+      .catch(error => {
+        console.error('Errore nel caricamento o elaborazione delle circolari:', error);
+        if (tableContainer) tableContainer.innerHTML = `<p class="text-red-500 dark:text-red-400 p-4">Errore nel caricamento dei dati (${error.message}). Riprova più tardi.</p>`;
+        if (tableContainer) tableContainer.classList.remove('hidden');
+        if (loadingMessage) loadingMessage.classList.add('hidden');
+        const filterControls = document.querySelector('.mb-6.flex.flex-wrap');
+        if(filterControls) filterControls.style.display = 'none';
+      });
+
+    // --- Logica Toggle Tema (Identica alle altre pagine) ---
+    const themeToggleButton = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+    if (themeToggleButton && htmlElement) {
+        const applyTheme = (theme) => { if (theme === 'dark') { htmlElement.classList.add('dark'); } else { htmlElement.classList.remove('dark'); } };
+        const initializeTheme = () => { let initialTheme = 'light'; const savedTheme = localStorage.getItem('theme'); if (savedTheme) { initialTheme = savedTheme; } else { try { const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; if (prefersDark) { initialTheme = 'dark'; } } catch (e) { console.error("Errore lettura preferenze sistema per tema:", e); } } applyTheme(initialTheme); };
+        themeToggleButton.addEventListener('click', () => { const isCurrentlyDark = htmlElement.classList.contains('dark'); const newTheme = isCurrentlyDark ? 'light' : 'dark'; applyTheme(newTheme); localStorage.setItem('theme', newTheme); });
+        initializeTheme();
+        try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => { const savedTheme = localStorage.getItem('theme'); if (!savedTheme) { const newSystemTheme = event.matches ? 'dark' : 'light'; applyTheme(newSystemTheme); } }); } catch (e) { console.error("Errore listener cambio tema di sistema:", e); }
+    } else { console.error("Elementi #theme-toggle o <html> non trovati."); }
+
+    // --- Anno Dinamico per il Footer ---
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
     }
-    // --- Fine Logica Toggle Tema ---
 
+   }); // Fine DOMContentLoaded
  </script>
-
-</body>
+ </body>
 </html>

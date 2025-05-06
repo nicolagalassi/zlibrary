@@ -5,3 +5,5 @@
 @plugin 'tailwind-scrollbar' {
     nocompatible: true;
 }
+
+@plugin "@tailwindcss/typography";
