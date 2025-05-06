@@ -98,6 +98,8 @@ Nicola Galassi ([nicolagalassi](https://github.com/nicolagalassi)) Email: nicola
 
 Se trovi ZuLibrary utile, puoi offrirmi un caffè su Ko-fi!
 
-[![Supportami su Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/galax95) ## Licenza
+[![Supportami su Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/galax95) 
+
+## Licenza
 
 Questo progetto è rilasciato sotto la Licenza MIT. Vedi il file [LICENSE.md](LICENSE.md) per maggiori dettagli.
