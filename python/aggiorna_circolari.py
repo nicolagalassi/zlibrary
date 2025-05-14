@@ -37,7 +37,7 @@ def format_version(version_list, patch):
 
 def update():
     all_existing = load_existing()
-    updated_circulari = list(all_existing) # Lavoriamo su una copia per evitare modifiche durante l'iterazione
+    updated_circulari = list(all_existing)
 
     for applicativo, base_url in APPLICATIVI.items():
         print(f"\n--- Aggiornamento per {applicativo} ---")
@@ -45,7 +45,7 @@ def update():
         known_versions = {c['versione'] for c in existing_for_app}
         print(f"Circolari esistenti per {applicativo}: {known_versions}")
 
-        latest_version_str = max(known_versions, key=lambda x: list(map(int, x.replace('_', '.').split('.')))) if known_versions else "00.00.00_000" # Inizializzazione più generica
+        latest_version_str = max(known_versions, key=lambda x: list(map(int, x.replace('_', '.').split('.')))) if known_versions else "00.00.00_000"
         parts_str, patch_str = latest_version_str.split('_')
         current_master_list = list(map(int, parts_str.split('.')))
         current_patch = int(patch_str)
@@ -113,13 +113,16 @@ def update():
             updated_circulari.extend(new_for_app)
 
     if updated_circulari:
-        # Rimuovi i duplicati basati sull'URL (nel caso ci fossero)
-        seen_urls = set()
+        # Rimuovi i duplicati basati su versione E applicativo
+        seen_combinations = set()
         unique_circulari = []
         for circolari in updated_circulari:
-            if circolari['url'] not in seen_urls:
+            # Estraiamo la parte dell'URL che identifica l'applicativo
+            applicativo_url_part = circolari['url'].split('/')[-2] # Esempio: 'HR1', 'ERM', 'MD7'
+            combination = (circolari['versione'], applicativo_url_part)
+            if combination not in seen_combinations:
                 unique_circulari.append(circolari)
-                seen_urls.add(circolari['url'])
+                seen_combinations.add(combination)
 
         unique_circulari.sort(key=lambda x: list(map(int, x['versione'].replace('_', '.').split('.'))), reverse=True)
         with open(JSON_PATH, "w") as f:
