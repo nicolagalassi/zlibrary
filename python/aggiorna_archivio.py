@@ -2,7 +2,7 @@ import requests
 import json
 import os  # Importa la libreria 'os' per controllare l'esistenza del file
 
-URL_BASE = "https://www.hrzucchetti.it/infoupdate/MD7/MD7_{}.pdf"
+URL_BASE = "https://www.hrzucchetti.it/infoupdate/HR1/HR1_{}.pdf"
 JSON_PATH_ARCHIVIO = "js/archivio_circolari.json"
 START_ARCHIVIO = [25, 5, 0]
 END_ARCHIVIO = [26, 0, 0]
