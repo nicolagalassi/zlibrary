@@ -2,23 +2,32 @@ name: Aggiorna circolari
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # ogni giorno alle 6 del mattino UTC
-  workflow_dispatch:    # permette anche l'avvio manuale
+    - cron: '0 4 * * *'  # ogni giorno alle 6:00 italiane (UTC+2 estate / UTC+1 inverno)
+  workflow_dispatch:
+  push:
+    paths:
+      - 'python/**'
+      - '.github/workflows/update.yml'
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Clona repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.13.3
+          python-version: '3.12'
 
       - name: Installa dipendenze
-        run: pip install aiohttp
+        run: |
+          python -m pip install --upgrade pip
+          pip install aiohttp
 
       - name: Esegui aggiornamento
         run: python python/aggiorna_circolari.py
