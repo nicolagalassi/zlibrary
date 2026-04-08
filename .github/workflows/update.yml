@@ -18,7 +18,7 @@ jobs:
           python-version: 3.13.3
 
       - name: Installa dipendenze
-        run: pip install requests
+        run: pip install aiohttp
 
       - name: Esegui aggiornamento
         run: python python/aggiorna_circolari.py
@@ -27,6 +27,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add js/circolari.json
+          git add public/js/circolari.json
           git diff --cached --quiet || git commit -m "Aggiornamento automatico circolari"
           git push
