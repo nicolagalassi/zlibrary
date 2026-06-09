@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-09T00:00:00Z",
+  "title": "Design System: ZuLibrary",
+  "extensions": {
+    "colorMeta": {
+      "action-blue": {
+        "role": "primary",
+        "displayName": "Blu Operativo",
+        "canonical": "oklch(53% 0.24 264)",
+        "tonalRamp": ["#0d1a40", "#0e2a6e", "#1239a3", "#1d4ed8", "#2563eb", "#60a5fa", "#93c5fd", "#dbeafe"]
+      },
+      "action-blue-hover": {
+        "role": "primary",
+        "displayName": "Blu Operativo Profondo",
+        "canonical": "oklch(47% 0.23 264)",
+        "tonalRamp": ["#0d1a40", "#0e2a6e", "#1239a3", "#1d4ed8", "#2563eb", "#60a5fa", "#93c5fd", "#dbeafe"]
+      },
+      "surface-blue-tint": {
+        "role": "secondary",
+        "displayName": "Azzurro Documento",
+        "canonical": "oklch(88% 0.09 264)",
+        "tonalRamp": ["#1e3a8a", "#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe", "#dbeafe"]
+      },
+      "badge-upd-bg": {
+        "role": "secondary",
+        "displayName": "Ambra Patch",
+        "canonical": "oklch(96% 0.07 95)",
+        "tonalRamp": ["#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fcd34d", "#fef08a", "#fef9c3"]
+      },
+      "bg-page": {
+        "role": "neutral",
+        "displayName": "Grigio Pagina",
+        "canonical": "oklch(96% 0.003 248)",
+        "tonalRamp": ["#111827", "#1f2937", "#374151", "#4b5563", "#6b7280", "#9ca3af", "#d1d5db", "#f3f4f6"]
+      },
+      "ink-primary": {
+        "role": "neutral",
+        "displayName": "Inchiostro Primario",
+        "canonical": "oklch(24% 0.01 253)",
+        "tonalRamp": ["#030712", "#111827", "#1f2937", "#374151", "#4b5563", "#6b7280", "#9ca3af", "#f9fafb"]
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "Inchiostro Secondario",
+        "canonical": "oklch(49% 0.01 248)",
+        "tonalRamp": ["#111827", "#1f2937", "#374151", "#4b5563", "#6b7280", "#9ca3af", "#d1d5db", "#f3f4f6"]
+      },
+      "error": {
+        "role": "neutral",
+        "displayName": "Rosso Errore",
+        "canonical": "oklch(62% 0.21 27)",
+        "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#fca5a5", "#fee2e2"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Titoli di sezione principali. Usato raramente, mai in elementi ripetuti." },
+      "title": { "displayName": "Title", "purpose": "Header dell'app, heading della card form." },
+      "body": { "displayName": "Body", "purpose": "Copy descrittivo e messaggi di stato. Max 65–75ch." },
+      "label": { "displayName": "Label", "purpose": "Etichette form, testo pulsanti, nomi chip." },
+      "mono": { "displayName": "Data Mono", "purpose": "Solo per numeri di versione nelle liste (es. 26.00.00_001)." }
+    },
+    "shadows": [
+      { "name": "ambient-sottile", "value": "0 1px 2px rgba(0,0,0,0.05)", "purpose": "Voci lista a riposo." },
+      { "name": "strutturale", "value": "0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06)", "purpose": "Header sticky." },
+      { "name": "hover-lista", "value": "0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06)", "purpose": "Voci lista su hover." },
+      { "name": "profonda", "value": "0 20px 25px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.04)", "purpose": "Card form principale." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default per transizioni di stato." },
+      { "name": "ease-out-quick", "value": "cubic-bezier(0, 0, 0.2, 1)", "purpose": "Apertura banner, reveal elementi." },
+      { "name": "duration-fast", "value": "150ms", "purpose": "Feedback interattivi: hover, focus, scale." },
+      { "name": "duration-standard", "value": "200ms", "purpose": "Transizioni di pagina, apertura/chiusura banner." },
+      { "name": "duration-slow", "value": "300ms", "purpose": "Animazioni composte: slide-fade del banner." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Azione principale della schermata. Usato una sola volta per schermata.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"display:inline;margin-right:8px\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/></svg>Scarica PDF</button>",
+      "css": ".ds-btn-primary { display: flex; align-items: center; justify-content: center; width: 100%; padding: 12px 16px; background: #2563eb; color: #fff; border: none; border-radius: 12px; font-size: 0.875rem; font-weight: 600; font-family: system-ui, sans-serif; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.10); transition: background 150ms cubic-bezier(0.4,0,0.2,1), transform 150ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-primary:hover { background: #1d4ed8; transform: scale(1.02); } .ds-btn-primary:active { transform: scale(0.95); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2563eb; }"
+    },
+    {
+      "name": "Download Button (Lista)",
+      "kind": "button",
+      "refersTo": "button-download",
+      "description": "Azione di scaricamento secondaria nelle voci lista dell'archivio.",
+      "html": "<a href=\"#\" class=\"ds-btn-download\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"display:inline;margin-right:6px\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/></svg>Scarica</a>",
+      "css": ".ds-btn-download { display: inline-flex; align-items: center; padding: 8px 16px; background: #dbeafe; color: #1e40af; border-radius: 6px; font-size: 0.875rem; font-weight: 500; font-family: system-ui, sans-serif; text-decoration: none; transition: background 150ms, color 150ms, transform 150ms; } .ds-btn-download:hover { background: #2563eb; color: #fff; transform: scale(1.02); } .ds-btn-download:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2563eb; }"
+    },
+    {
+      "name": "App Chip (Active)",
+      "kind": "chip",
+      "refersTo": "chip-app-active",
+      "description": "Selettore applicativo nello stato selezionato.",
+      "html": "<button class=\"ds-chip-active\">HR1</button>",
+      "css": ".ds-chip-active { padding: 10px 24px; background: #2563eb; color: #fff; border: 1px solid #2563eb; border-radius: 8px; font-size: 0.875rem; font-weight: 600; font-family: system-ui, sans-serif; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.07); transform: scale(1.02); transition: all 200ms; }"
+    },
+    {
+      "name": "App Chip (Inactive)",
+      "kind": "chip",
+      "refersTo": "chip-app-inactive",
+      "description": "Selettore applicativo nello stato non selezionato.",
+      "html": "<button class=\"ds-chip-inactive\">ERM</button>",
+      "css": ".ds-chip-inactive { padding: 10px 24px; background: #f9fafb; color: #4b5563; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 0.875rem; font-weight: 600; font-family: system-ui, sans-serif; cursor: pointer; transition: all 200ms; } .ds-chip-inactive:hover { background: #f3f4f6; border-color: #d1d5db; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Campo di testo per versione e ricerca, con icona a sinistra.",
+      "html": "<div class=\"ds-input-wrap\"><svg class=\"ds-input-icon\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/></svg><input class=\"ds-input\" type=\"text\" placeholder=\"Es. 26.00.00\" /></div>",
+      "css": ".ds-input-wrap { position: relative; } .ds-input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af; pointer-events: none; } .ds-input { display: block; width: 100%; padding: 10px 12px 10px 40px; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 12px; font-size: 1rem; font-family: system-ui, sans-serif; color: #1f2937; box-sizing: border-box; transition: border-color 150ms, box-shadow 150ms; } .ds-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.25); } .ds-input::placeholder { color: #9ca3af; }"
+    },
+    {
+      "name": "Badge Master",
+      "kind": "chip",
+      "refersTo": "badge-master",
+      "description": "Indica un rilascio master (versione _000) nell'archivio.",
+      "html": "<span class=\"ds-badge-master\">MASTER</span>",
+      "css": ".ds-badge-master { display: inline-block; padding: 2px 8px; background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; border-radius: 6px; font-size: 10px; font-weight: 700; font-family: system-ui, sans-serif; letter-spacing: 0.05em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Badge UPD",
+      "kind": "chip",
+      "refersTo": "badge-upd",
+      "description": "Indica un aggiornamento patch nell'archivio.",
+      "html": "<span class=\"ds-badge-upd\">UPD</span>",
+      "css": ".ds-badge-upd { display: inline-block; padding: 2px 8px; background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; border-radius: 6px; font-size: 10px; font-weight: 700; font-family: system-ui, sans-serif; letter-spacing: 0.05em; text-transform: uppercase; }"
+    },
+    {
+      "name": "List Item (Archivio)",
+      "kind": "card",
+      "description": "Voce singola nell'archivio sommari: versione, badge tipo, link scaricamento.",
+      "html": "<li class=\"ds-list-item\"><div class=\"ds-list-item-icon\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/></svg></div><div><div class=\"ds-list-item-version\"><span class=\"ds-version-mono\">25.04.01_001</span><span class=\"ds-badge-master\">MASTER</span></div><span class=\"ds-list-item-sub\">Aggiornamento HR1</span></div><a href=\"#\" class=\"ds-btn-download\">Scarica</a></li>",
+      "css": ".ds-list-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: box-shadow 150ms, background 150ms; list-style: none; } .ds-list-item:hover { box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06); background: #eff6ff; } .ds-list-item-icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 6px; color: #9ca3af; margin-right: 16px; flex-shrink: 0; } .ds-list-item:hover .ds-list-item-icon { color: #2563eb; border-color: #bfdbfe; } .ds-list-item-version { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; } .ds-version-mono { font-family: ui-monospace, Menlo, Monaco, monospace; font-size: 1.125rem; font-weight: 500; color: #111827; } .ds-list-item-sub { font-size: 0.75rem; color: #6b7280; font-weight: 500; } .ds-badge-master { display: inline-block; padding: 2px 8px; background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; border-radius: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; } .ds-btn-download { display: inline-flex; align-items: center; padding: 8px 16px; background: #dbeafe; color: #1e40af; border-radius: 6px; font-size: 0.875rem; font-weight: 500; font-family: system-ui, sans-serif; text-decoration: none; transition: background 150ms, color 150ms; } .ds-btn-download:hover { background: #2563eb; color: #fff; } @media (prefers-reduced-motion: reduce) { .ds-list-item, .ds-btn-download { transition: none; } }"
+    },
+    {
+      "name": "Nav Header",
+      "kind": "nav",
+      "description": "Header sticky con logo, navigazione icone e toggle tema.",
+      "html": "<header class=\"ds-nav-header\"><a href=\"/\" class=\"ds-nav-logo\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"color:#3b82f6\"><path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20\"/><path d=\"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z\"/></svg>ZuLibrary</a><nav class=\"ds-nav-links\"><a href=\"/\" class=\"ds-nav-btn ds-nav-btn--active\" aria-current=\"page\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></a><button class=\"ds-nav-btn\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"5\"/><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"3\"/><line x1=\"12\" y1=\"21\" x2=\"12\" y2=\"23\"/><line x1=\"4.22\" y1=\"4.22\" x2=\"5.64\" y2=\"5.64\"/><line x1=\"18.36\" y1=\"18.36\" x2=\"19.78\" y2=\"19.78\"/><line x1=\"1\" y1=\"12\" x2=\"3\" y2=\"12\"/><line x1=\"21\" y1=\"12\" x2=\"23\" y2=\"12\"/><line x1=\"4.22\" y1=\"19.78\" x2=\"5.64\" y2=\"18.36\"/><line x1=\"18.36\" y1=\"5.64\" x2=\"19.78\" y2=\"4.22\"/></svg></button></nav></header>",
+      "css": ".ds-nav-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 10; } .ds-nav-logo { display: flex; align-items: center; gap: 8px; font-size: 1.5rem; font-weight: 700; font-family: system-ui, sans-serif; color: #374151; text-decoration: none; transition: transform 150ms; } .ds-nav-logo:hover { transform: scale(1.05); } .ds-nav-links { display: flex; align-items: center; gap: 16px; } .ds-nav-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: none; border-radius: 8px; background: transparent; color: #4b5563; cursor: pointer; transition: background 150ms, color 150ms; } .ds-nav-btn:hover { background: #f3f4f6; } .ds-nav-btn--active { background: #dbeafe; color: #2563eb; } @media (prefers-reduced-motion: reduce) { .ds-nav-logo, .ds-nav-btn { transition: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Il Collega Competente",
+    "overview": "ZuLibrary si presenta come un collega che conosce già le risposte: diretto, senza fronzoli, con quella forma di cura che si vede solo quando qualcuno ha davvero pensato all'interfaccia. Il sistema visivo è progettato per sparire nel compito.\n\nIl sistema è restrained: il blu operativo compare solo dove conta (azioni primarie, stati selezionati, indicatori di tipo), tutto il resto è gestito dalla scala neutra grigio. Le superfici traslucide e i bordi sottili rendono l'interfaccia leggera senza renderla fragile. Il glassmorphism appare con parsimonia solo sulla card principale e sull'header.\n\nQuesto design rifiuta esplicitamente l'estetica pesante e arcaicamente corporate del sito Zucchetti ufficiale, e il look grezzo da pannello IT.",
+    "keyCharacteristics": [
+      "Restrained: il colore vive quasi esclusivamente negli stati attivi e nelle azioni",
+      "Glassmorphism localizzato: superfici traslucide solo dove aggiunge profondità funzionale",
+      "Scala tipografica tightened (1.125–1.2): strumento operativo, non editoriale",
+      "Dualità chiaro/scuro come feature di primo livello",
+      "Font-mono per i numeri di versione: il dato tecnico si distingue dall'interfaccia"
+    ],
+    "rules": [
+      { "name": "La Regola del Blu Parsimonioso", "body": "Il blu operativo appare su meno del 15% della superficie visibile. La sua forza segnaletica dipende dalla rarità.", "section": "colors" },
+      { "name": "La Regola del Mono Selettivo", "body": "font-mono è riservato esclusivamente ai numeri di versione nelle liste risultato.", "section": "typography" },
+      { "name": "La Regola del Vetro Localizzato", "body": "Il glassmorphism appare solo su header sticky e card form principale. Applicarlo alle card-lista, ai pannelli filtro, o agli stati hover lo banalizza e degrada le performance su mobile.", "section": "elevation" },
+      { "name": "La Regola Piatto-Per-Default", "body": "Le superfici sono piatte a riposo. Le ombre appaiono come risposta allo stato (hover, elevazione della card principale). Mai ombre decorative su elementi statici.", "section": "elevation" }
+    ],
+    "dos": [
+      "Usare il blu operativo (#2563eb) esclusivamente per azioni primarie, stati selezionati, e indicatori di tipo attivo.",
+      "Applicare glassmorphism solo all'header sticky e alla card form principale.",
+      "Usare font-mono per i numeri di versione nelle liste.",
+      "Verificare ogni colore in entrambi i temi prima di aggiungere componenti.",
+      "Usare shadow-sm a riposo e shadow-md su hover per le voci lista.",
+      "Rispettare la gerarchia dei radius: 16px card principale, 12px pannelli e input, 8px chip e voci lista."
+    ],
+    "donts": [
+      "Non riprodurre l'estetica del sito Zucchetti ufficiale: palette corporate pesante, header giganti, navigazione a megamenu.",
+      "Non far sembrare lo strumento un pannello IT grezzo: niente font-mono dominante, niente layout a terminale.",
+      "Non estendere il glassmorphism a card-lista, pannelli filtro, o stati hover.",
+      "Non usare side-stripe borders (border-left > 1px colorato) come decorazione su card o voci lista.",
+      "Non applicare gradient text su nessun elemento.",
+      "Non aggiungere label uppercase su più sezioni della stessa schermata.",
+      "Non usare il blu come sfondo decorativo su superfici passive."
+    ]
+  }
+}
