@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed, watchEffect } from 'vue'
 import { RouterView, RouterLink } from 'vue-router'
+import { version } from '../package.json'
 
 const isDark = ref(false)
 const showBanner = ref(true)
@@ -24,7 +25,7 @@ onMounted(() => {
   }
 
   const dismissed = localStorage.getItem('dismissedBannerVersion')
-  const currentBannerVer = '0.8.0'
+  const currentBannerVer = version
   if (dismissed === currentBannerVer) {
     showBanner.value = false
   } else {
@@ -38,26 +39,56 @@ const closeBanner = () => {
 }
 
 watchEffect(() => {
-  document.documentElement.style.setProperty('--sticky-top', showBanner.value ? '116px' : '72px')
+  document.documentElement.style.setProperty('--sticky-top', showBanner.value ? '108px' : '64px')
 })
 </script>
 
 <template>
   <!-- Header -->
-  <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow p-4 sticky top-0 z-10 transition-colors duration-300">
-    <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <RouterLink to="/" class="flex items-center gap-2 text-2xl font-bold text-gray-700 dark:text-gray-200 hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:rounded-lg">
-        <i class="fa-solid fa-book text-blue-500" aria-hidden="true"></i>
-        ZuLibrary
+  <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200/70 dark:border-gray-700/70 h-16 sticky top-0 z-10 transition-colors duration-300">
+    <div class="max-w-4xl mx-auto h-full px-4 flex items-center justify-between">
+
+      <!-- Logo -->
+      <RouterLink to="/" class="flex items-center gap-2 flex-shrink-0 text-gray-800 dark:text-gray-100 hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:rounded-lg">
+        <i class="fa-solid fa-book text-blue-500 text-lg" aria-hidden="true"></i>
+        <span class="text-xl font-bold tracking-tight">ZuLibrary</span>
       </RouterLink>
-      <div class="flex items-center gap-4">
-        <RouterLink to="/" aria-label="Home" title="Home" class="flex items-center justify-center w-10 h-10 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" active-class="bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400">
-          <i class="fa-solid fa-house-chimney" aria-hidden="true"></i>
-        </RouterLink>
-        <RouterLink to="/elenco" aria-label="Archivio Sommari" title="Archivio" class="flex items-center justify-center w-10 h-10 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" active-class="bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400">
-          <i class="fa-solid fa-table-list" aria-hidden="true"></i>
-        </RouterLink>
-        <button @click="toggleTheme" title="Cambia Tema" aria-label="Cambia tema" class="flex items-center justify-center w-10 h-10 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all hover:rotate-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+
+      <!-- Nav + Controlli -->
+      <div class="flex items-center h-full">
+
+        <!-- Navigazione principale -->
+        <nav class="flex items-center h-full" aria-label="Navigazione principale">
+          <RouterLink
+            to="/"
+            aria-label="Home"
+            class="flex items-center gap-1.5 px-3 h-full text-sm font-medium border-b-2 border-transparent text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:border-gray-300 dark:hover:border-gray-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500"
+            active-class="text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400"
+          >
+            <i class="fa-solid fa-house-chimney" aria-hidden="true"></i>
+            <span class="hidden sm:inline" aria-hidden="true">Home</span>
+          </RouterLink>
+          <RouterLink
+            to="/elenco"
+            aria-label="Archivio Sommari"
+            class="flex items-center gap-1.5 px-3 h-full text-sm font-medium border-b-2 border-transparent text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:border-gray-300 dark:hover:border-gray-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500"
+            active-class="text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400"
+          >
+            <i class="fa-solid fa-table-list" aria-hidden="true"></i>
+            <span class="hidden sm:inline" aria-hidden="true">Archivio</span>
+          </RouterLink>
+        </nav>
+
+        <!-- Divisore -->
+        <div class="w-px h-5 bg-gray-200 dark:bg-gray-700 mx-3" aria-hidden="true"></div>
+
+        <!-- Toggle tema -->
+        <button
+          @click="toggleTheme"
+          title="Cambia tema"
+          aria-label="Cambia tema"
+          class="flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/60 hover:text-gray-700 dark:hover:text-gray-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+        >
           <i v-if="!isDark" class="fa-solid fa-lightbulb" aria-hidden="true"></i>
           <i v-else class="fa-solid fa-moon" aria-hidden="true"></i>
         </button>
@@ -101,7 +132,7 @@ watchEffect(() => {
       </nav>
       <p class="text-xs text-gray-600 dark:text-gray-400 px-4">ZuLibrary è uno strumento non ufficiale e non è affiliato in alcun modo con Zucchetti S.p.a.</p>
       <p class="text-xs font-mono">
-        &copy; {{ new Date().getFullYear() }} ZuLibrary <span class="mx-1 opacity-50">|</span> v0.8.0
+        &copy; {{ new Date().getFullYear() }} ZuLibrary <span class="mx-1 opacity-50">|</span> v{{ version }}
       </p>
     </div>
   </footer>
